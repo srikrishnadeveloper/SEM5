@@ -1,0 +1,169 @@
+{
+  "last_synced": "2026-07-12",
+  "student": {
+    "name": "Srikrishna O S",
+    "regno": "3122245001312"
+  },
+  "courses": {
+    "5425": {
+      "name": "UCS3512 Principles of Machine Learning Laboratory",
+      "folder": "UCS3512-Principles-of-Machine-Learning-Laboratory"
+    },
+    "5429": {
+      "name": "UCS3513 System Design Laboratory",
+      "folder": "UCS3513-System-Design-Laboratory"
+    },
+    "5412": {
+      "name": "UCS3501 Computer Networks",
+      "folder": "UCS3501-Computer-Networks"
+    },
+    "5413": {
+      "name": "UCS3502 Principles of Machine Learning",
+      "folder": "UCS3502-Principles-of-Machine-Learning"
+    },
+    "5422": {
+      "name": "UCS3511 Networks Laboratory",
+      "folder": "UCS3511-Networks-Laboratory"
+    },
+    "5704": {
+      "name": "NPTEL-5",
+      "folder": "NPTEL-5"
+    },
+    "5418": {
+      "name": "UCS3504 Software Engineering",
+      "folder": "UCS3504-Software-Engineering"
+    },
+    "5689": {
+      "name": "CSE-Students Activities-2026-2027",
+      "folder": "CSE-Students-Activities"
+    }
+  },
+  "resources": [
+    {
+      "resource_id": "147110",
+      "course_id": "5429",
+      "title": "Syllabus",
+      "local_path": "UCS3513-System-Design-Laboratory/Syllabus.pdf"
+    },
+    {
+      "resource_id": "148056",
+      "course_id": "5429",
+      "title": "SD Lab Teams",
+      "local_path": "UCS3513-System-Design-Laboratory/SD-Lab-Teams.pdf"
+    },
+    {
+      "resource_id": "146540",
+      "course_id": "5413",
+      "title": "Introduction to machine Learning",
+      "local_path": "UCS3502-Principles-of-Machine-Learning/Introduction-to-Machine-Learning.pdf"
+    },
+    {
+      "resource_id": "148107",
+      "course_id": "5413",
+      "title": "Inductive Learning",
+      "local_path": "UCS3502-Principles-of-Machine-Learning/Inductive-Learning.pdf"
+    },
+    {
+      "resource_id": "148108",
+      "course_id": "5413",
+      "title": "Performance Analysis",
+      "local_path": "UCS3502-Principles-of-Machine-Learning/Performance-Analysis.pdf"
+    },
+    {
+      "resource_id": "148737",
+      "course_id": "5413",
+      "title": "Liner Regression",
+      "local_path": "UCS3502-Principles-of-Machine-Learning/Linear-Regression.pdf"
+    },
+    {
+      "resource_id": "148061",
+      "course_id": "5422",
+      "title": "Vision & Mission of the Department",
+      "local_path": "UCS3511-Networks-Laboratory/Vision-Mission-of-the-Department.pdf"
+    },
+    {
+      "resource_id": "148062",
+      "course_id": "5422",
+      "title": "PEOs-POs-PSOs",
+      "local_path": "UCS3511-Networks-Laboratory/PEOs-POs-PSOs.pdf"
+    },
+    {
+      "resource_id": "148063",
+      "course_id": "5422",
+      "title": "Syllabus, Lesson Plan",
+      "local_path": "UCS3511-Networks-Laboratory/Syllabus-Lesson-Plan.pdf"
+    },
+    {
+      "resource_id": "148064",
+      "course_id": "5422",
+      "title": "Time Table",
+      "local_path": "UCS3511-Networks-Laboratory/Time-Table.pdf"
+    },
+    {
+      "resource_id": "148074",
+      "course_id": "5422",
+      "title": "Introduction to Socket Programming",
+      "local_path": "UCS3511-Networks-Laboratory/Introduction-to-Socket-Programming.pdf"
+    },
+    {
+      "resource_id": "148075",
+      "course_id": "5422",
+      "title": "Study of System Calls - Socket Programming",
+      "local_path": "UCS3511-Networks-Laboratory/Study-of-System-Calls-Socket-Programming.pdf"
+    },
+    {
+      "resource_id": "148076",
+      "course_id": "5422",
+      "title": "Assignment-2-Implementation of a Multi-Client Banking Communication System Using Python Socket Programming",
+      "local_path": "UCS3511-Networks-Laboratory/Assignment-2-Multi-Client-Banking-System.pdf"
+    },
+    {
+      "resource_id": "148088",
+      "course_id": "5422",
+      "title": "Network Simulator 2 (NS2)",
+      "local_path": "UCS3511-Networks-Laboratory/Network-Simulator-2-NS2.pdf"
+    },
+    {
+      "resource_id": "148089",
+      "course_id": "5422",
+      "title": "NS-2 Installation Process",
+      "local_path": "UCS3511-Networks-Laboratory/NS-2-Installation-Process.pdf"
+    },
+    {
+      "resource_id": "148090",
+      "course_id": "5422",
+      "title": "Simple tcl file",
+      "local_path": "UCS3511-Networks-Laboratory/Simple-tcl-file.tcl"
+    },
+    {
+      "resource_id": "148091",
+      "course_id": "5422",
+      "title": "Script file .awk",
+      "local_path": "UCS3511-Networks-Laboratory/Script-file-awk.pdf"
+    },
+    {
+      "resource_id": "148092",
+      "course_id": "5422",
+      "title": "Xgraph & AWK Scripts",
+      "local_path": "UCS3511-Networks-Laboratory/Xgraph-AWK-Scripts.pdf"
+    },
+    {
+      "resource_id": "148093",
+      "course_id": "5422",
+      "title": "Syntax - Trace file",
+      "local_path": "UCS3511-Networks-Laboratory/Syntax-Trace-file.pdf"
+    },
+    {
+      "resource_id": "148094",
+      "course_id": "5422",
+      "title": "Plotting Graph - Procedure",
+      "local_path": "UCS3511-Networks-Laboratory/Plotting-Graph-Procedure.docx"
+    },
+    {
+      "resource_id": "149440",
+      "course_id": "5704",
+      "title": "5S-Circular",
+      "local_path": "NPTEL-5/5S-Circular.pdf"
+    }
+  ]
+}
