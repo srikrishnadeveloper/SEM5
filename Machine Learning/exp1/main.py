@@ -52,15 +52,26 @@ print(df.head)
 
 correlation = df.corr(numeric_only=True)
 
-print(correlation["Diagnosis"].sort_values)
+print(correlation["Diagnosis"].sort_values(ascending=False))
 
 
 
+from sklearn.feature_selection import mutual_info_classif
+X = df.drop("Diagnosis",axis=1)
+y = df["Diagnosis"]
 
+mi = mutual_info_classif(X,y)
+mi_scores = pd.Series(mi,index=X.columns)
+print(mi_scores.sort_values(ascending=False))
 
+importance = pd.DataFrame({
+    "Feture":X.columns,
+    "Correlation":correlation["Diagnosis"].drop("Diagnosis").values,
+    "Mutual information":mi_scores
+})
 
-
-
+print(importance)
+print(df.describe())
 
 
 

@@ -94,7 +94,7 @@ numerical_features = [
     "BMI",
     "DiabetesPedigreeFunction",
     "Age" 
-    #the target feture should not be mentioned here
+    #the target feture should not be mentioned here don't make that mistake
 ]
 
 df[numerical_features] = scaler.fit_transform(df[numerical_features])
@@ -148,6 +148,7 @@ plt.suptitle("Histogram of Fetures")
 plt.show()
 
 #Bar Chart
+
 # class_count = df["Diagnosis"].value_counts()
 
 # plt.figure(figsize=(7,5))
@@ -169,7 +170,7 @@ class_count = df["Diagnosis"].value_counts()
 plt.figure(figsize=(7,5))
 
 plt.bar(
-    class_count.index.astype(str),
+    class_count.index.astype(str), # why astype(str) = bar display string well
     class_count.values,
     color=["skyblue","orange"]
 )
@@ -195,7 +196,7 @@ plt.scatter(diabetic["Glucose"],
             diabetic["BMI"],
             color="red",
             label="Diabetic")
-
+    
 plt.xlabel("Glucose")
 plt.ylabel("BMI")
 plt.title("Glucose vs BMI")
@@ -208,14 +209,11 @@ plt.show()
 # Box Plot
 
 plt.figure(figsize=(12,6))
-
 numeric_columns = df.select_dtypes(include=np.number).columns
-
 plt.boxplot([df[col] for col in numeric_columns],
             tick_labels=numeric_columns)
 
 plt.xticks(rotation=45)
-
 plt.title("Box Plot of Numerical Features")
 
 plt.show()
@@ -310,4 +308,4 @@ print(X_validation.shape)
 
 print("\nTesting Shape")
 
-print(X_test.shape)
+print(X_test.shape) 
