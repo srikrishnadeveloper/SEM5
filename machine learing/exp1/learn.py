@@ -70,7 +70,7 @@ from sklearn.preprocessing import LabelEncoder
 encoder = LabelEncoder() #object
 
 
-categorical = df.select_dtypes(include="object").columns
+categorical = df.select_dtypes(include="object").columns # the column at end = only show column name
 
 for col in categorical:
 
@@ -284,7 +284,6 @@ X_train, X_temp, y_train, y_temp = train_test_split(
     y,
 
     test_size=0.30,
-
     random_state=42
 
 )
