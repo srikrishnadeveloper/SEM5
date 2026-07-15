@@ -36,9 +36,191 @@
     "5689": {
       "name": "CSE-Students Activities-2026-2027",
       "folder": "CSE-Students-Activities"
+    },
+    "5225": {
+      "name": "UCS3503 Theory of Computation",
+      "folder": "UCS3503-Theory-of-Computation"
+    },
+    "5283": {
+      "name": "UEC3942 Introduction to Sensors and Actuators",
+      "folder": "UEC3942-Sensors-and-Actuators"
     }
   },
   "resources": [
+    {
+      "resource_id": "149685",
+      "course_id": "5225",
+      "title": "Summary (Finite Automata and Regular Languages)",
+      "local_path": "UCS3503-Theory-of-Computation/Finite-Automata-Summary.docx"
+    },
+    {
+      "resource_id": "149686",
+      "course_id": "5225",
+      "title": "Material (Finite Automata and Regular Languages)",
+      "local_path": "UCS3503-Theory-of-Computation/Finite-Automata-Material.pptx"
+    },
+    {
+      "resource_id": "149684",
+      "course_id": "5225",
+      "title": "Summary (Context Free Languages)",
+      "local_path": "UCS3503-Theory-of-Computation/Context-Free-Languages-Summary.docx"
+    },
+    {
+      "resource_id": "149687",
+      "course_id": "5225",
+      "title": "Material (Context Free Languages)",
+      "local_path": "UCS3503-Theory-of-Computation/Context-Free-Languages-Material.pptx"
+    },
+    {
+      "resource_id": "149683",
+      "course_id": "5225",
+      "title": "Summary (Pushdown Automata)",
+      "local_path": "UCS3503-Theory-of-Computation/Pushdown-Automata-Summary.pptx"
+    },
+    {
+      "resource_id": "149688",
+      "course_id": "5225",
+      "title": "Material (Pushdown Automata)",
+      "local_path": "UCS3503-Theory-of-Computation/Pushdown-Automata-Material.pptx"
+    },
+    {
+      "resource_id": "149682",
+      "course_id": "5225",
+      "title": "Summary (Turing Machines)",
+      "local_path": "UCS3503-Theory-of-Computation/Turing-Machines-Summary.docx"
+    },
+    {
+      "resource_id": "149689",
+      "course_id": "5225",
+      "title": "Material (Turing Machines)",
+      "local_path": "UCS3503-Theory-of-Computation/Turing-Machines-Material.pptx"
+    },
+    {
+      "resource_id": "149681",
+      "course_id": "5225",
+      "title": "Summary (Undecidability)",
+      "local_path": "UCS3503-Theory-of-Computation/Undecidability-Summary.docx"
+    },
+    {
+      "resource_id": "149690",
+      "course_id": "5225",
+      "title": "Material (Undecidability)",
+      "local_path": "UCS3503-Theory-of-Computation/Undecidability-Material.pptx"
+    },
+    {
+      "resource_id": "146326",
+      "course_id": "5283",
+      "title": "Introduction to Course",
+      "local_path": "UEC3942-Sensors-and-Actuators/Introduction-to-Course.pptx"
+    },
+    {
+      "resource_id": "146449",
+      "course_id": "5283",
+      "title": "MEMS and Microsystems Design and Manufacture (Textbook)",
+      "local_path": "UEC3942-Sensors-and-Actuators/MEMS-and-Microsystems-Design-and-Manufacture-Textbook.pdf"
+    },
+    {
+      "resource_id": "146329",
+      "course_id": "5283",
+      "title": "Fibre Optic Sensors",
+      "local_path": "UEC3942-Sensors-and-Actuators/Fibre-Optic-Sensors.pptx"
+    },
+    {
+      "resource_id": "146331",
+      "course_id": "5283",
+      "title": "Temperature Sensors",
+      "local_path": "UEC3942-Sensors-and-Actuators/Temperature-Sensors.pptx"
+    },
+    {
+      "resource_id": "146335",
+      "course_id": "5283",
+      "title": "Photodiodes, phototransistors and photovoltaic devices",
+      "local_path": "UEC3942-Sensors-and-Actuators/Photodiodes-Phototransistors-Photovoltaic-Devices.pptx"
+    },
+    {
+      "resource_id": "146336",
+      "course_id": "5283",
+      "title": "Light transducers",
+      "local_path": "UEC3942-Sensors-and-Actuators/Light-Transducers.pptx"
+    },
+    {
+      "resource_id": "146337",
+      "course_id": "5283",
+      "title": "Solid-state transducers",
+      "local_path": "UEC3942-Sensors-and-Actuators/Solid-State-Transducers.pptx"
+    },
+    {
+      "resource_id": "146339",
+      "course_id": "5283",
+      "title": "Acoustic Wave Sensors",
+      "local_path": "UEC3942-Sensors-and-Actuators/Acoustic-Wave-Sensors.pptx"
+    },
+    {
+      "resource_id": "146340",
+      "course_id": "5283",
+      "title": "Quartz Crystal Microbalance (QCM) Sensors",
+      "local_path": "UEC3942-Sensors-and-Actuators/QCM-Sensors.pptx"
+    },
+    {
+      "resource_id": "146341",
+      "course_id": "5283",
+      "title": "Surface Acoustic Wave (SAW) Sensors",
+      "local_path": "UEC3942-Sensors-and-Actuators/SAW-Sensors.pptx"
+    },
+    {
+      "resource_id": "146342",
+      "course_id": "5283",
+      "title": "Flexural Plate Wave (FPW) Acoustic Sensors",
+      "local_path": "UEC3942-Sensors-and-Actuators/FPW-Acoustic-Sensors.pptx"
+    },
+    {
+      "resource_id": "146343",
+      "course_id": "5283",
+      "title": "Shear Horizontal Acoustic Plate Mode (SH-APM) Sensors",
+      "local_path": "UEC3942-Sensors-and-Actuators/SH-APM-Sensors.pptx"
+    },
+    {
+      "resource_id": "146345",
+      "course_id": "5283",
+      "title": "Capacitive Pressure Microsensors",
+      "local_path": "UEC3942-Sensors-and-Actuators/Capacitive-Pressure-Microsensors.pptx"
+    },
+    {
+      "resource_id": "146346",
+      "course_id": "5283",
+      "title": "Piezoresistive Pressure Microsensors",
+      "local_path": "UEC3942-Sensors-and-Actuators/Piezoresistive-Pressure-Microsensors.pptx"
+    },
+    {
+      "resource_id": "146356",
+      "course_id": "5283",
+      "title": "Sensors and Transducers by Ian Sinclair",
+      "local_path": "UEC3942-Sensors-and-Actuators/Ian-Sinclair-Sensors-and-Transducers.pdf"
+    },
+    {
+      "resource_id": "146357",
+      "course_id": "5283",
+      "title": "Sensors, Actuators and their Interfaces by Nathan Ida",
+      "local_path": "UEC3942-Sensors-and-Actuators/Nathan-Ida-Sensors-Actuators-Interfaces.pdf"
+    },
+    {
+      "resource_id": "146358",
+      "course_id": "5283",
+      "title": "MEMS and Microsystems Design and Manufacture by Tai Ran Hsu",
+      "local_path": "UEC3942-Sensors-and-Actuators/Tai-Ran-Hsu-MEMS-Microsystems.pdf"
+    },
+    {
+      "resource_id": "146359",
+      "course_id": "5283",
+      "title": "Nanosensors by Vinod Kumar",
+      "local_path": "UEC3942-Sensors-and-Actuators/Vinod-Kumar-Nanosensors.pdf"
+    },
+    {
+      "resource_id": "146360",
+      "course_id": "5283",
+      "title": "Textbook of Nanoscience and Nanotechnology",
+      "local_path": "UEC3942-Sensors-and-Actuators/Textbook-of-Nanoscience-and-Nanotechnology.pdf"
+    },
     {
       "resource_id": "147110",
       "course_id": "5429",
