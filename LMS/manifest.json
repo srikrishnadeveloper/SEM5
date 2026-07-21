@@ -1,17 +1,25 @@
 {
-  "last_synced": "2026-07-12",
+  "last_synced": "2026-07-21",
   "student": {
     "name": "Srikrishna O S",
     "regno": "3122245001312"
   },
   "courses": {
-    "5425": {
-      "name": "UCS3512 Principles of Machine Learning Laboratory",
-      "folder": "UCS3512-Principles-of-Machine-Learning-Laboratory"
+    "3986": {
+      "name": "UMA3352 Foundations of Discrete Mathematics",
+      "folder": "UMA3352-Foundations-of-Discrete-Mathematics"
     },
-    "5429": {
-      "name": "UCS3513 System Design Laboratory",
-      "folder": "UCS3513-System-Design-Laboratory"
+    "4835": {
+      "name": "UMA3476 Probability Theory and Statistics",
+      "folder": "UMA3476-Probability-Theory-and-Statistics"
+    },
+    "5225": {
+      "name": "UCS3503 Theory of Computation",
+      "folder": "UCS3503-Theory-of-Computation"
+    },
+    "5283": {
+      "name": "UEC3942 Introduction to Sensors and Actuators",
+      "folder": "UEC3942-Sensors-and-Actuators"
     },
     "5412": {
       "name": "UCS3501 Computer Networks",
@@ -21,29 +29,29 @@
       "name": "UCS3502 Principles of Machine Learning",
       "folder": "UCS3502-Principles-of-Machine-Learning"
     },
+    "5418": {
+      "name": "UCS3504 Software Engineering",
+      "folder": "UCS3504-Software-Engineering"
+    },
     "5422": {
       "name": "UCS3511 Networks Laboratory",
       "folder": "UCS3511-Networks-Laboratory"
     },
-    "5704": {
-      "name": "NPTEL-5",
-      "folder": "NPTEL-5"
+    "5425": {
+      "name": "UCS3512 Principles of Machine Learning Laboratory",
+      "folder": "UCS3512-Principles-of-Machine-Learning-Laboratory"
     },
-    "5418": {
-      "name": "UCS3504 Software Engineering",
-      "folder": "UCS3504-Software-Engineering"
+    "5429": {
+      "name": "UCS3513 System Design Laboratory",
+      "folder": "UCS3513-System-Design-Laboratory"
     },
     "5689": {
       "name": "CSE-Students Activities-2026-2027",
       "folder": "CSE-Students-Activities"
     },
-    "5225": {
-      "name": "UCS3503 Theory of Computation",
-      "folder": "UCS3503-Theory-of-Computation"
-    },
-    "5283": {
-      "name": "UEC3942 Introduction to Sensors and Actuators",
-      "folder": "UEC3942-Sensors-and-Actuators"
+    "5704": {
+      "name": "NPTEL-5",
+      "folder": "NPTEL-5"
     }
   },
   "resources": [
@@ -346,6 +354,258 @@
       "course_id": "5704",
       "title": "5S-Circular",
       "local_path": "NPTEL-5/5S-Circular.pdf"
+    },
+    {
+      "resource_id": "117868",
+      "course_id": "3986",
+      "title": "Books (E-Books folder: Narsingh Deo Graph Theory, Veerarajan Discrete Mathematics)",
+      "local_path": "UMA3352-Foundations-of-Discrete-Mathematics/Books/"
+    },
+    {
+      "resource_id": "117866",
+      "course_id": "3986",
+      "title": "Unit 1 - Logic (Material folder, 8 files)",
+      "local_path": "UMA3352-Foundations-of-Discrete-Mathematics/Unit1-Logic/"
+    },
+    {
+      "resource_id": "124803",
+      "course_id": "3986",
+      "title": "Unit 2 - Combinatorics (Materials folder, 3 files)",
+      "local_path": "UMA3352-Foundations-of-Discrete-Mathematics/Unit2-Combinatorics/"
+    },
+    {
+      "resource_id": "117867",
+      "course_id": "3986",
+      "title": "Unit 3 - Graphs (Material)",
+      "local_path": "UMA3352-Foundations-of-Discrete-Mathematics/Unit3-Graphs/Graphs.pptx"
+    },
+    {
+      "resource_id": "120050",
+      "course_id": "3986",
+      "title": "Unit 4 - Algebraic Structures (Materials folder, 5 files)",
+      "local_path": "UMA3352-Foundations-of-Discrete-Mathematics/Unit4-Algebraic-Structures/"
+    },
+    {
+      "resource_id": "121557",
+      "course_id": "3986",
+      "title": "Unit 5 - Lattices & Boolean Algebra (Materials folder, 3 files)",
+      "local_path": "UMA3352-Foundations-of-Discrete-Mathematics/Unit5-Lattices-Boolean-Algebra/"
+    },
+    {
+      "resource_id": "121558",
+      "course_id": "3986",
+      "title": "Syllabus",
+      "local_path": "UMA3352-Foundations-of-Discrete-Mathematics/Syllabus.pdf"
+    },
+    {
+      "resource_id": "ps-01",
+      "course_id": "4835",
+      "title": "Textbook - Veerarajan Probability, Statistics and Random Processes",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Books/T. Veerarajan - Probability - Statistics and Random Processes-McGraw-Hill Education (2008).pdf"
+    },
+    {
+      "resource_id": "ps-02",
+      "course_id": "4835",
+      "title": "Probability & Statistics - Intro",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit1-Random-Variables/Probability  Statistics - Intro.pdf"
+    },
+    {
+      "resource_id": "ps-03",
+      "course_id": "4835",
+      "title": "1D Random Variables - notes",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit1-Random-Variables/ID RAndom Variables-notes.pdf"
+    },
+    {
+      "resource_id": "ps-04",
+      "course_id": "4835",
+      "title": "Expectations - notes",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit1-Random-Variables/Expectations -notes.pdf"
+    },
+    {
+      "resource_id": "ps-05",
+      "course_id": "4835",
+      "title": "Practice problems - Binomial distribution",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit1-Random-Variables/Practice problems under Binomial distribution.pdf"
+    },
+    {
+      "resource_id": "ps-06",
+      "course_id": "4835",
+      "title": "Practice problems - Poisson distribution",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit1-Random-Variables/Practice problems under Poisson distribution.pdf"
+    },
+    {
+      "resource_id": "ps-07",
+      "course_id": "4835",
+      "title": "Practice problems - Geometric distribution",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit1-Random-Variables/Geometric distribution - practice problems.pdf"
+    },
+    {
+      "resource_id": "ps-08",
+      "course_id": "4835",
+      "title": "Practice problems - Uniform distribution",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit1-Random-Variables/Uniform distribution - problems for practice (1).pdf"
+    },
+    {
+      "resource_id": "ps-09",
+      "course_id": "4835",
+      "title": "Practice problems - Exponential distribution",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit1-Random-Variables/Practice problems under Exponential Distribution .pdf"
+    },
+    {
+      "resource_id": "ps-10",
+      "course_id": "4835",
+      "title": "Practice problems - Normal distribution",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit1-Random-Variables/Practice problems under normal distribution.pdf"
+    },
+    {
+      "resource_id": "ps-11",
+      "course_id": "4835",
+      "title": "2D Random Variables",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit2-2D-Random-Variables/2D RV.pdf"
+    },
+    {
+      "resource_id": "ps-12",
+      "course_id": "4835",
+      "title": "Unit 2 - summary",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit2-2D-Random-Variables/UNIT 2 - summary.pdf"
+    },
+    {
+      "resource_id": "ps-13",
+      "course_id": "4835",
+      "title": "Assignment - Unit 2 practice",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit2-2D-Random-Variables/Assignment -UNIT-2-practise.pdf"
+    },
+    {
+      "resource_id": "ps-14",
+      "course_id": "4835",
+      "title": "Practice problems - function of random variable",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit2-2D-Random-Variables/Practice problems under function of random variable.pdf"
+    },
+    {
+      "resource_id": "ps-15",
+      "course_id": "4835",
+      "title": "Question Bank - Unit II",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit2-2D-Random-Variables/QB PS Unit-II.docx"
+    },
+    {
+      "resource_id": "ps-16",
+      "course_id": "4835",
+      "title": "Introduction - Hypothesis Testing",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit3-Testing-of-Hypothesis/Introduction - Hypothesis.pdf"
+    },
+    {
+      "resource_id": "ps-17",
+      "course_id": "4835",
+      "title": "Outline for Small Sample tests",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit3-Testing-of-Hypothesis/Outline for Small Sample.pdf"
+    },
+    {
+      "resource_id": "ps-18",
+      "course_id": "4835",
+      "title": "t-table",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit3-Testing-of-Hypothesis/t-table.pdf"
+    },
+    {
+      "resource_id": "ps-19",
+      "course_id": "4835",
+      "title": "F-test (1)",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit3-Testing-of-Hypothesis/F-test_1.pdf"
+    },
+    {
+      "resource_id": "ps-20",
+      "course_id": "4835",
+      "title": "F-test (5)",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit3-Testing-of-Hypothesis/F-test_5.pdf"
+    },
+    {
+      "resource_id": "ps-21",
+      "course_id": "4835",
+      "title": "Chi-square table",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit3-Testing-of-Hypothesis/Chi-square_table.pdf"
+    },
+    {
+      "resource_id": "ps-22",
+      "course_id": "4835",
+      "title": "Large Samples - Outline",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit3-Testing-of-Hypothesis/Large Samples- Outline (1).pdf"
+    },
+    {
+      "resource_id": "ps-23",
+      "course_id": "4835",
+      "title": "Question Bank - Unit III",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit3-Testing-of-Hypothesis/QB PS Unit-III.docx"
+    },
+    {
+      "resource_id": "ps-24",
+      "course_id": "4835",
+      "title": "Design of Experiments (1)",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit4-Design-of-Experiments/DOE1.pdf"
+    },
+    {
+      "resource_id": "ps-25",
+      "course_id": "4835",
+      "title": "Design of Experiments",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit4-Design-of-Experiments/Design of experiments.pdf"
+    },
+    {
+      "resource_id": "ps-26",
+      "course_id": "4835",
+      "title": "Latin Square Design",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit4-Design-of-Experiments/Latin Square Design.pdf"
+    },
+    {
+      "resource_id": "ps-27",
+      "course_id": "4835",
+      "title": "Question Bank - Unit IV",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit4-Design-of-Experiments/QB PS Unit-IV.docx"
+    },
+    {
+      "resource_id": "ps-28",
+      "course_id": "4835",
+      "title": "C-Chart",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit5-SQC/C-Chart.pdf"
+    },
+    {
+      "resource_id": "ps-29",
+      "course_id": "4835",
+      "title": "SQC Tutorial",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit5-SQC/SQC-Tutorial.pdf"
+    },
+    {
+      "resource_id": "ps-30",
+      "course_id": "4835",
+      "title": "Statistical Quality Control (SQC)",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit5-SQC/Statistical Quality Control(SQC.pdf"
+    },
+    {
+      "resource_id": "ps-31",
+      "course_id": "4835",
+      "title": "Unit 5 - SQC",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit5-SQC/Unit-5 - SQC.pptx"
+    },
+    {
+      "resource_id": "ps-32",
+      "course_id": "4835",
+      "title": "Question Bank - Unit V",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit5-SQC/QB PS Unit-V.docx"
+    },
+    {
+      "resource_id": "148040",
+      "course_id": "5425",
+      "title": "Assignment 1 - Working with Python Libraries & packages (instructions)",
+      "local_path": "UCS3512-Principles-of-Machine-Learning-Laboratory/Assignment-1-Working-with-Python-Libraries-Packages.pdf"
+    },
+    {
+      "resource_id": "148040-eda",
+      "course_id": "5425",
+      "title": "Assignment 1 - EDA reference",
+      "local_path": "UCS3512-Principles-of-Machine-Learning-Laboratory/EDA.pdf"
+    },
+    {
+      "resource_id": "149663",
+      "course_id": "5425",
+      "title": "Assignment 2 - Regression Models (instructions)",
+      "local_path": "UCS3512-Principles-of-Machine-Learning-Laboratory/Assignment-2-Regression-Models.pdf"
     }
   ]
 }
