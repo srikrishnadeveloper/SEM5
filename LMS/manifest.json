@@ -1,5 +1,5 @@
 {
-  "last_synced": "2026-07-21",
+  "last_synced": "2026-07-22",
   "student": {
     "name": "Srikrishna O S",
     "regno": "3122245001312"
@@ -606,6 +606,162 @@
       "course_id": "5425",
       "title": "Assignment 2 - Regression Models (instructions)",
       "local_path": "UCS3512-Principles-of-Machine-Learning-Laboratory/Assignment-2-Regression-Models.pdf"
+    },
+    {
+      "resource_id": "149975",
+      "course_id": "5418",
+      "title": "SE Syllabus",
+      "local_path": "UCS3504-Software-Engineering/Syllabus.pdf"
+    },
+    {
+      "resource_id": "149976",
+      "course_id": "5418",
+      "title": "Text Book 1 - Pressman",
+      "local_path": "UCS3504-Software-Engineering/Textbook1-Pressman-Software-Engineering.pdf"
+    },
+    {
+      "resource_id": "149979",
+      "course_id": "5418",
+      "title": "Text Book 2 - Rajib Mall",
+      "local_path": "UCS3504-Software-Engineering/Textbook2-Rajib-Mall-Fundamentals-of-Software-Engineering.pdf"
+    },
+    {
+      "resource_id": "149981",
+      "course_id": "5418",
+      "title": "1.1 Software Process",
+      "local_path": "UCS3504-Software-Engineering/Unit1/1.1-Software-Process.pdf"
+    },
+    {
+      "resource_id": "149982",
+      "course_id": "5418",
+      "title": "1.2 Process Model",
+      "local_path": "UCS3504-Software-Engineering/Unit1/1.2-Process-Model.pdf"
+    },
+    {
+      "resource_id": "149983",
+      "course_id": "5418",
+      "title": "1.3 Software Development Life Cycle",
+      "local_path": "UCS3504-Software-Engineering/Unit1/1.3-Software-Development-Life-Cycle.pdf"
+    },
+    {
+      "resource_id": "149984",
+      "course_id": "5418",
+      "title": "1.4 Software Project Estimation and Decomposition",
+      "local_path": "UCS3504-Software-Engineering/Unit1/1.4-Software-Project-Estimation-and-Decomposition.pdf"
+    },
+    {
+      "resource_id": "150624",
+      "course_id": "5418",
+      "title": "1.5 Empherical Estimation Model",
+      "local_path": "UCS3504-Software-Engineering/Unit1/1.5-Empherical-Estimation-Model.pdf"
+    },
+    {
+      "resource_id": "150625",
+      "course_id": "5418",
+      "title": "1.6 Project Scheduling",
+      "local_path": "UCS3504-Software-Engineering/Unit1/1.6-Project-Scheduling.pdf"
+    },
+    {
+      "resource_id": "150626",
+      "course_id": "5418",
+      "title": "1.7 Risk management and Delivery Management",
+      "local_path": "UCS3504-Software-Engineering/Unit1/1.7-Risk-management-and-Delivery-Management.pdf"
+    },
+    {
+      "resource_id": "149930",
+      "course_id": "5413",
+      "title": "Bias Vs Variance",
+      "local_path": "UCS3502-Principles-of-Machine-Learning/Bias-vs-Variance.pdf"
+    },
+    {
+      "resource_id": "150133",
+      "course_id": "5413",
+      "title": "Logistic Regression",
+      "local_path": "UCS3502-Principles-of-Machine-Learning/Logistic-Regression.pdf"
+    },
+    {
+      "resource_id": "150398",
+      "course_id": "5225",
+      "title": "Material-2 (Finite Automata and Regular Languages)",
+      "local_path": "UCS3503-Theory-of-Computation/Finite-Automata-Material-2.pptx"
+    },
+    {
+      "resource_id": "146324",
+      "course_id": "5283",
+      "title": "UEC3942-Syllabus",
+      "local_path": "UEC3942-Sensors-and-Actuators/Syllabus.pdf"
+    },
+    {
+      "resource_id": "146325",
+      "course_id": "5283",
+      "title": "UEC3942-Lesson Plan",
+      "local_path": "UEC3942-Sensors-and-Actuators/Lesson-Plan.pdf"
+    },
+    {
+      "resource_id": "146450",
+      "course_id": "5283",
+      "title": "Name List",
+      "local_path": "UEC3942-Sensors-and-Actuators/Name-List.xlsx"
+    },
+    {
+      "resource_id": "146448",
+      "course_id": "5283",
+      "title": "Sensors and Transducers (textbook)",
+      "local_path": "UEC3942-Sensors-and-Actuators/Sensors-and-Transducers-Textbook.pdf"
+    },
+    {
+      "resource_id": "146327",
+      "course_id": "5283",
+      "title": "Introduction - Stress & Pressure Sensors",
+      "local_path": "UEC3942-Sensors-and-Actuators/Introduction-Stress-Pressure-Sensors.pptx"
+    },
+    {
+      "resource_id": "146328",
+      "course_id": "5283",
+      "title": "Strain Gauge Sensors",
+      "local_path": "UEC3942-Sensors-and-Actuators/Strain-Gauge-Sensors.pptx"
+    },
+    {
+      "resource_id": "146330",
+      "course_id": "5283",
+      "title": "Pressure Gauge Sensors",
+      "local_path": "UEC3942-Sensors-and-Actuators/Pressure-Gauge-Sensors.pptx"
+    },
+    {
+      "resource_id": "146332",
+      "course_id": "5283",
+      "title": "Colour Temperature and Light Flux",
+      "local_path": "UEC3942-Sensors-and-Actuators/Colour-Temperature-and-Light-Flux.pptx"
+    },
+    {
+      "resource_id": "146333",
+      "course_id": "5283",
+      "title": "Photosensors",
+      "local_path": "UEC3942-Sensors-and-Actuators/Photosensors.pptx"
+    },
+    {
+      "resource_id": "146334",
+      "course_id": "5283",
+      "title": "Photoresistors and photoconductors",
+      "local_path": "UEC3942-Sensors-and-Actuators/Photoresistors-and-Photoconductors.pptx"
+    },
+    {
+      "resource_id": "146338",
+      "course_id": "5283",
+      "title": "Liquid Crystal Display (LCD)",
+      "local_path": "UEC3942-Sensors-and-Actuators/Liquid-Crystal-Display-LCD.pptx"
+    },
+    {
+      "resource_id": "146344",
+      "course_id": "5283",
+      "title": "Vibratory Gyroscope",
+      "local_path": "UEC3942-Sensors-and-Actuators/Vibratory-Gyroscope.pptx"
+    },
+    {
+      "resource_id": "ps-33",
+      "course_id": "4835",
+      "title": "Question Bank - Unit I",
+      "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit1-Random-Variables/QB PS Unit-I.docx"
     }
   ]
 }
