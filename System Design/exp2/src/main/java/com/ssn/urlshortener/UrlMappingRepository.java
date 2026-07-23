@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface UrlMappingRepository extends JpaRepository<UrlMapping, Long> { //JpaRepository<Entity, PrimaryKey>
 
     Optional<UrlMapping> findByShortCode(String shortCode);
-    //return url mapping boject if found if not found nothing return optional insted of null this is by spring
+    //return url mapping oject if found if not found nothing return optional insted of null this is by spring
     //optional is like a box that may or may not contain
     //find by -search the db
     //shortcode get matchs with shortcode present in entiry so spring autmoacilly search

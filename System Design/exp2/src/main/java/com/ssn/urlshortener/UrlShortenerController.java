@@ -59,6 +59,8 @@ import java.util.Base64;
 import java.util.Optional;
 // may or may not find a url
 
+
+
 @RestController //class handles http requests
 public class UrlShortenerController { //controller
 
@@ -91,7 +93,7 @@ public class UrlShortenerController { //controller
     public ResponseEntity<Void> redirect(@PathVariable String shortCode) {
 
         Optional<UrlMapping> result = repository.findByShortCode(shortCode);
-
+        
         if (result.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
