@@ -1,5 +1,5 @@
 {
-  "last_synced": "2026-07-23",
+  "last_synced": "2026-07-27",
   "student": {
     "name": "Srikrishna O S",
     "regno": "3122245001312"
@@ -762,6 +762,18 @@
       "course_id": "4835",
       "title": "Question Bank - Unit I",
       "local_path": "UMA3476-Probability-Theory-and-Statistics/Unit1-Random-Variables/QB PS Unit-I.docx"
+    },
+    {
+      "resource_id": "151133",
+      "course_id": "5413",
+      "title": "Support Vector Machine",
+      "local_path": "UCS3502-Principles-of-Machine-Learning/Support-Vector-Machine.pdf"
+    },
+    {
+      "resource_id": "151209",
+      "course_id": "5425",
+      "title": "Assignment 3 - Support Vector Machine (instructions)",
+      "local_path": "UCS3512-Principles-of-Machine-Learning-Laboratory/Assignment-3-Support-Vector-Machine.pdf"
     }
   ]
 }
