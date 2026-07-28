@@ -1,0 +1,235 @@
+how was your problem solving apporach have improved:
+
+    Initially, I used to search for solutions online immediately. Now, I first spend time understanding the problem, solve it using a brute-force approach, and then optimize it step by step.
+
+Tell us about a time you proposed a new way of doing something, whether it worked or not.
+
+Simple Answer:
+
+During one of my e-commerce projects, I noticed that the application had many interconnected features. Whenever I added or modified a feature, it would sometimes unintentionally break another part of the system. Initially, I was testing everything manually after every change, but that became very time-consuming and slowed down my development.
+
+So, I proposed creating a dedicated automated testing system. I built a separate testing setup using Playwright and Python scripts. It allowed me to run tests for individual modules like the admin panel, user side, or backend, or execute the entire test suite with a single command. The scripts simulated real user actions such as logging in, placing orders, updating delivery status, verifying API responses, checking page content, and monitoring console errors.
+
+This significantly reduced the amount of manual testing I had to do, increased my productivity, and gave me much more confidence that new changes wouldn't break existing functionality. It also taught me the value of investing time in automation to improve development efficiency.
+
+How would you collect and prioritize different ideas to inform a decision?
+
+
+    I like to brainstorm multiple ideas first instead of choosing the first solution that comes to mind. I often use ChatGPT as a brainstorming partner to explore different approaches, but I make the final decision by comparing the ideas, validating them with a quick prototype or testing, and selecting the one that best fits the requirements.
+
+Imagine you're faced with a problem. How would you work through it, and what information would you want to have?
+    I first try to understand the problem clearly by gathering all the relevant information, such as what changed, when the issue started, and how to reproduce it. Then, I break the problem into smaller parts, identify the possible root causes, test them one by one, and verify the solution before making any changes.
+
+
+tell your story:
+
+
+case study:
+
+    Your team released a new version of an e-commerce website. Suddenly, customers report that they cannot place orders. What would you do?
+
+        First, I'd gather more information, such as when the issue started, whether it affects all users, and whether any recent code changes were deployed. Then I'd try to reproduce the issue, check logs, identify the root cause, fix it, and verify that the fix doesn't break other functionality."  
+    
+    Your website has become very slow after adding a new feature. How would you investigate it?
+            Understand the problem.
+            Ask questions.
+            Collect data.
+            List possible causes.
+            Test each possibility.
+            Choose the best solution.
+            Verify the fix.
+
+What programming languages do you use regularly in your work?
+
+    I mainly use Python and TypeScript. I use Python for automation, scripting, and backend tasks, while I use TypeScript for building full-stack web applications and developing frontend features.
+
+How do you use data in crafting and implementing effective solutions?
+    
+    according to the data i try to build the architecture that suits as much best for the data
+
+How has your approach to solving a specific problem evolved with more experience or new information?
+    
+    Initially, I used to search for solutions online as soon as I got stuck. Now, I first spend time understanding the problem, solve it with a brute-force approach, and then optimize it step by step. This has helped me improve my problem-solving skills and understand concepts more deeply.
+
+When have you collaborated with a team to achieve goals?
+
+    During one of my projects, I worked with teammates to build an application. We divided the work based on each person's strengths, communicated regularly, and helped each other whenever someone got stuck. By working together and keeping everyone updated, we were able to complete the project successfully.
+
+
+What would you do if you were working on a project and weren't sure about the next steps?
+
+    I would first try to understand the problem by reviewing the requirements and breaking it into smaller parts. If I'm still unsure, I'd discuss it with my teammates or mentor, gather more information, and then decide on the best next step instead of making assumptions.
+
+
+Imagine that you need to make a decision that isn't clear-cut. How would you weigh the pros and cons?
+
+    I first collect all the possible options and compare them based on factors like feasibility, impact, risks, and long-term maintainability. If needed, I create a small prototype or test the idea before making the final decision.
+
+
+Quantitative
+
+    After creating the automated testing system, the time spent on manual testing was significantly reduced, allowing me to test the application much faster.
+
+    (Uses measurable improvement.)
+
+Qualitative
+
+    The automated testing system also gave me more confidence that new changes wouldn't break existing features, making development easier and more reliable.
+
+    (Describes the quality of the improvement.)
+
+
+
+
+
+
+
+
+
+    # Object-Oriented Programming (OOP)
+
+## What is OOP?
+Object-Oriented Programming (OOP) is a programming paradigm that organizes software around objects rather than functions or procedures. An object combines data (attributes) and behavior (methods) into a single unit.
+
+In simple words, OOP models real-world entities such as a Car, Student, Bank Account, or Employee as software objects.
+
+## Definition
+Object-Oriented Programming (OOP) is a programming paradigm in which software is designed using objects that contain both data (state) and methods (behavior). It improves code organization, reusability, maintainability, and scalability.
+
+## Why was OOP introduced?
+Before OOP, programmers mainly used Procedural Programming, where programs were written as a sequence of functions.
+
+Example:
+login()
+logout()
+payment()
+order()
+
+As software became larger, procedural programming had several limitations:
+- Code duplication
+- Difficult maintenance
+- Poor scalability
+- Weak data security
+- Hard to reuse code
+
+OOP was introduced to solve these problems by organizing programs into objects.
+
+## Real-World Analogy
+
+Car
+
+Properties (Data)
+- Brand
+- Color
+- Speed
+- Fuel
+- Model
+
+Behaviors (Methods)
+- start()
+- stop()
+- accelerate()
+- brake()
+
+A car is not only its properties but also its actions. Similarly, an object in programming contains both data and methods.
+
+## Basic Terminology
+- Class
+- Object
+- Attributes
+- Methods
+- Constructors
+- Encapsulation
+- Inheritance
+- Polymorphism
+- Abstraction
+
+## Features of OOP
+1. Encapsulation
+2. Inheritance
+3. Polymorphism
+4. Abstraction
+5. Reusability
+6. Modularity
+7. Data Security
+8. Maintainability
+
+## Why do we use OOP?
+- Organize code into logical units.
+- Reuse existing code.
+- Reduce duplication.
+- Protect important data.
+- Easily maintain software.
+- Easily add new features.
+- Model real-world entities naturally.
+
+## OOP vs Procedural Programming
+
+Procedural Programming
+- Focuses on functions.
+- Data and functions are separate.
+- Less secure.
+- Difficult to maintain.
+- Less reusable.
+- Suitable for small projects.
+
+Object-Oriented Programming
+- Focuses on objects.
+- Data and functions are grouped together.
+- More secure.
+- Easy to maintain.
+- Highly reusable.
+- Suitable for large projects.
+
+## Advantages of OOP
+1. Code Reusability
+2. Easy Maintenance
+3. Better Security
+4. Scalability
+5. Real-World Modeling
+
+## Disadvantages of OOP
+- Requires more memory.
+- Slightly slower due to object creation.
+- Can be complex for beginners.
+- Not ideal for very small programs.
+
+## Applications of OOP
+- Banking Software
+- Hospital Management Systems
+- E-commerce Applications
+- Mobile Applications
+- Desktop Applications
+- Game Development
+- Enterprise Software
+- Social Media Platforms
+
+## Interview Questions
+
+1. What is OOP?
+Answer:
+Object-Oriented Programming (OOP) is a programming paradigm that organizes software around objects containing both data and methods. It helps create modular, reusable, secure, and maintainable applications.
+
+2. Why do we use OOP?
+Answer:
+We use OOP to improve code organization, reusability, maintainability, scalability, and security by representing real-world entities as software objects.
+
+3. What are the four pillars of OOP?
+- Encapsulation - show only what user want and protect
+- Inheritance - inherit from above
+- Polymorphism - one acion different methods= function
+- Abstraction - hide unnesccsary details
+
+4. What are the advantages of OOP?
+- Code Reusability
+- Security
+- Easy Maintenance
+- Scalability
+- Modularity
+- Real-World Modeling
+
+## Key Takeaways
+- OOP organizes software around objects.
+- An object contains both data (attributes) and behavior (methods).
+- OOP improves reusability, maintainability, security, and scalability.
+- The four pillars are Encapsulation, Inheritance, Polymorphism, and Abstraction.
