@@ -233,3 +233,8 @@ We use OOP to improve code organization, reusability, maintainability, scalabili
 - An object contains both data (attributes) and behavior (methods).
 - OOP improves reusability, maintainability, security, and scalability.
 - The four pillars are Encapsulation, Inheritance, Polymorphism, and Abstraction.
+
+
+seliumne
+
+https://youtu.be/ZG3VFDMaAlk?si=LGlgEPcHyCSxAc6M
