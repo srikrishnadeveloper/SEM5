@@ -1,0 +1,307 @@
+MONGODB HORIZONTAL DATABASE SHARDING
+Complete Implementation Code
+
+============================================================
+1. docker-compose.yml
+============================================================
+
+services:
+
+  configsvr:
+    image: mongo:latest
+    container_name: configsvr
+    command: mongod --configsvr --replSet configReplSet --port 27017 --bind_ip_all
+    ports:
+      - "27019:27017"
+    volumes:
+      - config_data:/data/db
+    networks:
+      - mongo_cluster
+
+  shard01:
+    image: mongo:latest
+    container_name: shard01
+    command: mongod --shardsvr --replSet shard1ReplSet --port 27017 --bind_ip_all
+    ports:
+      - "27018:27017"
+    volumes:
+      - shard01_data:/data/db
+    networks:
+      - mongo_cluster
+
+  shard02:
+    image: mongo:latest
+    container_name: shard02
+    command: mongod --shardsvr --replSet shard2ReplSet --port 27017 --bind_ip_all
+    ports:
+      - "27020:27017"
+    volumes:
+      - shard02_data:/data/db
+    networks:
+      - mongo_cluster
+
+  mongos:
+    image: mongo:latest
+    container_name: mongos
+    depends_on:
+      - configsvr
+      - shard01
+      - shard02
+    command: mongos --configdb configReplSet/configsvr:27017 --bind_ip_all --port 27017
+    ports:
+      - "27017:27017"
+    networks:
+      - mongo_cluster
+
+volumes:
+  config_data:
+  shard01_data:
+  shard02_data:
+
+networks:
+  mongo_cluster:
+    driver: bridge
+
+
+============================================================
+2. START THE CONTAINERS
+============================================================
+
+docker compose up -d
+
+docker ps
+
+
+============================================================
+3. CONFIGURE THE CONFIG SERVER
+============================================================
+
+docker exec -it configsvr mongosh
+
+rs.initiate({
+    _id: "configReplSet",
+    configsvr: true,
+    members: [
+        {
+            _id: 0,
+            host: "configsvr:27017"
+        }
+    ]
+})
+
+rs.status()
+
+exit
+
+
+============================================================
+4. CONFIGURE SHARD 1
+============================================================
+
+docker exec -it shard01 mongosh
+
+rs.initiate({
+    _id: "shard1ReplSet",
+    members: [
+        {
+            _id: 0,
+            host: "shard01:27017"
+        }
+    ]
+})
+
+rs.status()
+
+exit
+
+
+============================================================
+5. CONFIGURE SHARD 2
+============================================================
+
+docker exec -it shard02 mongosh
+
+rs.initiate({
+    _id: "shard2ReplSet",
+    members: [
+        {
+            _id: 0,
+            host: "shard02:27017"
+        }
+    ]
+})
+
+rs.status()
+
+exit
+
+
+============================================================
+6. CONNECT TO MONGOS
+============================================================
+
+docker exec -it mongos mongosh
+
+db.hello()
+
+
+============================================================
+7. ADD SHARDS TO THE CLUSTER
+============================================================
+
+sh.addShard("shard1ReplSet/shard01:27017")
+
+sh.addShard("shard2ReplSet/shard02:27017")
+
+sh.status()
+
+
+============================================================
+8. ENABLE SHARDING FOR THE COLLEGE DATABASE
+============================================================
+
+sh.enableSharding("College")
+
+sh.status()
+
+
+============================================================
+9. CREATE THE STUDENT COLLECTION
+============================================================
+
+use College
+
+db.createCollection("Student")
+
+show collections
+
+
+============================================================
+10. INSERT STUDENT RECORDS
+============================================================
+
+db.Student.insertMany([
+    { RollNo: 1, Name: "Arun", Department: "CSE", Age: 20 },
+    { RollNo: 2, Name: "Bala", Department: "CSE", Age: 21 },
+    { RollNo: 3, Name: "Charan", Department: "IT", Age: 20 },
+    { RollNo: 4, Name: "Dinesh", Department: "CSE", Age: 21 },
+    { RollNo: 5, Name: "Elango", Department: "ECE", Age: 22 },
+    { RollNo: 6, Name: "Farhan", Department: "IT", Age: 22 },
+    { RollNo: 7, Name: "Gokul", Department: "CSE", Age: 20 },
+    { RollNo: 8, Name: "Hari", Department: "ECE", Age: 21 },
+    { RollNo: 9, Name: "Ishan", Department: "IT", Age: 20 },
+    { RollNo: 10, Name: "Karthik", Department: "CSE", Age: 22 }
+])
+
+db.Student.find().sort({ RollNo: 1 })
+
+
+============================================================
+11. SHARD THE STUDENT COLLECTION
+============================================================
+
+sh.shardCollection(
+    "College.Student",
+    { RollNo: 1 }
+)
+
+sh.status()
+
+
+============================================================
+12. CHECK INITIAL SHARD DISTRIBUTION
+============================================================
+
+db.Student.getShardDistribution()
+
+
+============================================================
+13. SPLIT THE CHUNK
+============================================================
+
+sh.splitAt(
+    "College.Student",
+    { RollNo: 6 }
+)
+
+sh.status()
+
+
+============================================================
+14. MOVE THE LOWER CHUNK TO SHARD 1
+============================================================
+
+sh.moveChunk(
+    "College.Student",
+    { RollNo: 1 },
+    "shard1ReplSet"
+)
+
+
+============================================================
+15. VERIFY FINAL SHARD DISTRIBUTION
+============================================================
+
+db.Student.getShardDistribution()
+
+sh.status()
+
+
+============================================================
+16. SEARCH QUERIES / TEST CASES
+============================================================
+
+-- Test Case 1: Search using the shard key
+db.Student.find({ RollNo: 3 })
+
+
+-- Test Case 2: Search using a non-shard-key field
+db.Student.find({ Department: "CSE" })
+
+
+-- Test Case 3: Range query using the shard key
+db.Student.find({
+    RollNo: { $gte: 6 }
+}).sort({ RollNo: 1 })
+
+
+-- Test Case 4: Verify shard distribution
+db.Student.getShardDistribution()
+
+
+============================================================
+17. FINAL VERIFICATION COMMANDS
+============================================================
+
+db.hello()
+
+sh.status()
+
+db.Student.find().sort({ RollNo: 1 })
+
+db.Student.getShardDistribution()
+
+
+============================================================
+18. EXPECTED FINAL CHUNK DISTRIBUTION
+============================================================
+
+College.Student
+Shard Key: RollNo
+
+Chunk 1:
+MinKey -> 6
+    on shard1ReplSet
+
+Chunk 2:
+6 -> MaxKey
+    on shard2ReplSet
+
+The actual document count reported by getShardDistribution()
+may temporarily include orphaned documents after migration.
+Use sh.status() to verify current chunk ownership.
+
+
+============================================================
+END
+============================================================
