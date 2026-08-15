@@ -1,0 +1,43 @@
+yaml is yaml is an't markup langugage
+
+create docker-compose.yaml
+code:
+
+
+services :I'm going to define the containers/services that Docker Compose should create.
+each name under service represent a service
+
+Think of the file as:
+
+
+
+
+docker-compose.yml
+│
+├── services
+│   ├── configsvr
+│   ├── shard01
+│   ├── shard02
+│   └── mongos
+│
+├── volumes
+│
+└── networks
+
+docker exec -it configsvr mongosh --eval "rs.initiate({ _id: 'configReplSet', configsvr: true, members: [{ _id: 0, host: 'configsvr:27017' }] })
+
+ker Execution Parameters
+
+docker exec: Instructs Docker to run a command inside a container that is currently running in the background.
+
+-i (--interactive): Keeps standard input (STDIN) open, allowing data transmission to the container.
+
+-t (--tty): Allocates a pseudo-TTY (terminal emulator), formatting colorized output to your terminal screen.
+
+configsvr: Specifies the target container name defined in your docker-compose.yml.
+
+mongosh: The executable for the MongoDB Shell client installed inside the container.
+
+--eval: Tells mongosh to execute the provided JavaScript string immediately and exit without opening an interactive terminal session.
+
+

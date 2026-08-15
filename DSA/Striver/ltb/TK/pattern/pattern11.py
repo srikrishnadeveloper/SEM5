@@ -1,22 +1,44 @@
-# Intuition: This pattern prints alternating 1s and 0s in each row, starting with 1 on even-indexed rows and 0 on odd-indexed rows. The value alternates after each print using basic toggling logic.
-
-# Take an integer N as input representing the number of rows.
-# Loop from 0 to N-1 to handle each row.
-# If the row index is even, set the starting value to 1; otherwise, set it to 0.
-# For each row, print i+1 numbers while toggling the value between 1 and 0 after each print.
-# After printing each row, move to the next line.
-
 def printpattern(n):
-    for i in range(0,n-1):
-        if((i%2)==0):
-            for i in range(n):
-                print()
-        else:
-
+    temp=1
+    for i in range(n+1):
+        for j in range(i):
+            # print("*",end="")
+            if(temp==1):
+                print(temp,end="")
+                temp=0
+            else:
+                temp=0
+                print(temp,end="")
+                temp=1
+        print("")            
 printpattern(5)
 
-# temp =7
-# if ((temp%2)==0):
-#     print("even")
-# else:
-#     print("odd")
+#suceed but the best apporach is 
+# def printpattern(n):
+#     temp = 1
+
+#     for i in range(n + 1):
+#         for j in range(i):
+#             print(temp, end="")
+#             temp = 1 - temp
+#         print()
+
+# printpattern(3)
+
+# # print(11%2)
+
+#just trying the alterating sequence
+# we can print like j%2 because the numbers are like even odd even so the sequecen would be like 0,1,0,0
+# this would fail it whould not work because they asked like 0,1,0,1 like it should even contuine even with the next row
+
+
+# def printpattern(n):
+#     for i in range(n+1):
+#         for j in range(1,i+1):
+#             # using the i lenght odd or even thing
+#             if(j%2==0):
+#                 print("0",end="")
+#             else:
+#                 print("1",end="")    
+#         print("")            
+# printpattern(5)

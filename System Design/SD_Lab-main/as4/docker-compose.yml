@@ -1,0 +1,91 @@
+﻿services:
+
+  #command = docker compose property, What command should Docker run when this container starts?
+  #mongd = run the acutal db server
+  #mongosh = connect with mongodb server
+  #--configsvr = "Run this MongoDB instance as a Config Server for a sharded cluster."
+    #stores metadata about the shared cluster
+  #--replSet <replica-set-name> = "This server belongs to a replica set named configReplSet."
+
+  configsvr: #Configuration Server. #compose serive name
+    image: mongo:latest # tells docker to use mongdb image, tells docker which image to use
+    container_name: configsvr # container name
+    #when the container start run this command inserted image default cmd
+    #"This MongoDB instance is going to act as a Config Server for a sharded cluster."
+    #bind all tells other docker container can commuincate with it without that only listen to localhost
+    command: mongod --configsvr --replSet configReplSet --port 27017 --bind_ip_all
+    ports:
+      - "27019:27017" #computer and container port mapping
+      #"When something connects to my computer on port 27019, forward it to port 27017 inside the configsvr container.
+      #here the host port should be different but the container port can be same 
+    volumes:
+      - config_data:/data/db
+      #"Store whatever MongoDB writes to /data/db in the Docker volume called config_data."
+    networks:
+      - mongo-cluster #creating private network and connecting
+
+
+  # =========================
+  # SHARD 1
+  # =========================
+  shard01:
+    image: mongo:latest
+    container_name: shard01
+    command: mongod --shardsvr --replSet shard1ReplSet --port 27017 --bind_ip_all
+    ports:
+      - "27018:27017"
+    volumes:
+      - shard01_data:/data/db
+    networks:
+      - mongo-cluster
+
+
+  # =========================
+  # SHARD 2
+  # =========================
+  shard02:
+    image: mongo:latest
+    container_name: shard02
+    command: mongod --shardsvr --replSet shard2ReplSet --port 27017 --bind_ip_all
+    ports:
+      - "27020:27017"
+    volumes:
+      - shard02_data:/data/db
+    networks:
+      - mongo-cluster
+
+
+  # =========================
+  # MONGOS QUERY ROUTER
+  # =========================
+  mongos:
+    image: mongo:latest
+    container_name: mongos
+    depends_on:
+      - configsvr
+      - shard01
+      - shard02
+    command: mongos --configdb configReplSet/configsvr:27017 --bind_ip_all --port 27017
+    ports:
+      - "27017:27017"
+    networks:
+      - mongo-cluster
+
+
+# =========================
+# VOLUMESp
+# =========================
+# Declares three isolated, named storage spaces on your host machine managed by Docker
+volumes:
+  config_data:
+  shard01_data:
+  shard02_data:
+  #ensure the db presistence
+
+
+# =========================
+# NETWORK
+# =========================
+networks:
+  mongo-cluster:
+    driver: bridge #container-to-container
