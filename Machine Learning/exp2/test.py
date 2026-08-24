@@ -117,54 +117,83 @@ print(vmae,vmse,vrmse,vr2_score)
 print(tmae,tmse,trmse,tr2_score)
 
 
+import seaborn as sns
+
+plt.figure(figsize = (10,7))
+sns.heatmap(df.corr(),annot=True,fmt=".2g")
+plt.show()
+
+y_pre = gridridge.predict(X_test)
+resdulis = y_test - y_pre
+plt.figure(figsize=(12,10))
+plt.scatter(y_test,resdulis,alpha=0.6,color="Blue")
+plt.show()
+
+plt.figure(figsize=(12,10))
+plt.bar(y_test,resdulis,color="blue")
+plt.show()
+from sklearn.metrics import confusion_matrix
 
 
-from sklearn.linear_model import Lasso
+thresold = np.median(y_test)
 
-lasso = Lasso(max_iter=10000,tol=1e-3)
+y_test_value = (y_test>thresold).astype(int)
+y_pre_value = (y_pre>thresold).astype(int)
 
-paramter = {"alpha":[0.01,0.1,1,10,100]}
-
-gridlasso = GridSearchCV(lasso,paramter,cv=5,n_jobs=-1)
-
-gridlasso.fit(X_train,y_train)
-rvalpre = gridlasso.predict(X_val) 
-rtestpre = gridlasso.predict(X_test)
-print("bestparamter",gridlasso.best_params_),
-print("bestscore",gridlasso.best_score_)
-
-vmae,vmse,vrmse,vr2_score = cal_metric(y_val,rvalpre)
-tmae,tmse,trmse,tr2_score = cal_metric(y_test,rtestpre)
-
-print(vmae,vmse,vrmse,vr2_score)
-print(tmae,tmse,trmse,tr2_score)
+cm  = confusion_matrix(y_test_value,y_pre_value)
+sns.heatmap(cm,annot=True,cmap="Blues",xticklabels=["below Threshold","above threshold"],yticklabels=["below threshold","above threshold"],fmt="d")
+plt.show()
 
 
 
-from sklearn.linear_model import ElasticNet
 
-elastic = ElasticNet(max_iter=10000,tol=1e-3)
+# from sklearn.linear_model import Lasso
 
-paramter = {"alpha":[0.01,0.1,1,10,100],"l1_ratio":[0.2,0.5,0.8]}
+# lasso = Lasso(max_iter=10000,tol=1e-3)
 
-gridelastic = GridSearchCV(elastic,paramter,cv=5,n_jobs=-1)
+# paramter = {"alpha":[0.01,0.1,1,10,100]}
 
-gridelastic.fit(X_train,y_train)
-rvalpre = gridelastic.predict(X_val) 
-rtestpre = gridelastic.predict(X_test)
-print("bestparamter",gridelastic.best_params_),
-print("bestscore",gridelastic.best_score_)
+# gridlasso = GridSearchCV(lasso,paramter,cv=5,n_jobs=-1)
 
-vmae,vmse,vrmse,vr2_score = cal_metric(y_val,rvalpre)
-tmae,tmse,trmse,tr2_score = cal_metric(y_test,rtestpre)
+# gridlasso.fit(X_train,y_train)
+# rvalpre = gridlasso.predict(X_val) 
+# rtestpre = gridlasso.predict(X_test)
+# print("bestparamter",gridlasso.best_params_),
+# print("bestscore",gridlasso.best_score_)
 
-print(vmae,vmse,vrmse,vr2_score)
-print(tmae,tmse,trmse,tr2_score)
+# vmae,vmse,vrmse,vr2_score = cal_metric(y_val,rvalpre)
+# tmae,tmse,trmse,tr2_score = cal_metric(y_test,rtestpre)
+
+# print(vmae,vmse,vrmse,vr2_score)
+# print(tmae,tmse,trmse,tr2_score)
 
 
-correlation  = df.corr(numeric_only=True)
 
-from sklearn.feature_selection import mutual_info_regression
-mi  =mutual_info_regression(X_test,y_test)
-mi_scores = pd.Series(mi,index=df.columns)
+# from sklearn.linear_model import ElasticNet
+
+# elastic = ElasticNet(max_iter=10000,tol=1e-3)
+
+# paramter = {"alpha":[0.01,0.1,1,10,100],"l1_ratio":[0.2,0.5,0.8]}
+
+# gridelastic = GridSearchCV(elastic,paramter,cv=5,n_jobs=-1)
+
+# gridelastic.fit(X_train,y_train)
+# rvalpre = gridelastic.predict(X_val) 
+# rtestpre = gridelastic.predict(X_test)
+# print("bestparamter",gridelastic.best_params_),
+# print("bestscore",gridelastic.best_score_)
+
+# vmae,vmse,vrmse,vr2_score = cal_metric(y_val,rvalpre)
+# tmae,tmse,trmse,tr2_score = cal_metric(y_test,rtestpre)
+
+# print(vmae,vmse,vrmse,vr2_score)
+# print(tmae,tmse,trmse,tr2_score)
+
+
+# correlation  = df.corr(numeric_only=True)
+
+# # from sklearn.feature_selection import mutual_info_regression
+# # mi  =mutual_info_regression(X_test,y_test)
+# # mi_scores = pd.Series(mi,index=df.columns)
+
 
