@@ -1,0 +1,27 @@
+Banking Transaction Verification Server Started...
+Server listening on 127.0.0.1:5004
+Client Connected: ('127.0.0.1', 62226)
+[Client 62226] Received data words: ['10101010', '11001100', '11110000']
+[Client 62226] Received checksum: 10010111
+[Client 62226] Checksum verified, transaction accepted
+Client ('127.0.0.1', 62226) disconnected.
+Client Connected: ('127.0.0.1', 62227)
+[Client 62227] Received data words: ['10101010', '11011100', '11110000']
+[Client 62227] Received checksum: 10010111
+[Client 62227] Checksum mismatch, transaction rejected
+Client ('127.0.0.1', 62227) disconnected.
+Client Connected: ('127.0.0.1', 62228)
+[Client 62228] Received data words: ['10001010', '11011100', '11110010']
+[Client 62228] Received checksum: 10010111
+[Client 62228] Checksum mismatch, transaction rejected
+Client ('127.0.0.1', 62228) disconnected.
+Client Connected: ('127.0.0.1', 62229)
+[Client 62229] Received data words: ['01010100', '01110010', '01100001', '01101110', '01110011', '01100001', '01100011', '01110100', '01101001', '01101111', '01101110', '00111010', '00100000', '01000001', '01000011', '01000011', '00110001', '00110000', '00110000', '00110001', '00100000', '01000100', '01100101', '01110000', '01101111', '01110011', '01101001', '01110100', '00100000', '01010010', '01110011', '00101110', '00110101', '00110000', '00110000', '00110000']
+[Client 62229] Received checksum: 10111011
+[Client 62229] Checksum verified, transaction accepted
+Client ('127.0.0.1', 62229) disconnected.
+Client Connected: ('127.0.0.1', 62230)
+[Client 62230] Received data words: ['01000001', '01000011', '01000011', '00110001', '00110000', '00110000', '00110001', '00100000', '01010100', '01011000', '01001110', '00110100', '00110101', '00111000', '00111001', '00110110', '00100000', '01000001', '01101101', '01101111', '01110101', '01101110', '01110100', '00100000', '00110010', '00110101', '00110000', '00110000']
+[Client 62230] Received checksum: 11001010
+[Client 62230] Checksum verified, transaction accepted
+Client ('127.0.0.1', 62230) disconnected.

@@ -50,25 +50,3 @@ curl -L http://localhost:8080/aB12Xy
 It redirects to the original long URL.
 
 You can also test both steps in Postman, exactly as the lab sheet asks.
-
-## Benchmark it
-
-There's a script that runs each endpoint 100 times and prints the average
-response time — handy for comparing against exp3's cached version.
-
-```powershell
-.\benchmark.ps1
-```
-(or `bash benchmark.sh` from Git Bash)
-
-Make sure the app is running first (`mvn spring-boot:run`). It prints the
-average for `POST /shorten` and `GET /{shortCode}` separately, plus how many
-of the 100 requests actually succeeded.
-
-Note: since exp2 has no caching, every `GET` hits the H2 database fresh every
-time — this is the "before caching" baseline that exp3's Redis layer is
-built to beat. If you run this a lot without restarting the app, occasionally
-a `POST` may fail with a `NonUniqueResultException` server-side — that's a
-real quirk in this exp's code (`shortCode` has no unique DB constraint, and
-the uniqueness-check loop gives up after 8 characters), not a benchmark
-script bug. Restarting the app clears it since H2 is in-memory.

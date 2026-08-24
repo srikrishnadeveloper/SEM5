@@ -1,38 +1,13 @@
-// 2. UrlMapping.java
-
-// This is the Entity.
-
-// It represents one row in the database.
-
-// Database
-
-// id
-// shortCode
-// longUrl
-// The @Entity annotation tells JPA to create this table automatically.
-
-
 package com.ssn.urlshortener;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-//jpa annotations jpa stands for java persistence api 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-
-//like in the mongodb @document like that
-//with this annotation the spring create a table insted of thinkint this is just class like other
-
-@Entity
+@Document(collection = "url_mapping")
 public class UrlMapping {
 
-    @Id //this field is primary key
-    //this tells the db autmoicallty generate id 
-    //and auto increment  
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id
+    private String id;
 
     private String shortCode;
     private String longUrl;
@@ -45,7 +20,7 @@ public class UrlMapping {
         this.longUrl = longUrl;
     }
 
-    public Long getId() {// why long is because the the id can be long
+    public String getId() {
         return id;
     }
 

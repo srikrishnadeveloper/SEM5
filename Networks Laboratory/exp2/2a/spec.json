@@ -1,0 +1,103 @@
+{
+  "title": "ASSIGNMENT \u2013 2a",
+  "subtitle": "Multi-Client Banking Message Validation Using Python Socket Programming",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": [
+        "To simulate a national bank's centralized transaction validation system where multiple ATM kiosks and branch terminals communicate with a validation server simultaneously. The server validates banking transaction requests (Account Verification, Balance Enquiry, Fund Transfer Validation, Transaction Confirmation) sent by the clients and echoes each request back as an acknowledgment.",
+        "Two client-server applications are developed in Python: a TCP-based version (1a) where the server accepts multiple clients concurrently using threads, and a UDP-based version (1b) where clients send transaction requests as datagrams. The TCP and UDP implementations are then compared (1c) on connection establishment, reliability, data ordering, and communication overhead. Communication continues until a client enters \"exit\", after which it disconnects without affecting the other connected clients."
+      ]
+    },
+    {
+      "heading": "1a. TCP - SERVER CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2a/server.py",
+      "lang": "python"
+    },
+    {
+      "heading": "1a. TCP - CLIENT CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2a/client.py",
+      "lang": "python"
+    },
+    {
+      "heading": "1a. TCP - SERVER OUTPUT",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2a/server_output.txt"
+    },
+    {
+      "heading": "1a. TCP - CLIENT 1 OUTPUT",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2a/client1_output.txt"
+    },
+    {
+      "heading": "1a. TCP - CLIENT 2 OUTPUT",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2a/client2_output.txt"
+    },
+    {
+      "heading": "1b. UDP - SERVER CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2a/udp_server.py",
+      "lang": "python"
+    },
+    {
+      "heading": "1b. UDP - CLIENT CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2a/udp_client.py",
+      "lang": "python"
+    },
+    {
+      "heading": "1b. UDP - SERVER OUTPUT",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2a/udp_server_output.txt"
+    },
+    {
+      "heading": "1b. UDP - CLIENT 1 OUTPUT",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2a/udp_client1_output.txt"
+    },
+    {
+      "heading": "1b. UDP - CLIENT 2 OUTPUT",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2a/udp_client2_output.txt"
+    },
+    {
+      "heading": "1c. TCP vs UDP COMPARISON",
+      "table": {
+        "headers": ["Parameter", "TCP", "UDP"],
+        "rows": [
+          ["Connection Establishment", "Connection-oriented: three-way handshake before data transfer and explicit connection close", "Connectionless: datagrams are sent directly with no setup or teardown"],
+          ["Reliability", "Reliable: guarantees delivery with acknowledgments and retransmission of lost packets", "Unreliable: best-effort delivery, packets may be lost without detection"],
+          ["Data Ordering", "Ordered: segments are sequenced and delivered in the same order they were sent", "Unordered: datagrams may arrive out of order"],
+          ["Communication Overhead", "Higher: larger headers, acknowledgments, connection state and flow control", "Lower: small 8-byte header and no connection state to maintain"]
+        ],
+        "widths": [90, 200, 190]
+      }
+    },
+    {
+      "heading": "TASKS PERFORMED",
+      "table": {
+        "headers": ["Task", "Details", "Result"],
+        "rows": [
+          ["Create TCP server", "Bind to 127.0.0.1:5000 and listen; spawn one thread per accepted client", "Banking Validation Server Started; two clients connected at the same time"],
+          ["TCP echo validation", "Server receives a transaction request, displays client IP/port, and echoes it back", "Each client received its original request as acknowledgment"],
+          ["Handle client exit", "Client sends 'exit' and disconnects; server keeps serving the other client", "Client 1 left, Client 2 continued and completed its requests"],
+          ["Create UDP server", "Bind UDP socket to 127.0.0.1:5001; receive datagrams with recvfrom and echo with sendto", "UDP Banking Validation Server Started; sender IP and port shown for every datagram"],
+          ["UDP echo validation", "Two UDP clients send transaction requests as datagrams and receive echoes", "Both clients received acknowledgments for every request"],
+          ["UDP exit behaviour", "Client sends 'exit' and simply stops; no connection to terminate", "Client printed 'No connection to terminate'; server kept running"],
+          ["Compare TCP and UDP", "Tabulated both protocols on connection establishment, reliability, ordering, and overhead", "TCP is reliable/ordered with higher overhead; UDP is faster and simpler but best-effort"]
+        ],
+        "widths": [75, 220, 185]
+      }
+    },
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "I implemented a TCP server that serves multiple banking clients concurrently using Python threads.",
+        "I understood that TCP requires connect()/accept() and a three-way handshake before data transfer.",
+        "I implemented a UDP server and clients using sendto()/recvfrom() without any connection setup.",
+        "I observed that the TCP server keeps serving other clients even after one client disconnects.",
+        "I compared TCP and UDP on reliability, ordering, and overhead, and saw why banks use TCP for transaction validation.",
+        "I learned that messages must be encoded to bytes before sending and decoded after receiving in both protocols."
+      ]
+    }
+  ]
+}

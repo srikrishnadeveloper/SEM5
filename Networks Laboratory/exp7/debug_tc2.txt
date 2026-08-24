@@ -1,0 +1,129 @@
+TCP CLIENT SIMULATION
+Total Data        : 20 KB
+Segment Size      : 1 KB
+Initial Window    : 8 KB
+Sender Rate       : 8 KB/s
+Transmission Delay: 0.05 s
+
+t=0.125 SEND S1 out=0
+Segment S1 Received
+Buffer Occupancy : 1 KB
+Advertised Window : 3 KB
+ACK S1 Sent
+t=0.300 SEND S2 out=1
+Segment S2 Received
+Buffer Occupancy : 2 KB
+Advertised Window : 2 KB
+ACK S2 Sent
+Processing Data...
+Buffer Occupancy : 1 KB
+Advertised Window : 3 KB
+t=0.475 SEND S3 out=2
+Segment S3 Received
+Buffer Occupancy : 2 KB
+Advertised Window : 2 KB
+ACK S3 Sent
+t=0.650 SEND S4 out=3
+Processing Data...
+Buffer Occupancy : 1 KB
+Advertised Window : 3 KB
+Segment S4 Received
+Buffer Occupancy : 2 KB
+Advertised Window : 2 KB
+ACK S4 Sent
+t=0.825 WAIT out=4 rwnd=4 limit=4
+t=0.825 GOT ('ACK', 1, 3) out=4->3
+ACK Received : S1
+Advertised Window : 3 KB
+t=0.825 SEND S5 out=3
+Segment S5 Received
+Buffer Occupancy : 3 KB
+Advertised Window : 1 KB
+ACK S5 Sent
+Processing Data...
+Buffer Occupancy : 2 KB
+Advertised Window : 2 KB
+t=1.000 WAIT out=4 rwnd=3 limit=3
+t=1.000 GOT ('ACK', 2, 2) out=4->3
+ACK Received : S2
+Advertised Window : 2 KB
+t=1.000 GOT ('WND', 0, 3) out=3->3
+t=1.000 GOT ('ACK', 3, 2) out=3->2
+ACK Received : S3
+Advertised Window : 2 KB
+t=1.000 SEND S6 out=2
+Segment S6 Received
+Buffer Occupancy : 3 KB
+Advertised Window : 1 KB
+ACK S6 Sent
+t=1.175 WAIT out=3 rwnd=2 limit=2
+t=1.175 GOT ('WND', 0, 3) out=3->3
+t=1.175 GOT ('ACK', 4, 2) out=3->2
+ACK Received : S4
+Advertised Window : 2 KB
+t=1.175 GOT ('ACK', 5, 1) out=2->1
+ACK Received : S5
+Advertised Window : 1 KB
+t=1.175 SEND S7 out=1
+Processing Data...
+Buffer Occupancy : 2 KB
+Advertised Window : 2 KB
+Segment S7 Received
+Buffer Occupancy : 3 KB
+Advertised Window : 1 KB
+ACK S7 Sent
+t=1.350 WAIT out=2 rwnd=1 limit=1
+t=1.350 GOT ('WND', 0, 2) out=2->2
+t=1.350 GOT ('ACK', 6, 1) out=2->1
+ACK Received : S6
+Advertised Window : 1 KB
+t=1.350 GOT ('WND', 0, 2) out=1->1
+t=1.350 GOT ('ACK', 7, 1) out=1->0
+ACK Received : S7
+Advertised Window : 1 KB
+t=1.350 SEND S8 out=0
+Segment S8 Received
+Buffer Occupancy : 4 KB
+Advertised Window : 0 KB
+ACK S8 Sent
+Receive Buffer Full
+Sender Transmission Temporarily Restricted
+Processing Data...
+Buffer Occupancy : 3 KB
+Advertised Window : 1 KB
+Buffer Space Available
+Sender Can Continue Transmission
+t=1.525 WAIT out=1 rwnd=1 limit=1
+t=1.525 GOT ('ACK', 8, 0) out=1->0
+ACK Received : S8
+Advertised Window : 0 KB
+t=1.525 SEND S9 out=0
+Segment S9 Received
+Buffer Occupancy : 4 KB
+Advertised Window : 0 KB
+ACK S9 Sent
+Receive Buffer Full
+Sender Transmission Temporarily Restricted
+Processing Data...
+Buffer Occupancy : 3 KB
+Advertised Window : 1 KB
+Buffer Space Available
+Sender Can Continue Transmission
+t=1.700 WAIT out=1 rwnd=0 limit=0
+t=1.700 GOT ('WND', 0, 1) out=1->1
+t=1.700 GOT ('ACK', 9, 0) out=1->0
+ACK Received : S9
+Advertised Window : 0 KB
+t=1.700 GOT ('WND', 0, 1) out=0->0
+Processing Data...
+Buffer Occupancy : 2 KB
+Advertised Window : 2 KB
+t=1.930 GOT ('WND', 0, 2) out=0->0
+Processing Data...
+Buffer Occupancy : 1 KB
+Advertised Window : 3 KB
+t=2.180 GOT ('WND', 0, 3) out=0->0
+Processing Data...
+Buffer Occupancy : 0 KB
+Advertised Window : 4 KB
+t=2.430 GOT ('WND', 0, 4) out=0->0

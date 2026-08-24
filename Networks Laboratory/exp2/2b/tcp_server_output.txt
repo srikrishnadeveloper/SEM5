@@ -1,0 +1,14 @@
+Loaded 8 student records from students.csv
+Student Record Server Started...
+Server listening on 127.0.0.1:5002
+Client Connected: ('127.0.0.1', 51702)
+Client Connected: ('127.0.0.1', 51703)
+[Client 51702] Requested Roll Number: 3122245001002
+[Client 51702] Record found, sending details
+Client ('127.0.0.1', 51702) disconnected.
+[Client 51703] Requested Roll Number: 9999999999
+[Client 51703] Record not found
+Client ('127.0.0.1', 51703) disconnected.
+Client Connected: ('127.0.0.1', 51704)
+[Client 51704] Requested Roll Number: exit
+Client ('127.0.0.1', 51704) disconnected.

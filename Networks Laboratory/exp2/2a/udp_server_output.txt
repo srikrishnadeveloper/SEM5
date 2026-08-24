@@ -1,0 +1,15 @@
+UDP Banking Validation Server Started...
+Server listening on 127.0.0.1:5001
+[Client 58655] Received: Balance Enquiry - ACC2005
+[Client 58655] Echo Sent: Balance Enquiry - ACC2005
+[Client 58656] Received: Account Verification - ACC1001
+[Client 58656] Echo Sent: Account Verification - ACC1001
+[Client 58656] Received: Transaction Confirmation - TXN45879
+[Client 58656] Echo Sent: Transaction Confirmation - TXN45879
+[Client 58655] Received: Mini Statement Request
+[Client 58655] Echo Sent: Mini Statement Request
+[Client 58655] Received: Fund Transfer Validation
+[Client 58655] Echo Sent: Fund Transfer Validation
+[Client 58656] Received: exit
+[Client 58655] Received: exit
+[Client 58657] Received: exit

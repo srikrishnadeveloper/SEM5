@@ -1,0 +1,6 @@
+Enter the details of packet received.
+Destination IP : 999.999.999.999
+Source IP : 123.128.34.56
+Source MAC : AF-45-E5-00-97-12
+16 bit data : 1011110000101010
+Invalid IP address. Packet rejected.

@@ -26,8 +26,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- swapped out jpa + h2 for mongodb, mongo isnt relational so it doesnt use jpa at all -->
-        <!-- this pulls in MongoRepository/@Document/mongo template stuff instead -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>

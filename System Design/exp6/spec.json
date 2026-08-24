@@ -1,0 +1,63 @@
+{
+  "title": "ASSIGNMENT – 6",
+  "subtitle": "API Rate Limiter using Token Bucket Algorithm",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": [
+        "To implement a Rate Limiter using the Token Bucket algorithm in a Spring Boot application, use Redis to maintain rate-limit information, and analyze request control under normal and burst traffic."
+      ]
+    },
+    {
+      "heading": "TASKS PERFORMED",
+      "table": {
+        "headers": ["Task", "Details", "Result"],
+        "rows": [
+          ["Develop REST API", "Create a Spring Boot application with endpoints for rate-limited resources", "Spring Boot application developed with controller endpoints"],
+          ["Configure Redis", "Set up Redis (Memurai) connection and configure StringRedisTemplate for rate-limit storage", "Redis instance running on localhost:6379 (Memurai) connected"],
+          ["Identify clients", "Identify clients using IP address and optional client ID stored in request headers", "Client IP tracked for rate-limit key generation"],
+          ["Implement Token Bucket", "Implement Token Bucket algorithm with configurable bucket capacity and refill rate using Redis Lua scripts for atomic token updates", "Bucket capacity and refill rate configured via application.properties"],
+          ["Handle 429 responses", "Return HTTP 429 Too Many Requests when limit is exceeded, with appropriate error response", "HTTP 429 response returned when bucket empty"],
+          ["Generate normal traffic", "Send normal-rate requests and observe that requests are processed successfully", "Normal traffic requests processed within rate limit"],
+          ["Generate burst traffic", "Send burst of requests and observe rate-limiting behavior with 429 responses", "Burst requests exceeded limit, HTTP 429 responses returned"],
+          ["Test concurrent requests", "Use Redis Lua scripting for atomic token updates during concurrent access", "Lua script ensured thread-safe token decrement and refill"]
+        ]
+      },
+      "widths": [120, 240, 200]
+    },
+    {
+      "heading": "ANALYSIS",
+      "bullets": [
+        "Token Bucket algorithm: tokens are added to the bucket at a fixed refill rate; requests consume tokens; if bucket is empty, requests are rejected with HTTP 429",
+        "Bucket Capacity: the maximum number of tokens the bucket can hold; determines the maximum request rate allowed",
+        "Refill Rate: the rate at which tokens are added to the bucket per unit time; controls how quickly the bucket recovers",
+        "Redis requirement: when multiple application instances are used, Redis provides centralized rate-limit storage so all instances share the same rate state; without Redis each instance would have its own independent bucket"
+      ]
+    },
+    {
+      "heading": "CODE IMPLEMENTATION – Token Bucket Rate Limiter",
+      "code_file": "C:/Users/srik2/Desktop/College/System Design/exp6/rate_limiter.java",
+      "lang": "java"
+    },
+    {
+      "heading": "REDIS OUTPUT – Token Bucket State",
+      "output_file": "C:/Users/srik2/Desktop/College/System Design/exp6/rate_limiter_output.txt"
+    },
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "Implemented API Rate Limiting using the Token Bucket algorithm",
+        "Configured bucket capacity and refill rate to control request throughput",
+        "Used Redis to maintain centralized rate-limit information across application instances",
+        "Handled normal and burst API traffic with appropriate HTTP 429 responses",
+        "Implemented concurrent request handling using Redis Lua scripting for atomic token updates"
+      ]
+    }
+  ]
+}

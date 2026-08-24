@@ -1,0 +1,79 @@
+{
+  "title": "ASSIGNMENT \u2013 2",
+  "subtitle": "Regression Model Evaluation and Performance Analysis",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": "To implement a regression model for predicting a continuous target variable, evaluate its performance using multiple evaluation metrics, visualize prediction results, and analyze overfitting, underfitting, and bias-variance. The dataset used is a real-world loan-amount prediction dataset (Kaggle: Predict Loan Amount Data) containing numerical and categorical features related to loan applications, with the target variable being the loan amount sanctioned. Linear Regression is used as the baseline model, and Ridge, Lasso, and Elastic Net regression are used as regularized models, tuned using GridSearchCV, to control model complexity and reduce overfitting. Libraries used: pandas, numpy, matplotlib, scikit-learn."
+    },
+    {
+      "heading": "CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/Machine Learning/exp2/main.py",
+      "lang": "python"
+    },
+    {
+      "heading": "OUTPUT",
+      "output_file": "C:/Users/srik2/AppData/Local/Temp/opencode/exp2_capture/output.txt"
+    },
+    {
+      "heading": "PLOTS",
+      "plots": [
+        {"image": "C:/Users/srik2/AppData/Local/Temp/opencode/exp2_capture/plots/plot_01.png", "caption": "Fig 1 - Loan Amount Distribution (target variable)"},
+        {"image": "C:/Users/srik2/AppData/Local/Temp/opencode/exp2_capture/plots/plot_02.png", "caption": "Fig 2 - Feature distribution histograms (all 21 features)"},
+        {"image": "C:/Users/srik2/AppData/Local/Temp/opencode/exp2_capture/plots/plot_03.png", "caption": "Fig 3 - Feature vs Target scatter plots (all 21 features)"},
+        {"image": "C:/Users/srik2/AppData/Local/Temp/opencode/exp2_capture/plots/plot_04.png", "caption": "Fig 4 - Actual vs Predicted - Linear Regression"},
+        {"image": "C:/Users/srik2/AppData/Local/Temp/opencode/exp2_capture/plots/plot_05.png", "caption": "Fig 5 - Residual Plot - Linear Regression"},
+        {"image": "C:/Users/srik2/AppData/Local/Temp/opencode/exp2_capture/plots/plot_06.png", "caption": "Fig 6 - Actual vs Predicted - Ridge Regression"},
+        {"image": "C:/Users/srik2/AppData/Local/Temp/opencode/exp2_capture/plots/plot_07.png", "caption": "Fig 7 - Residual Plot - Ridge Regression"},
+        {"image": "C:/Users/srik2/AppData/Local/Temp/opencode/exp2_capture/plots/plot_08.png", "caption": "Fig 8 - Actual vs Predicted - Lasso Regression"},
+        {"image": "C:/Users/srik2/AppData/Local/Temp/opencode/exp2_capture/plots/plot_09.png", "caption": "Fig 9 - Residual Plot - Lasso Regression"},
+        {"image": "C:/Users/srik2/AppData/Local/Temp/opencode/exp2_capture/plots/plot_10.png", "caption": "Fig 10 - Actual vs Predicted - Elastic Net"},
+        {"image": "C:/Users/srik2/AppData/Local/Temp/opencode/exp2_capture/plots/plot_11.png", "caption": "Fig 11 - Residual Plot - Elastic Net"},
+        {"image": "C:/Users/srik2/AppData/Local/Temp/opencode/exp2_capture/plots/plot_12.png", "caption": "Fig 12 - Training vs Validation Error (Ridge)"},
+        {"image": "C:/Users/srik2/AppData/Local/Temp/opencode/exp2_capture/plots/plot_13.png", "caption": "Fig 13 - Coefficient Comparison (average magnitude) across models"}
+      ]
+    },
+    {
+      "heading": "TASKS PERFORMED",
+      "table": {
+        "headers": ["Task", "Description", "Result / Output"],
+        "rows": [
+          ["Loaded and inspected the dataset", "Read train.csv with pandas and checked info/describe", "30000 rows x 24 columns; 8 float, 5 int, 11 string columns"],
+          ["Handled missing values", "Filled numeric NaNs with median; filled categorical NaNs with mode; dropped rows with missing target", "0 missing values except 340 target rows which were dropped; final shape (29660, 22)"],
+          ["Dropped irrelevant columns", "Removed Customer ID and Name because they are just unique identifiers", "21 features used for modeling"],
+          ["Encoded categorical variables", "LabelEncoder on remaining text columns", "All columns converted to numeric"],
+          ["Standardized numerical features", "StandardScaler on all feature columns", "Features scaled to mean 0 and std 1"],
+          ["Split the dataset", "70/15/15 split with random_state=42", "20762 training, 4449 validation, 4449 testing samples"],
+          ["Exploratory Data Analysis", "Plotted target distribution, feature histograms, and feature-vs-target scatter plots", "Figs 1, 2, 3"],
+          ["Trained Linear Regression", "Baseline model on standardized data", "Test R2 = 0.5710, training time 0.010 s"],
+          ["Tuned Ridge Regression", "GridSearchCV over alpha = [0.01, 0.1, 1, 10, 100] with cv=5", "Best alpha = 100, Test R2 = 0.5712"],
+          ["Tuned Lasso Regression", "GridSearchCV over alpha = [0.001, 0.01, 0.1, 1, 10] with cv=5", "Best alpha = 10, Test R2 = 0.5710"],
+          ["Tuned Elastic Net Regression", "GridSearchCV over alpha x l1_ratio grid with cv=5", "Best alpha = 0.1, l1_ratio = 0.5, Test R2 = 0.5691"],
+          ["Compared coefficients", "Built a per-feature table for Linear, Ridge, Lasso, and Elastic Net", "Table 4 (21 rows x 5 columns)"],
+          ["Visualized predictions and residuals", "Actual-vs-Predicted and Residual plots for all 4 models", "Figs 4-11"],
+          ["Analyzed overfitting/underfitting", "Compared training vs validation MSE across all models and Ridge alpha values", "Table 5; validation MSE slightly higher than training MSE"]
+        ],
+        "widths": [70, 190, 220]
+      }
+    },
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "I was able to preprocess a real-world dataset by imputing missing values, encoding categorical features, and standardizing numerical features before feeding them to a model.",
+        "I understood how to split a dataset into training, validation, and test sets for proper model evaluation.",
+        "I implemented and trained a baseline Linear Regression model for a continuous target variable.",
+        "I applied Ridge, Lasso, and Elastic Net regularization to control model complexity and reduce overfitting.",
+        "I used GridSearchCV with 5-fold cross-validation to tune hyperparameters such as alpha and l1_ratio.",
+        "I evaluated regression models using MAE, MSE, RMSE, and R2 score on both validation and test sets.",
+        "I visualized predicted-vs-actual values and residuals to assess how well each model fit the data.",
+        "I compared training and validation error to discuss overfitting and underfitting behaviour."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "title": "ASSIGNMENT – 6",
+  "subtitle": "Simulation of UDP Packet Transmission Using SimPy (Smart‑City Surveillance System)",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": "To simulate UDP packet transmission in a smart‑city surveillance system using SimPy. Roadside cameras generate video packets and send them to a central monitoring server over UDP; since UDP does not guarantee delivery, packets may be lost due to congestion and experience random transmission delays. The simulation models packet generation, transmission, random delay, and packet loss, and analyses the performance of UDP communication under different network conditions."
+    },
+    {
+      "heading": "CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp6/udp_server.py",
+      "lang": "python"
+    },
+    {
+      "heading": "CLIENT CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp6/udp_client.py",
+      "lang": "python"
+    },
+    {
+      "heading": "OUTPUT",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp6/udp_server_output.txt"
+    },
+    {
+      "heading": "CLIENT OUTPUT",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp6/udp_client_output.txt"
+    },
+    {
+      "heading": "PLOTS",
+      "plots": []
+    },
+    {
+      "heading": "TASKS PERFORMED",
+      "table": {
+        "headers": ["Task", "Description", "Result"],
+        "rows": [
+          ["SimPy processes", "Client and server implemented as SimPy process generators sharing a Store channel", "All four scenarios ran end to end"],
+          ["Packet generation", "Packets generated every interval with sequence number and generation timestamp", "10, 20, 30 and 50 packets generated per scenario"],
+          ["Random delay and loss", "Uniform transmission delay in the configured range; random loss by probability", "Delays up to 0.15 s and losses of 0, 2, 6, 15 packets observed"],
+          ["Reception statistics", "Arrival time and delay computed for every received packet", "Average delay grew from 0.00 s to 0.10 s across scenarios"],
+          ["Missing detection", "Missing packets identified from sequence number gaps", "Missing lists printed, e.g. packets 3 and 5 in TC2"],
+          ["Rate effect", "Higher loss probability with faster generation and bigger delays", "Delivery ratio dropped from 100% to 70%"]
+        ],
+        "widths": [80, 215, 185]
+      }
+    },
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "I modelled packet generation, transmission delay, and packet loss with SimPy processes.",
+        "I used a SimPy Store as the communication channel between client and server.",
+        "I computed delivery ratio, loss ratio, and delay statistics from real runs.",
+        "I detected missing packets from sequence number gaps.",
+        "I observed that higher loss probability and faster generation reduce the delivery ratio."
+      ]
+    }
+  ]
+}

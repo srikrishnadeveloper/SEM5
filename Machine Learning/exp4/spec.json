@@ -1,0 +1,62 @@
+{
+  "title": "ASSIGNMENT – 4",
+  "subtitle": "Perceptron vs Multilayer Perceptron with Hyperparameter Tuning",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": "To implement and compare the performance of a single-layer Perceptron Learning Algorithm (PLA) without using libraries, and a Multilayer Perceptron (MLP) with hidden layers and nonlinear activation functions. Students must select, tune, and justify hyperparameters such as learning rate, activation function, optimizer, batch size, and number of hidden layers."
+    },
+    {
+      "heading": "CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/Machine Learning/exp4/run_ml.py",
+      "lang": "python"
+    },
+    {
+      "heading": "OUTPUT",
+      "output_file": "C:/Users/srik2/Desktop/College/Machine Learning/exp4/results/pla_loss.png"
+    },
+    {
+      "heading": "PLOTS",
+      "plots": [
+        {
+          "image": "C:/Users/srik2/Desktop/College/Machine Learning/exp4/results/mlp_loss_curves.png",
+          "caption": "MLP training loss curves across three experiments"
+        },
+        {
+          "image": "C:/Users/srik2/Desktop/College/Machine Learning/exp4/results/pla_loss.png",
+          "caption": "PLA training loss over iterations"
+        }
+      ]
+    },
+    {
+      "heading": "TASKS PERFORMED",
+      "table": {
+        "headers": ["Task", "Description", "Result"],
+        "rows": [
+          ["Implement PLA from scratch", "Built PerceptronFromScratch class with step activation and weight update rule", "PLA trained on 62 classes using One-vs-Rest strategy; measured per-class accuracy"],
+          ["Train MLP with sklearn", "Trained three MLP configurations with different architectures (small/medium/deep) and activation/optimizer combos", "Recorded accuracy and AUC for each; identified best-performing model"],
+          ["Hyperparameter tuning", "Tested learning rates, batch sizes, activation functions, and optimizers", "Compared impact on convergence and final accuracy"],
+          ["Generate learning curves", "Saved MLP and PLA loss plots for visual comparison", "Loss curves show training dynamics and convergence behavior"],
+          ["Dataset preprocessing", "Loaded 3,410 handwritten character images from Kaggle dataset", "Normalized pixel values to [0,1], flattened 16x16 images into 256 features"]
+        ]
+      },
+      "widths": [100, 250, 200]
+    },
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "Implemented Perceptron Learning Algorithm from scratch, including the weight update rule and OvR strategy for multi-class",
+        "Built MLP models using sklearn, experimenting with different architectures, activation functions, and optimizers",
+        "Understood the impact of hyperparameter tuning on model convergence and classification accuracy",
+        "Compared linear (PLA) vs nonlinear (MLP) decision boundaries for handwritten character recognition",
+        "Generated and interpreted learning curves (loss vs. epochs) to diagnose training behavior"
+      ]
+    }
+  ]
+}

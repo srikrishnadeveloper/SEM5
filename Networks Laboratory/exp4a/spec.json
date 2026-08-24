@@ -1,0 +1,104 @@
+{
+  "title": "ASSIGNMENT \u2013 4",
+  "subtitle": "Simulation of Go-Back-N (GBN) ARQ Protocol Using Python (Reliable File Transfer in a Cloud Storage System)",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": [
+        "To simulate the Go-Back-N (GBN) Automatic Repeat reQuest (ARQ) protocol using a TCP client-server application. A cloud storage service transfers files between a central server and multiple client devices; frames may be lost or corrupted during transmission. In GBN ARQ, the sender transmits multiple frames inside a sliding window without waiting for individual acknowledgements, and on a timeout retransmits the lost frame together with every outstanding frame in the current window.",
+        "The server accepts clients concurrently using Python threads and simulates the receiver: it receives frames in sequence, sends cumulative acknowledgements, and can be configured to simulate frame loss and acknowledgement loss. The client takes the number of frames and window size as input and displays frames transmitted, acknowledgements received, retransmitted frames, and the final transmission status. The performance is then analyzed for error-free transmission, single-frame loss, multiple-frame loss, acknowledgement loss, and different window sizes."
+      ]
+    },
+    {
+      "heading": "ALGORITHM",
+      "bullets": [
+        "CLIENT (sender): read number of frames and window size; send one window of frames; wait for cumulative ACKs with a 1 s timeout.",
+        "CLIENT: on timeout, print the timed-out frame and retransmit the whole outstanding window from the current base; repeat until all frames are ACKed.",
+        "CLIENT: send DONE with the total frame count and print frames sent, retransmissions, ACKs received, and transmission efficiency.",
+        "SERVER (receiver): keep an expected sequence number; for an in-order frame send ACK n, unless the frame is configured to be lost (then print \"Frame n Lost\" and wait for its retransmission).",
+        "SERVER: on retransmission of a lost frame print \"Retransmitted Frame n Received\"; discard out-of-order frames; on duplicates resend the cumulative ACK.",
+        "SERVER: if the ACK for a frame is configured as lost, receive the frame but send no ACK so the sender times out."
+      ]
+    },
+    {
+      "heading": "SERVER CODE - gbn_server.py",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp4a/gbn_server.py",
+      "lang": "python"
+    },
+    {
+      "heading": "CLIENT CODE - gbn_client.py",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp4a/gbn_client.py",
+      "lang": "python"
+    },
+    {
+      "heading": "SERVER OUTPUT (TEST CASE 2 - SINGLE FRAME LOSS)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp4a/gbn_tc2_server.txt"
+    },
+    {
+      "heading": "TEST CASE 1 - CLIENT OUTPUT (ERROR-FREE TRANSMISSION)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp4a/gbn_tc1_client.txt"
+    },
+    {
+      "heading": "TEST CASE 2 - CLIENT OUTPUT (SINGLE FRAME LOSS)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp4a/gbn_tc2_client.txt"
+    },
+    {
+      "heading": "TEST CASE 3 - CLIENT OUTPUT (ACKNOWLEDGEMENT LOSS)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp4a/gbn_tc3_client.txt"
+    },
+    {
+      "heading": "TEST CASE 4 - CLIENT OUTPUT (MULTIPLE FRAME LOSS)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp4a/gbn_tc4_client.txt"
+    },
+    {
+      "heading": "TEST CASE 5 - CLIENT OUTPUT (WINDOW SIZE 2)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp4a/gbn_tc5_client.txt"
+    },
+    {
+      "heading": "PERFORMANCE COMPARISON",
+      "table": {
+        "headers": ["Test Case", "Frames", "Window", "Error Simulated", "Frames Sent", "Retransmissions", "ACKs", "Efficiency", "Observation"],
+        "rows": [
+          ["TC1", "8", "4", "None", "8", "0", "8", "100.00%", "No retransmission"],
+          ["TC2", "8", "4", "Frame 3 lost", "9", "4", "8", "88.89%", "Whole window 3-6 retransmitted"],
+          ["TC3", "6", "3", "ACK 2 lost", "7", "3", "6", "85.71%", "ACK loss causes timeout and retransmission"],
+          ["TC4", "10", "4", "Frames 2 and 7 lost", "15", "7", "10", "66.67%", "Two retransmission rounds"],
+          ["TC5", "8", "2", "Frame 5 lost", "9", "2", "8", "88.89%", "Smaller window, more windows and waiting"]
+        ],
+        "widths": [42, 38, 38, 72, 52, 62, 34, 52, 90]
+      }
+    },
+    {
+      "heading": "TASKS PERFORMED",
+      "table": {
+        "headers": ["Task", "Details", "Result"],
+        "rows": [
+          ["Threaded TCP server", "Receiver accepts multiple sender clients on 127.0.0.1:5006 with one thread per connection", "All five scenarios were served"],
+          ["Sliding window sender", "Client sends one window of frames at a time and waits for cumulative ACKs", "Windows of 4 and 2 frames transmitted"],
+          ["Frame loss simulation", "Server configured with lost frame numbers (3; 2,7; 5)", "Sender timed out and retransmitted the outstanding window"],
+          ["ACK loss simulation", "Server received frame 2 but suppressed its ACK", "Sender timed out and retransmitted frames 2-4"],
+          ["Duplicate handling", "Receiver resends the cumulative ACK for duplicates", "ACK 2 was recovered after the retransmission"],
+          ["Statistics", "Client counted frames sent, retransmissions, ACKs and efficiency", "Efficiency ranged from 66.67% to 100.00%"]
+        ],
+        "widths": [85, 210, 185]
+      }
+    },
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "I implemented a sliding-window sender with cumulative ACKs and a 1 s retransmission timeout.",
+        "I simulated frame loss, ACK loss, and out-of-order discarding at the receiver.",
+        "I observed that one lost frame forces the retransmission of the whole window.",
+        "I observed that smaller windows increase the number of windows but limit retransmission overhead.",
+        "I computed transmission efficiency from real runs (100% error-free down to 66.67% with two losses).",
+        "I learned that multiple frames in one TCP chunk must be separated with a line-based protocol."
+      ]
+    }
+  ]
+}

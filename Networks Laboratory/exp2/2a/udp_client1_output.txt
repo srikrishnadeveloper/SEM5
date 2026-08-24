@@ -1,0 +1,10 @@
+UDP Client ready (connectionless, just sending datagrams).
+
+Enter Transaction Request: Account Verification - ACC1001
+Server Acknowledgment:
+Account Verification - ACC1001
+Enter Transaction Request: Transaction Confirmation - TXN45879
+Server Acknowledgment:
+Transaction Confirmation - TXN45879
+Enter Transaction Request: exit
+Sent exit. No connection to terminate.

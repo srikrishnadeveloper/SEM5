@@ -1,0 +1,8 @@
+Enter Roll Number: 3122245001002
+Server Response:
+Roll Number: 3122245001002
+Name: Priya Sharma
+Department: ECE
+Semester: 4
+CGPA: 7.89
+Disconnected from Server.

@@ -42,6 +42,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
     Flowable,
     Image,
+    KeepTogether,
     ListFlowable,
     ListItem,
     PageBreak,
@@ -79,6 +80,8 @@ MARGIN_T = 24 * mm
 MARGIN_B = 18 * mm
 BORDER_INSET = 9 * mm
 CONTENT_W = PAGE_W - MARGIN_L - MARGIN_R
+FRAME_H = PAGE_H - MARGIN_T - MARGIN_B
+KEEP_GROUP_LIMIT = 180  # pt: keep heading + block together when group is this small
 
 PY_KEYWORDS = {
     "False", "None", "True", "and", "as", "assert", "async", "await", "break",
@@ -272,6 +275,8 @@ def _styles(plain):
                                        alignment=TA_CENTER, spaceAfter=10, textColor=colors.black),
             "h2": ParagraphStyle("h2", fontName="Times-Bold", fontSize=13, leading=16,
                                  spaceBefore=12, spaceAfter=5, textColor=colors.black),
+            "h3": ParagraphStyle("h3", fontName="Times-Bold", fontSize=12, leading=15,
+                                 spaceBefore=10, spaceAfter=4, textColor=colors.black),
             "body": ParagraphStyle("b", fontName="Times-Roman", fontSize=11, leading=15,
                                    alignment=TA_JUSTIFY, spaceAfter=6),
             "caption": ParagraphStyle("c", fontName="Times-Italic", fontSize=9.5, leading=12,
@@ -287,6 +292,8 @@ def _styles(plain):
                                    alignment=TA_CENTER, spaceAfter=12, textColor=ACCENT),
         "h2": ParagraphStyle("h2", fontName="Poppins-SemiBold", fontSize=13, leading=17,
                              spaceBefore=14, spaceAfter=6, textColor=HEADING),
+        "h3": ParagraphStyle("h3", fontName="Poppins-SemiBold", fontSize=11.5, leading=15,
+                             spaceBefore=12, spaceAfter=5, textColor=HEADING),
         "body": ParagraphStyle("b", fontName="Poppins", fontSize=10.5, leading=15,
                                alignment=TA_JUSTIFY, spaceAfter=6, textColor=colors.HexColor("#1A1A1A")),
         "caption": ParagraphStyle("c", fontName="Poppins-Italic", fontSize=9, leading=12,
@@ -340,16 +347,41 @@ class CodeBlock(Flowable):
             y -= self.line_h
         c.restoreState()
 
+    def split(self, aW, aH):
+        if aH >= self.height or len(self.lines) <= 1:
+            return []
+        pad_eff = max(4.0, min(self.pad, (aH - self.line_h - 2) / 2))
+        n = int((aH - 2 * pad_eff - 2) / self.line_h)
+        if n < 1:
+            return []
+        return [
+            CodeBlock(self.lines[:n], self.width, self.plain, self.font_size, pad_eff),
+            CodeBlock(self.lines[n:], self.width, self.plain, self.font_size, self.pad),
+        ]
+
+    def split_fill(self, aH):
+        """Split so the top piece fills aH with as many lines as fit, using
+        reduced padding when the space is tight. Needs at least 1 line."""
+        if aH < self.line_h + 2 * 4 + 2:
+            return None
+        pad_eff = max(4.0, min(self.pad, (aH - self.line_h - 2) / 2))
+        n = int((aH - 2 * pad_eff - 2) / self.line_h)
+        if n < 1 or n >= len(self.lines):
+            return None
+        top = CodeBlock(self.lines[:n], self.width, self.plain, self.font_size, pad_eff)
+        bottom = CodeBlock(self.lines[n:], self.width, self.plain, self.font_size, self.pad)
+        return (top, bottom)
+
 
 class OutputBlock(Flowable):
     """Light-gray monospace block for captured real output."""
 
-    def __init__(self, text, width, plain=False, font_size=8.5):
+    def __init__(self, text, width, plain=False, font_size=8.5, pad=10):
         super().__init__()
         self.text = text.rstrip("\n")
         self.width = width
         self.plain = plain
-        self.pad = 10
+        self.pad = pad
         self.font_size = font_size
         self.leading = font_size * 1.45
         self.line_h = self.leading + 1
@@ -360,7 +392,29 @@ class OutputBlock(Flowable):
             self.leading = self.font_size * 1.45
             self.line_h = self.leading + 1
             maxw = max((pdfmetrics.stringWidth(l, "Code", self.font_size) for l in lines), default=0)
-        self.height = len(lines) * self.line_h + self.pad * 2
+        # hard-wrap lines that are still wider than the box (shrink hit its floor)
+        max_content_w = self.width - 2 * self.pad
+        self.wrapped = []
+        for line in lines:
+            if pdfmetrics.stringWidth(line, "Code", self.font_size) <= max_content_w:
+                self.wrapped.append([line])
+            else:
+                self.wrapped.append(self._hard_wrap(line, max_content_w, self.font_size))
+        n_lines = sum(len(w) for w in self.wrapped)
+        self.height = n_lines * self.line_h + self.pad * 2
+
+    @staticmethod
+    def _hard_wrap(line, max_w, font_size):
+        chunks = []
+        start = 0
+        n = len(line)
+        while start < n:
+            end = start + 1
+            while end <= n and pdfmetrics.stringWidth(line[start:end], "Code", font_size) <= max_w:
+                end += 1
+            chunks.append(line[start : end - 1])
+            start = end - 1
+        return chunks
 
     def draw(self):
         c = self.canv
@@ -371,10 +425,54 @@ class OutputBlock(Flowable):
         y = self.height - self.pad - self.font_size
         c.setFillColor(colors.black if self.plain else colors.HexColor("#333333"))
         c.setFont("Code", self.font_size)
-        for line in self.text.split("\n"):
-            c.drawString(x, y, line)
-            y -= self.line_h
+        for group in self.wrapped:
+            for chunk in group:
+                c.drawString(x, y, chunk)
+                y -= self.line_h
         c.restoreState()
+
+    def split(self, aW, aH):
+        if aH >= self.height or len(self.text.split("\n")) <= 1:
+            return []
+        pad_eff = max(4.0, min(self.pad, (aH - self.line_h - 2) / 2))
+        max_wrapped = int((aH - 2 * pad_eff - 2) / self.line_h)
+        if max_wrapped < 1:
+            return []
+        lines = self.text.split("\n")
+        n = 0
+        used = 0
+        while n < len(lines) and used + len(self.wrapped[n]) <= max_wrapped:
+            used += len(self.wrapped[n])
+            n += 1
+        if n == 0 or n >= len(lines):
+            return []
+        top = "\n".join(lines[:n])
+        bottom = "\n".join(lines[n:])
+        return [
+            OutputBlock(top, self.width, self.plain, self.font_size, pad=pad_eff),
+            OutputBlock(bottom, self.width, self.plain, self.font_size),
+        ]
+
+    def split_fill(self, aH):
+        """Split so the top piece fills aH with as many wrapped lines as fit,
+        using reduced padding when the space is tight. Needs at least 1 line."""
+        if aH < self.line_h + 2 * 4 + 2:
+            return None
+        pad_eff = max(4.0, min(self.pad, (aH - self.line_h - 2) / 2))
+        max_wrapped = int((aH - 2 * pad_eff - 2) / self.line_h)
+        if max_wrapped < 1:
+            return None
+        lines = self.text.split("\n")
+        n = 0
+        used = 0
+        while n < len(lines) and used + len(self.wrapped[n]) <= max_wrapped:
+            used += len(self.wrapped[n])
+            n += 1
+        if n == 0 or n >= len(lines):
+            return None
+        top = OutputBlock("\n".join(lines[:n]), self.width, self.plain, self.font_size, pad=pad_eff)
+        bottom = OutputBlock("\n".join(lines[n:]), self.width, self.plain, self.font_size)
+        return (top, bottom)
 
 
 def _section_label(text, style, plain):
@@ -383,6 +481,65 @@ def _section_label(text, style, plain):
     # small pill-ish label with accent underline
     p = Paragraph(text, style)
     return p
+
+
+class HeadingBlock(Flowable):
+    """Heading + block kept together. When the remaining page space can fit the
+    heading plus at least two block lines, the block is split (with adaptive
+    padding) so the leftover space is filled and the heading is never left
+    alone at the bottom of a page. When even two lines do not fit, the whole
+    group moves to the next page, leaving only a small tail."""
+
+    def __init__(self, heading_p, block):
+        super().__init__()
+        self.heading = heading_p
+        self.block = block
+        sb = getattr(heading_p.style, "spaceBefore", 0)
+        sa = getattr(heading_p.style, "spaceAfter", 0)
+        _, text_h = heading_p.wrap(block.width, 1e9)
+        self.heading_h = text_h + sb + sa
+        self.block_h = block.height
+        self.total_h = self.heading_h + self.block_h
+
+    def wrap(self, aW, aH):
+        self._width = aW
+        self._height = self.total_h
+        return (aW, self.total_h)
+
+    def draw(self):
+        c = self.canv
+        sb = getattr(self.heading.style, "spaceBefore", 0)
+        text_h = self.heading_h - sb - getattr(self.heading.style, "spaceAfter", 0)
+        self.heading.drawOn(c, 0, self.total_h - sb - text_h)
+        self.block.drawOn(c, 0, 0)
+
+    def split(self, aW, aH):
+        if self.total_h <= aH:
+            return [self.heading, self.block]
+        space = aH - self.heading_h
+        pieces = self.block.split_fill(space)
+        if pieces:
+            return [self.heading, pieces[0], pieces[1]]
+        return []
+
+
+def _keep_heading_block(heading_p, block, story):
+    """Attach a heading to its block when the heading is the last item in the
+    story, so the heading can never be left alone at the bottom of a page.
+    Uses HeadingBlock (split-aware) for code/output blocks and plain
+    KeepTogether for small bullet lists."""
+    if heading_p is not None and story and story[-1] is heading_p:
+        if isinstance(block, ListFlowable):
+            if block.height <= KEEP_GROUP_LIMIT:
+                story.pop()
+                story.append(KeepTogether([heading_p, block]))
+            else:
+                story.append(block)
+        else:
+            story.pop()
+            story.append(HeadingBlock(heading_p, block))
+    else:
+        story.append(block)
 
 
 # ------------------------------------------------------------ document
@@ -400,6 +557,26 @@ def _normalise_paragraph(text):
 def build(spec, out_pdf):
     plain = bool(spec.get("plain", False))
     S = _styles(plain)
+
+    table_header_style = ParagraphStyle(
+        "th",
+        fontName="Times-Bold" if plain else "Poppins-SemiBold",
+        fontSize=10 if plain else 9.5,
+        leading=13,
+        textColor=colors.black if plain else HEADING,
+        alignment=TA_CENTER,
+        spaceBefore=0,
+        spaceAfter=0,
+    )
+    table_body_style = ParagraphStyle(
+        "tb",
+        fontName="Times-Roman" if plain else "Poppins",
+        fontSize=10 if plain else 9.5,
+        leading=13,
+        textColor=colors.black if plain else colors.HexColor("#1A1A1A"),
+        spaceBefore=0,
+        spaceAfter=0,
+    )
 
     # metadata ---------------------------------------------------------
     name = spec.get("name")
@@ -461,8 +638,12 @@ def build(spec, out_pdf):
         if sec.get("page_break"):
             story.append(PageBreak())
             continue
+        heading_p = None
         if sec.get("heading"):
-            story.append(Paragraph(_normalise_paragraph(sec["heading"]), S["h2"]))
+            heading_p = Paragraph(_normalise_paragraph(sec["heading"]), S["h2"])
+            story.append(heading_p)
+        if sec.get("subheading"):
+            story.append(Paragraph(_normalise_paragraph(sec["subheading"]), S["h3"]))
         if sec.get("paragraph"):
             for para in (sec["paragraph"] if isinstance(sec["paragraph"], list) else [sec["paragraph"]]):
                 story.append(Paragraph(_normalise_paragraph(para), S["body"]))
@@ -470,42 +651,54 @@ def build(spec, out_pdf):
             content = _read(sec["code_file"], "code")
             lines = content.rstrip("\n").split("\n")
             tokenized = _tokenize_python(lines) if sec.get("lang", "python") == "python" else _tokenize_generic(lines)
-            for i in range(0, len(tokenized), 40):
-                story.append(CodeBlock(tokenized[i : i + 40], CONTENT_W, plain=plain))
-                story.append(Spacer(1, 6))
+            _keep_heading_block(heading_p, CodeBlock(tokenized, CONTENT_W, plain=plain), story)
+            story.append(Spacer(1, 6))
         elif sec.get("code"):
             lines = sec["code"].rstrip("\n").split("\n")
             tokenized = _tokenize_python(lines) if sec.get("lang", "python") == "python" else _tokenize_generic(lines)
-            for i in range(0, len(tokenized), 40):
-                story.append(CodeBlock(tokenized[i : i + 40], CONTENT_W, plain=plain))
-                story.append(Spacer(1, 6))
+            _keep_heading_block(heading_p, CodeBlock(tokenized, CONTENT_W, plain=plain), story)
+            story.append(Spacer(1, 6))
         if sec.get("output_file"):
-            story.append(OutputBlock(_read(sec["output_file"], "output"), CONTENT_W, plain=plain))
+            out_text = _read(sec["output_file"], "output")
+            out_lines = out_text.rstrip("\n").split("\n")
+            _keep_heading_block(heading_p, OutputBlock("\n".join(out_lines), CONTENT_W, plain=plain), story)
             story.append(Spacer(1, 8))
         elif sec.get("output"):
-            story.append(OutputBlock(sec["output"], CONTENT_W, plain=plain))
+            out_lines = sec["output"].rstrip("\n").split("\n")
+            _keep_heading_block(heading_p, OutputBlock("\n".join(out_lines), CONTENT_W, plain=plain), story)
             story.append(Spacer(1, 8))
-        if sec.get("plots"):
-            for pl in sec["plots"]:
+        images = sec.get("plots") or sec.get("screenshots")
+        if images:
+            first_image = True
+            for pl in images:
                 img_path = pl.get("image", pl if isinstance(pl, str) else "")
                 if not os.path.isfile(img_path):
-                    print("WARNING: plot image not found, skipped: %s" % img_path)
+                    print("WARNING: image not found, skipped: %s" % img_path)
                     continue
                 img = Image(img_path)
                 ratio = img.imageWidth / max(img.imageHeight, 1)
-                target_h = 85 * mm if not plain else 80 * mm
+                target_h = 100 * mm if not plain else 85 * mm
                 img.drawWidth = target_h * ratio
                 img.drawHeight = target_h
-                if img.drawWidth > CONTENT_W - 10:
-                    img.drawWidth = CONTENT_W - 10
+                if img.drawWidth > CONTENT_W - 4:
+                    img.drawWidth = CONTENT_W - 4
                     img.drawHeight = img.drawWidth / ratio
-                story.append(img)
-                if pl.get("caption"):
-                    story.append(Paragraph(_normalise_paragraph(pl["caption"]), S["caption"]))
+                cap = Paragraph(_normalise_paragraph(pl["caption"]), S["caption"]) if pl.get("caption") else None
+                if first_image and heading_p and story and story[-1] is heading_p:
+                    story.pop()
+                    group = [heading_p, img]
+                    if cap:
+                        group.append(cap)
+                    story.append(KeepTogether(group))
+                    first_image = False
+                else:
+                    story.append(img)
+                    if cap:
+                        story.append(cap)
         if sec.get("table"):
             t = sec["table"]
-            headers = t["headers"]
-            rows = [[_normalise_paragraph(str(c)) for c in row] for row in t["rows"]]
+            headers = [Paragraph(_normalise_paragraph(str(h)), table_header_style) for h in t["headers"]]
+            rows = [[Paragraph(_normalise_paragraph(str(c)), table_body_style) for c in row] for row in t["rows"]]
             data = [headers] + rows
             widths = t.get("widths")
             table = Table(data, colWidths=widths, repeatRows=1)
@@ -544,13 +737,14 @@ def build(spec, out_pdf):
                 ListItem(Paragraph(_normalise_paragraph(b), S["bullet"]), leftIndent=10)
                 for b in sec["bullets"]
             ]
-            story.append(ListFlowable(
+            lst = ListFlowable(
                 bullets,
                 bulletType="bullet",
-                start="bullet",
                 leftIndent=16,
                 bulletFontName="Poppins-SemiBold" if not plain else "Times-Bold",
-            ))
+            )
+            lst.height = len(bullets) * (S["bullet"].leading + S["bullet"].spaceAfter)
+            _keep_heading_block(heading_p, lst, story)
             story.append(Spacer(1, 4))
 
     doc.build(story, onFirstPage=on_page, onLaterPages=on_page)

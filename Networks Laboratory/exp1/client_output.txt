@@ -1,3 +1,0 @@
-Connected to server
-Enter your message to server : Server says :  hi this is Server
-Enter your message to server : Server says :  It's my pleasure

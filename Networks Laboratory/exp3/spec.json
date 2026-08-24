@@ -1,0 +1,142 @@
+{
+  "title": "ASSIGNMENT \u2013 3",
+  "subtitle": "TCP Client\u2013Server Applications for Checksum- and CRC-Based Error Detection",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": [
+        "To develop two TCP client-server applications in Python for error detection over the network. Assignment 3a protects online banking transactions using the 1's Complement Checksum technique: the client computes the checksum of the data words and sends data plus checksum to a threaded bank server, which verifies integrity before processing. Assignment 3b protects video frames in a smart city traffic surveillance system using the Cyclic Redundancy Check (CRC) technique: the client computes the CRC remainder by XOR division with a generator polynomial, appends it to the frame, and a threaded monitoring server re-divides the received frame and accepts it only if the remainder is zero.",
+        "Both applications simulate transmission errors (error-free, single-bit, multiple-bit, and burst) so the effectiveness of each technique can be analyzed."
+      ]
+    },
+    {
+      "heading": "PART 3a - SERVER CODE (CHECKSUM) - checksum_server.py",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3a_checksum/checksum_server.py",
+      "lang": "python"
+    },
+    {
+      "heading": "PART 3a - CLIENT CODE (CHECKSUM) - checksum_client.py",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3a_checksum/checksum_client.py",
+      "lang": "python"
+    },
+    {
+      "heading": "PART 3a - SERVER OUTPUT",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3a_checksum/checksum_server_output.txt"
+    },
+    {
+      "heading": "PART 3a - TEST CASE 1 (NO ERROR)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3a_checksum/checksum_client1_output.txt"
+    },
+    {
+      "heading": "PART 3a - TEST CASE 2 (SINGLE-BIT ERROR)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3a_checksum/checksum_client2_output.txt"
+    },
+    {
+      "heading": "PART 3a - TEST CASE 3 (MULTIPLE-BIT ERROR)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3a_checksum/checksum_client3_output.txt"
+    },
+    {
+      "heading": "PART 3a - TEST CASE 4 (TEXT MESSAGE)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3a_checksum/checksum_client4_output.txt"
+    },
+    {
+      "heading": "PART 3a - TEST CASE 5 (BANKING TRANSACTION)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3a_checksum/checksum_client5_output.txt"
+    },
+    {
+      "heading": "PART 3a - TEST CASE RESULTS",
+      "table": {
+        "headers": ["Test Case", "Data Sent", "Checksum", "Error Introduced", "Server Result"],
+        "rows": [
+          ["1 - No error", "10101010, 11001100, 11110000", "10010111", "None", "Valid - Transaction Processed Successfully"],
+          ["2 - Single-bit error", "10101010, 11011100, 11110000", "10010111", "One bit flipped in word 2", "Corrupted - Transaction Rejected"],
+          ["3 - Multiple-bit error", "10001010, 11011100, 11110010", "10010111", "One bit flipped in each word", "Corrupted - Transaction Rejected"],
+          ["4 - Text message", "\"Transaction: ACC1001 Deposit Rs.5000\"", "10111011", "None", "Valid - Transaction Processed Successfully"],
+          ["5 - Banking app", "\"ACC1001 TXN45896 Amount 2500\"", "11001010", "None", "Valid - Transaction Processed Successfully"]
+        ],
+        "widths": [72, 118, 55, 92, 143]
+      }
+    },
+    {
+      "heading": "PART 3b - SERVER CODE (CRC) - crc_server.py",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3b_crc/crc_server.py",
+      "lang": "python"
+    },
+    {
+      "heading": "PART 3b - CLIENT CODE (CRC) - crc_client.py",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3b_crc/crc_client.py",
+      "lang": "python"
+    },
+    {
+      "heading": "PART 3b - SERVER OUTPUT",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3b_crc/crc_server_output.txt"
+    },
+    {
+      "heading": "PART 3b - TEST CASE 1 (NO ERROR)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3b_crc/crc_client1_output.txt"
+    },
+    {
+      "heading": "PART 3b - TEST CASE 2 (SINGLE-BIT ERROR)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3b_crc/crc_client2_output.txt"
+    },
+    {
+      "heading": "PART 3b - TEST CASE 3 (MULTIPLE-BIT ERROR)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3b_crc/crc_client3_output.txt"
+    },
+    {
+      "heading": "PART 3b - TEST CASE 4 (BURST ERROR)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3b_crc/crc_client4_output.txt"
+    },
+    {
+      "heading": "PART 3b - TEST CASE 5 (NO ERROR, SHORT FRAME)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp3/3b_crc/crc_client5_output.txt"
+    },
+    {
+      "heading": "PART 3b - TEST CASE RESULTS",
+      "table": {
+        "headers": ["Test Case", "Data Frame / Generator", "CRC Remainder", "Error Introduced", "Server Result"],
+        "rows": [
+          ["1 - No error", "1101011011 / 10011", "1110", "None", "CRC remainder zero - Frame Accepted"],
+          ["2 - Single-bit error", "1101011011 / 10011", "1110", "One bit flipped (1101010011)", "CRC remainder non-zero - Frame Rejected"],
+          ["3 - Multiple-bit error", "1011101010 / 1101", "001", "Two bits flipped (1001100010)", "CRC remainder non-zero - Frame Rejected"],
+          ["4 - Burst error", "111001101010 / 10011", "0101", "4-bit burst flipped (111000010010)", "CRC remainder non-zero - Frame Rejected"],
+          ["5 - No error", "100100 / 1101", "001", "None", "CRC remainder zero - Frame Accepted"]
+        ],
+        "widths": [72, 105, 65, 118, 120]
+      }
+    },
+    {
+      "heading": "TASKS PERFORMED",
+      "table": {
+        "headers": ["Task", "Details", "Result"],
+        "rows": [
+          ["3a - Compute checksum", "1's complement sum of the 8-bit words with carry wrap-around, then bitwise inversion", "Checksums 10010111, 10111011 and 11001010 produced by the clients"],
+          ["3a - Error detection", "Single-bit and multiple-bit errors flipped before verification", "Both error patterns detected, transactions rejected"],
+          ["3a - Error-free traffic", "Binary words, text message and banking transaction sent clean", "All verified as valid and processed successfully"],
+          ["3b - Compute CRC", "XOR long division of the data frame (zero-padded) by the generator polynomial", "Remainders 1110 (10011), 001 and 0101 (1101) computed"],
+          ["3b - Error detection", "Single-bit, multiple-bit and burst errors flipped before verification", "All three patterns detected, frames rejected"],
+          ["3b - Error-free traffic", "Full frame divides evenly by the generator polynomial", "Remainder zero at server, frames accepted"],
+          ["Threaded servers", "One thread per accepted connection on ports 5004 and 5005", "All five clients per part were served concurrently"]
+        ],
+        "widths": [80, 205, 195]
+      }
+    },
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "I computed the 1's complement checksum with carry wrap-around and bitwise inversion.",
+        "I implemented CRC generation and verification using XOR long division in Python.",
+        "I built threaded TCP servers that verify integrity before processing data.",
+        "I detected single-bit, multiple-bit, and burst errors with both techniques.",
+        "I concluded that CRC catches burst errors well and suits multimedia and real-time traffic data.",
+        "I observed that a print lock is needed when multiple client threads log to the same console."
+      ]
+    }
+  ]
+}

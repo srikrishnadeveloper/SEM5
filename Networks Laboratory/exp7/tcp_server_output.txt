@@ -1,0 +1,115 @@
+========== TC1 ==========
+Segment S1 Received
+Buffer Occupancy : 1 KB
+Advertised Window : 7 KB
+ACK S1 Sent
+Processing Data...
+Buffer Occupancy : 0 KB
+Advertised Window : 8 KB
+Segment S2 Received
+Buffer Occupancy : 1 KB
+Advertised Window : 7 KB
+ACK S2 Sent
+Processing Data...
+Buffer Occupancy : 0 KB
+Advertised Window : 8 KB
+Segment S3 Received
+Buffer Occupancy : 1 KB
+Advertised Window : 7 KB
+ACK S3 Sent
+Processing Data...
+Buffer Occupancy : 0 KB
+Advertised Window : 8 KB
+Segment S4 Received
+Buffer Occupancy : 1 KB
+Advertised Window : 7 KB
+ACK S4 Sent
+Processing Data...
+Buffer Occupancy : 0 KB
+Advertised Window : 8 KB
+Segment S5 Received
+Buffer Occupancy : 1 KB
+Advertised Window : 7 KB
+ACK S5 Sent
+Processing Data...
+Buffer Occupancy : 0 KB
+Advertised Window : 8 KB
+Segment S6 Received
+Buffer Occupancy : 1 KB
+Advertised Window : 7 KB
+ACK S6 Sent
+Processing Data...
+Buffer Occupancy : 0 KB
+Advertised Window : 8 KB
+Segment S7 Received
+Buffer Occupancy : 1 KB
+Advertised Window : 7 KB
+ACK S7 Sent
+Processing Data...
+Buffer Occupancy : 0 KB
+Advertised Window : 8 KB
+Segment S8 Received
+Buffer Occupancy : 1 KB
+Advertised Window : 7 KB
+ACK S8 Sent
+Processing Data...
+Buffer Occupancy : 0 KB
+Advertised Window : 8 KB
+Segment S9 Received
+Buffer Occupancy : 1 KB
+Advertised Window : 7 KB
+ACK S9 Sent
+Processing Data...
+Buffer Occupancy : 0 KB
+Advertised Window : 8 KB
+Segment S10 Received
+Buffer Occupancy : 1 KB
+Advertised Window : 7 KB
+ACK S10 Sent
+Processing Data...
+Buffer Occupancy : 0 KB
+Advertised Window : 8 KB
+Segments Received            : 10
+Segments Processed           : 10
+ACKs Generated               : 10
+Average Buffer Occupancy     : 0.50 KB
+Maximum Buffer Occupancy     : 1 KB
+Average Advertised Window    : 7.50 KB
+Full Buffer Events           : 0
+
+========== TC2 ==========
+Segments Received            : 20
+Segments Processed           : 20
+ACKs Generated               : 20
+Average Buffer Occupancy     : 2.90 KB
+Maximum Buffer Occupancy     : 4 KB
+Average Advertised Window    : 1.10 KB
+Full Buffer Events           : 13
+
+========== TC3 ==========
+Segments Received            : 20
+Segments Processed           : 20
+ACKs Generated               : 20
+Average Buffer Occupancy     : 1.45 KB
+Maximum Buffer Occupancy     : 2 KB
+Average Advertised Window    : 0.55 KB
+Full Buffer Events           : 19
+
+========== TC4 ==========
+Segments Received            : 20
+Segments Processed           : 20
+ACKs Generated               : 20
+Average Buffer Occupancy     : 3.85 KB
+Maximum Buffer Occupancy     : 7 KB
+Average Advertised Window    : 4.15 KB
+Full Buffer Events           : 0
+
+========== TC5 ==========
+Segments Received            : 10
+Segments Processed           : 10
+ACKs Generated               : 10
+Average Buffer Occupancy     : 5.00 KB
+Maximum Buffer Occupancy     : 8 KB
+Average Advertised Window    : 3.00 KB
+Full Buffer Events           : 4
+

@@ -1,100 +1,79 @@
 
-# Import Libraries
+# ASSIGNMENT - 1 
+# Machine Learning EDA on Diabetes dataset
+# using NumPy, Pandas, Scikit-Learn and Matplotlib
 
 import pandas as pd
 import numpy as np
-from google.colab import files
-
 import matplotlib.pyplot as plt
 
-from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import StandardScaler
 
-from sklearn.feature_selection import mutual_info_classif
+#Load the dataset into Python using the Pandas library.
 
-from sklearn.model_selection import train_test_split
+df = pd.read_csv("Diabetes_prediction(2).csv")
+print("Dataset loaded succesfully\n")
 
-# ==========================================
-# Step 1 : Load Dataset
-# ==========================================
+#Display the first five records of the dataset.
 
-uploaded = files.upload()
+print("displaying first five record")
+print(df.head())
 
-df = pd.read_csv("Diabetes_prediction.csv")
+#Determine: Number of rows, Number of columns, Feature names, Target (label) column
 
-print("Dataset Loaded Successfully\n")
 
-# ==========================================
-# Step 2 : Display First Five Records
-# ==========================================
+print("Number of rows\n")
+print(df.shape[0])
 
-print("First Five Records")
-print(df.head(5))
+print("Number of colums\n")
+print(df.shape[1])
 
-# ==========================================
-# Step 3 : Dataset Information
-# ==========================================
+print("Feature Name\n")
+print(df.columns.tolist())  #to list to display it has list
 
-print("\nDataset Shape")
+print("Target(label) Column\n")
+print(df.columns[-1])
 
-print("Rows :", df.shape[0])
-print("Columns :", df.shape[1])
 
-print("\nFeature Names")
+#Data Preprocessing:
 
-print(df.columns.tolist())
+#Identify and handle missing values- Explain the method used to handle missing values.
 
-target = "Diagnosis"
+print("Missing values")
+print(df.isnull().sum()) #before
 
-print("\nTarget Column :", target)
+df.fillna(df.mean(numeric_only=True),inplace=True)
+# numeric_only=True is needed otherwise it might try to take mean of strings and crash
+#or
+# df = df.fillna(df.mean(numeric_only=True))
 
-# ==========================================
-# Step 4 : Check Missing Values
-# ==========================================
+print(df.isnull().sum()) #after
 
-print("\nMissing Values")
 
-print(df.isnull().sum())
 
-# Fill Missing Values
-
-for col in df.columns:
-
-    if df[col].dtype == "object":
-
-        df[col] = df[col].fillna(df[col].mode()[0])
-    else:
-
-        df[col] = df[col].fillna(df[col].median())
-
-print("\nMissing Values After Handling")
-
-print(df.isnull().sum())
-
-# ==========================================
-# Step 5 : Remove Irrelevant Features
-# ==========================================
-
-# Example:
-# If ID column exists remove it
+#Remove irrelevant features - Justify whether they should be removed.
 
 if "id" in df.columns:
-
-    df.drop("id", axis=1, inplace=True)
-
-    print("\nID column removed")
-
+    df.drop("id",axis=1,inplace=True)
+    print(" ID column removed\n")
 else:
+    print("No irrelevent feture found\n")
 
-    print("\nNo irrelevant feature found")
 
-# ==========================================
-# Step 6 : Encode Categorical Variables
-# ==========================================
+print("Duplicates Before Removal :", df.duplicated().sum())
 
-encoder = LabelEncoder()
+df = df.drop_duplicates()
 
-categorical = df.select_dtypes(include="object").columns
+print("Duplicates After Removal :", df.duplicated().sum())
+
+
+# Encode categorical variables - Justify the technique used for encoding
+
+from sklearn.preprocessing import LabelEncoder
+
+encoder = LabelEncoder() #object
+
+
+categorical = df.select_dtypes(include="object").columns # the column at end = only show column name
 
 for col in categorical:
 
@@ -102,116 +81,115 @@ for col in categorical:
 
 print("\nCategorical Features Encoded")
 
-# ==========================================
-# Step 7 : Normalize / Standardize
-# ==========================================
 
+from sklearn.preprocessing import StandardScaler
+
+# Create scaler object
 scaler = StandardScaler()
 
-features = df.drop(target, axis=1)
+# Only scale input features
+numerical_features = [
+    "Pregnancies",
+    "Glucose",
+    "BloodPressure",
+    "SkinThickness",
+    "Insulin",
+    "BMI",
+    "DiabetesPedigreeFunction",
+    "Age" 
+    #the target feture should not be mentioned here don't make that mistake
+]
 
-scaled_features = scaler.fit_transform(features)
+df[numerical_features] = scaler.fit_transform(df[numerical_features])
 
-X = pd.DataFrame(scaled_features, columns=features.columns)
+print(df.head())
 
-y = df[target]
+# Correlation Matrix
+correlation = df.corr(numeric_only=True)
 
-print("\nNumerical Features Standardized")
+print(correlation)
 
-# ==========================================
-# Step 8 : Correlation Coefficient
-# ==========================================
+print("\nCorrelation with Target Variable:")
+print(correlation["Diagnosis"].sort_values(ascending=False))
 
-correlation = df.corr()
 
-corr_target = correlation[target].sort_values(ascending=False)
+#Mutual Information
+from sklearn.feature_selection import mutual_info_classif
+X = df.drop("Diagnosis",axis=1)
+y = df["Diagnosis"]
 
-print("\nCorrelation with Target")
+mi = mutual_info_classif(X,y)
+mi_scores = pd.Series(mi,index=X.columns)
+print("Mutual Infromation Scores")
+print(mi_scores.sort_values(ascending=False))
 
-print(corr_target)
 
-# ==========================================
-# Step 9 : Mutual Information
-# ==========================================
 
-mi = mutual_info_classif(X, y)
-
-mi_scores = pd.Series(mi, index=X.columns)
-
-mi_scores = mi_scores.sort_values(ascending=False)
-
-print("\nMutual Information Scores")
-
-print(mi_scores)
-
-# ==========================================
-# Step 10 : Important Features
-# ==========================================
+#Important Features - tabulating both metrics together to pick the top ones
 
 importance = pd.DataFrame({
-
     "Feature": X.columns,
-
-    "Correlation": corr_target.drop(target).values,
-
+    "Correlation": correlation["Diagnosis"].drop("Diagnosis").values,
     "Mutual Information": mi_scores.values
-
 })
 
-print("\nFeature Importance")
-
+print("Important Features")
 print(importance)
 
-# Top 5 Features
+print(mi_scores.head(10))
 
-print("\nTop 5 Important Features")
 
-print(mi_scores.head())
+#Exploratory Data Analysis (EDA) and Visualization: 
 
-# ==========================================
-# Step 11 : Summary Statistics
-# ==========================================
-
-print("\nSummary Statistics")
-
+#Summary statistics
+print("Summary statistics")
 print(df.describe())
 
-# ==========================================
-# Step 12 : Histogram
-# ==========================================
 
+#Histograms,
 df.hist(figsize=(14,10))
-
-plt.suptitle("Histogram of Features")
-
+plt.suptitle("Histogram of Fetures")
 plt.show()
 
-# ==========================================
-# Step 13 : Bar Chart
-# ==========================================
+#Bar Chart
 
-class_count = df[target].value_counts()
+# class_count = df["Diagnosis"].value_counts()
 
-plt.figure(figsize=(6,5))
+# plt.figure(figsize=(7,5))
 
-plt.bar(class_count.index.astype(str),
-        class_count.values,
-        color=["skyblue","orange"])
+# plt.bar(
+#     class_count.index.astype(str),
+#     class_count.values,
+#     color=["skyblue", "darkblue"]
+# )
 
+# plt.xlabel("Diagnosis")
+# plt.ylabel("Count")
+# plt.title("Target Distribution")
+
+# plt.show()
+
+class_count = df["Diagnosis"].value_counts()
+
+plt.figure(figsize=(7,5))
+
+plt.bar(
+    class_count.index.astype(str), # why astype(str) = bar display string well
+    class_count.values,
+    color=["skyblue","orange"]
+)
 plt.xlabel("Diagnosis")
-plt.ylabel("Count")
+plt.ylabel("count")
 plt.title("Target Distribution")
 
 plt.show()
 
-# ==========================================
-# Step 14 : Scatter Plot
-# ==========================================
+#Scatter Plot
 
 plt.figure(figsize=(7,5))
 
-diabetic = df[df[target]==1]
-non_diabetic = df[df[target]==0]
+diabetic = df[df["Diagnosis"]==1]
+non_diabetic = df[df["Diagnosis"]==0]
 
 plt.scatter(non_diabetic["Glucose"],
             non_diabetic["BMI"],
@@ -222,7 +200,7 @@ plt.scatter(diabetic["Glucose"],
             diabetic["BMI"],
             color="red",
             label="Diabetic")
-
+    
 plt.xlabel("Glucose")
 plt.ylabel("BMI")
 plt.title("Glucose vs BMI")
@@ -231,26 +209,20 @@ plt.legend()
 
 plt.show()
 
-# ==========================================
-# Step 15 : Box Plot
-# ==========================================
+
+# Box Plot
 
 plt.figure(figsize=(12,6))
-
 numeric_columns = df.select_dtypes(include=np.number).columns
-
 plt.boxplot([df[col] for col in numeric_columns],
-            labels=numeric_columns)
+            tick_labels=numeric_columns)
 
 plt.xticks(rotation=45)
-
 plt.title("Box Plot of Numerical Features")
 
 plt.show()
 
-# ==========================================
-# Step 16 : Heatmap
-# ==========================================
+#Heatmap
 
 corr = df.corr(numeric_only=True)
 
@@ -270,9 +242,9 @@ plt.yticks(range(len(corr.columns)),
 plt.title("Correlation Heatmap")
 
 plt.show()
-# ==========================================
-# Step 17 : Pair Plot
-# ==========================================
+
+#Pair Plot
+
 
 plt.figure(figsize=(6,5))
 
@@ -285,13 +257,11 @@ plt.title("Glucose vs BMI")
 
 plt.show()
 
-# ==========================================
-# Step 18 : Class Balance
-# ==========================================
+# Class Balance
 
 print("\nClass Distribution")
 
-count = df[target].value_counts()
+count = df["Diagnosis"].value_counts()
 
 plt.figure(figsize=(6,5))
 
@@ -305,13 +275,9 @@ plt.title("Class Distribution")
 
 plt.show()
 
-# ==========================================
-# Step 19 : Data Splitting
-# ==========================================
+# Data Splitting - 70% train, 15% validation, 15% test
 
-# Train = 70%
-# Validation = 15%
-# Test = 15%
+from sklearn.model_selection import train_test_split
 
 X_train, X_temp, y_train, y_temp = train_test_split(
 
@@ -320,7 +286,6 @@ X_train, X_temp, y_train, y_temp = train_test_split(
     y,
 
     test_size=0.30,
-
     random_state=42
 
 )
@@ -347,4 +312,4 @@ print(X_validation.shape)
 
 print("\nTesting Shape")
 
-print(X_test.shape)
+print(X_test.shape) 

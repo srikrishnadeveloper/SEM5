@@ -1,0 +1,10 @@
+Data frame: 111001101010
+Generator polynomial: 10011
+CRC remainder: 0101
+Transmitted frame (data + CRC): 1110011010100101
+Burst error introduced -> 111000010010
+Frame and polynomial sent to server...
+Server reply:
+CRC Verification Failed
+Error Detected
+Frame Rejected

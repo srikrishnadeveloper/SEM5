@@ -1,0 +1,10 @@
+Data frame: 1101011011
+Generator polynomial: 10011
+CRC remainder: 1110
+Transmitted frame (data + CRC): 11010110111110
+Single-bit error introduced -> 1101010011
+Frame and polynomial sent to server...
+Server reply:
+CRC Verification Failed
+Error Detected
+Frame Rejected

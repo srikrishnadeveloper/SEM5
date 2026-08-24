@@ -1,0 +1,85 @@
+{
+  "title": "ASSIGNMENT \u2013 5",
+  "subtitle": "Simulation of ARP (Address Resolution Protocol) Using Socket Programming",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": [
+        "To simulate the Address Resolution Protocol (ARP) using socket programming. The server acts as a host or router: it enters the packet details (source IP, source MAC, destination IP and 16-bit data), develops an ARP Request packet containing SourceIP | SourceMAC | DestinationIP, broadcasts it to all connected clients, and waits for an ARP Reply. When a reply carrying the Destination MAC address arrives, the server sends the packet to the matching destination with the format SourceIP | SourceMAC | DestinationIP | DestinationMAC | 16-bit data.",
+        "The client enters its own IP and MAC address. When an ARP Request is received it checks whether the Destination IP is its own IP; if not it stays silent, if yes it replies with SourceIP | SourceMAC | DestinationIP | DestinationMAC and then receives and displays the packet from the server. The validity of IP and MAC addresses is checked before any packet is processed."
+      ]
+    },
+    {
+      "heading": "ALGORITHM",
+      "bullets": [
+        "SERVER: validate destination IP, source IP, source MAC and 16-bit data.",
+        "SERVER: accept three clients, develop the ARP Request packet and broadcast it.",
+        "SERVER: poll for an ARP Reply, print the destination MAC and send the packet to it.",
+        "CLIENT: enter own IP and MAC; read the ARP Request and compare Destination IP with own IP.",
+        "CLIENT: if the IP matches, send the ARP Reply and display the packet from the server.",
+        "CLIENT: if the IP does not match, stay silent and send no reply."
+      ]
+    },
+    {
+      "heading": "SERVER CODE (HOST / ROUTER) - arp_server.py",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp5/arp_server.py",
+      "lang": "python"
+    },
+    {
+      "heading": "CLIENT CODE (END HOST) - arp_client.py",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp5/arp_client.py",
+      "lang": "python"
+    },
+    {
+      "heading": "SERVER OUTPUT",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp5/arp_server_output.txt"
+    },
+    {
+      "heading": "CLIENT 1 OUTPUT (IP DOES NOT MATCH)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp5/arp_client1_output.txt"
+    },
+    {
+      "heading": "CLIENT 2 OUTPUT (IP MATCHES, PACKET RECEIVED)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp5/arp_client2_output.txt"
+    },
+    {
+      "heading": "CLIENT 3 OUTPUT (IP DOES NOT MATCH)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp5/arp_client3_output.txt"
+    },
+    {
+      "heading": "VALIDITY CHECK OUTPUT (INVALID IP REJECTED)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp5/arp_validation_output.txt"
+    },
+    {
+      "heading": "TASKS PERFORMED",
+      "table": {
+        "headers": ["Task", "Details", "Result"],
+        "rows": [
+          ["Validate addresses", "Server checks IP format (0-255 per octet) and MAC format (XX-XX-XX-XX-XX-XX)", "Invalid IP 999.999.999.999 rejected before any broadcast"],
+          ["Connect clients", "Router server accepts three clients on 127.0.0.1:5007", "3 clients connected"],
+          ["ARP Request", "Packet 123.128.34.56 | AF-45-E5-00-97-12 | 155.157.65.128 developed and broadcast to all clients", "All three clients received the request"],
+          ["No-match clients", "Clients 1 and 3 compared the destination IP with their own IP", "Both printed \"IP address does not match.\" and stayed silent"],
+          ["Matching client", "Client 2 (155.157.65.128) matched the destination IP", "ARP Reply with MAC 45-DA-62-21-1A-B2 sent to the server"],
+          ["Packet delivery", "Server sent the packet to the replying client with the destination MAC appended", "Client 2 displayed the complete 5-field packet"]
+        ],
+        "widths": [80, 210, 190]
+      }
+    },
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "I broadcast an ARP request from a router server to all connected clients.",
+        "I implemented the client-side IP match check with silent behaviour for other hosts.",
+        "I delivered the packet only after the destination MAC was resolved.",
+        "I validated IP and MAC formats before processing any packet.",
+        "I observed that all clients must be connected before the broadcast."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+Banking Validation Server Started...
+Server listening on 127.0.0.1:5000
+Client Connected: ('127.0.0.1', 49254)
+Client ('127.0.0.1', 49254) disconnected.
+Client Connected: ('127.0.0.1', 49256)
+Client Connected: ('127.0.0.1', 49257)
+[Client 49256] Received: Balance Enquiry - ACC2005
+[Client 49256] Echo Sent: Balance Enquiry - ACC2005
+[Client 49257] Received: Account Verification - ACC1001
+[Client 49257] Echo Sent: Account Verification - ACC1001
+[Client 49256] Received: Mini Statement Request
+[Client 49256] Echo Sent: Mini Statement Request
+[Client 49257] Received: Transaction Confirmation - TXN45879
+[Client 49257] Echo Sent: Transaction Confirmation - TXN45879
+[Client 49256] Received: Fund Transfer Validation
+[Client 49256] Echo Sent: Fund Transfer Validation
+[Client 49257] Received: exit
+Client ('127.0.0.1', 49257) disconnected.
+[Client 49256] Received: exit
+Client ('127.0.0.1', 49256) disconnected.
+Client Connected: ('127.0.0.1', 49258)
+[Client 49258] Received: exit
+Client ('127.0.0.1', 49258) disconnected.

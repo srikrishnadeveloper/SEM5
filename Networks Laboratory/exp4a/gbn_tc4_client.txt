@@ -1,0 +1,22 @@
+Sending Frames: 0 1 2 3
+ACK Received: 0
+ACK Received: 1
+Timeout for Frame 2
+Retransmitting Frames: 2 3 4 5
+ACK Received: 2
+ACK Received: 3
+ACK Received: 4
+ACK Received: 5
+Sending Frames: 6 7 8 9
+ACK Received: 6
+Timeout for Frame 7
+Retransmitting Frames: 7 8 9
+ACK Received: 7
+ACK Received: 8
+ACK Received: 9
+Transmission Completed Successfully
+
+Frames Sent             : 15
+Frames Retransmitted    : 7
+ACKs Received           : 10
+Transmission Efficiency : 66.67%

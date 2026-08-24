@@ -1,0 +1,21 @@
+Go-Back-N Receiver Server Started (lost frames: [5], lost ack: -1)
+Server listening on 127.0.0.1:5006
+Client Connected: ('127.0.0.1', 50402)
+Frame 0 Received
+ACK 0 Sent
+Frame 1 Received
+ACK 1 Sent
+Frame 2 Received
+ACK 2 Sent
+Frame 3 Received
+ACK 3 Sent
+Frame 4 Received
+ACK 4 Sent
+Frame 5 Lost
+Retransmitted Frame 5 Received
+ACK 5 Sent
+Frame 6 Received
+ACK 6 Sent
+Frame 7 Received
+ACK 7 Sent
+All Frames Received Successfully

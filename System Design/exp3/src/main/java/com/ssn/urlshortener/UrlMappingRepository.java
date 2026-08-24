@@ -6,12 +6,10 @@
 
 package com.ssn.urlshortener;
 
-// swapped JpaRepository for MongoRepository when we moved off h2 to mongodb
-// PrimaryKey type also changed from Long to String since mongo ids are ObjectId strings
 import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
-public interface UrlMappingRepository extends MongoRepository<UrlMapping, String> { //MongoRepository<Document, PrimaryKey>
+public interface UrlMappingRepository extends MongoRepository<UrlMapping, String> {
 
     Optional<UrlMapping> findByShortCode(String shortCode);
     //return url mapping oject if found if not found nothing return optional insted of null this is by spring
