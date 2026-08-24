@@ -122,7 +122,7 @@ gridknn = GridSearchCV(
     n_jobs=1
 )
 
-start  =time.time()
+start =time.time()
 gridknn.fit(X_train_scaled,y_train)
 gridknntime = time.time() -start
 

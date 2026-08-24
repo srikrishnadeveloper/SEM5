@@ -174,6 +174,9 @@ axes[1].grid(True)
 plt.tight_layout()
 plt.show()
 
+fig,axes = plt.subplot(1,2,figsize(12,5))
+cm = confusion_matrix(y_test,y_pred)
+sns.heatmap
 
 # • Compare the performance of different SVM kernel functions. 
 
@@ -186,6 +189,8 @@ kernel_comparsion= (
     .rename(columns={"param_kernel":"Kernel","mean_test_score":"best cv accuracy"})
     .sort_values(by="best cv accuracy",ascending=False)
 )
+
+cv_result = pd.DataFrame(grid.cv_results__)
 
 print("svm kernel comparsion")
 print(kernel_comparsion.to_string(index=False))
