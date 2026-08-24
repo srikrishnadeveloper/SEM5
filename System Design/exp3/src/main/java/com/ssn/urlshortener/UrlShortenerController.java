@@ -42,15 +42,6 @@
 
 
 
-// $ "/c/Program Files/Memurai/memurai-cli.exe" CONFIG GET maxmemory-policy
-// "/c/Program Files/Memurai/memurai-cli.exe" CONFIG GET maxmemory
-
-// maxmemory-policy
-// allkeys-lru
-// maxmemory
-// 20971520 =20MB
-
-
 package com.ssn.urlshortener;
 
 import org.springframework.data.redis.core.StringRedisTemplate;

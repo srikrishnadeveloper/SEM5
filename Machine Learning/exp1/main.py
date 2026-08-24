@@ -1,42 +1,78 @@
+# ASSIGNMENT - 1
+# Machine Learning EDA on Diabetes dataset
+# main.py - clean runnable version
+
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use("Agg")  # no GUI windows
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("Diabetes_prediction(2).csv")
-print("loaded")
+# Load dataset
 
+df = pd.read_csv("Diabetes_prediction(2).csv")
+print("Dataset loaded successfully\n")
+
+print("First Five Records")
 print(df.head())
 
+print("\nNumber of Rows")
 print(df.shape[0])
 
+print("\nNumber of Columns")
 print(df.shape[1])
 
+print("\nFeature Names")
 print(df.columns.tolist())
 
+# Identify target column
+
+target = "Diagnosis"
+print("\nTarget Column :", target)
+
+# Missing values
+
+print("\nMissing Values")
 print(df.isnull().sum())
-df.fillna(df.mean(numeric_only=True))
+
+df = df.fillna(df.mean(numeric_only=True))
+
+print("\nMissing Values After Handling")
+print(df.isnull().sum())
+
+# Remove irrelevant features
 
 if "id" in df.columns:
-    df.drop("id",axis=1,inplace=True)
+    df.drop("id", axis=1, inplace=True)
+    print("\nID column removed")
 else:
-    print("no irrelevent feture found")
+    print("\nNo irrelevant feature found")
 
+# Remove duplicates
+
+print("\nDuplicates Before Removal :", df.duplicated().sum())
 df = df.drop_duplicates()
+print("Duplicates After Removal :", df.duplicated().sum())
 
+# Encode categorical variables
 
 from sklearn.preprocessing import LabelEncoder
+
 encoder = LabelEncoder()
 categorical = df.select_dtypes(include="object").columns
 
 for col in categorical:
     df[col] = encoder.fit_transform(df[col])
-print("categorical Fetures encoded")
 
+print("\nCategorical Features Encoded")
+
+# Standardize numerical input features
 
 from sklearn.preprocessing import StandardScaler
+
 scaler = StandardScaler()
 
-numerical_fetures = [
+numerical_features = [
     "Pregnancies",
     "Glucose",
     "BloodPressure",
@@ -44,156 +80,139 @@ numerical_fetures = [
     "Insulin",
     "BMI",
     "DiabetesPedigreeFunction",
-    "Age" 
+    "Age"
 ]
-df[numerical_fetures] = scaler.fit_transform(df[numerical_fetures])
-print(df.head)
 
+df[numerical_features] = scaler.fit_transform(df[numerical_features])
+
+print("\nNumerical Features Standardized")
+print(df.head())
+
+# Correlation with target
 
 correlation = df.corr(numeric_only=True)
 
-print(correlation["Diagnosis"].sort_values(ascending=False))
+print("\nCorrelation with Target")
+print(correlation[target].sort_values(ascending=False))
 
-
+# Mutual information
 
 from sklearn.feature_selection import mutual_info_classif
-X = df.drop("Diagnosis",axis=1)
-y = df["Diagnosis"]
 
-mi = mutual_info_classif(X,y)
-mi_scores = pd.Series(mi,index=X.columns)
-print(mi_scores.sort_values(ascending=False))
+X = df.drop(target, axis=1)
+y = df[target]
+
+mi = mutual_info_classif(X, y)
+mi_scores = pd.Series(mi, index=X.columns)
+mi_scores = mi_scores.sort_values(ascending=False)
+
+print("\nMutual Information Scores")
+print(mi_scores)
+
+# Feature importance table
 
 importance = pd.DataFrame({
-    "Feture":X.columns,
-    "Correlation":correlation["Diagnosis"].drop("Diagnosis").values,
-    "Mutual information":mi_scores
-})
+    "Feature": X.columns,
+    "Correlation": correlation[target].loc[X.columns],
+    "Mutual Information": mi_scores.loc[X.columns]
+}).sort_values(by="Mutual Information", ascending=False)
 
+print("\nFeature Importance")
 print(importance)
+
+# EDA visualizations
+
+print("\nSummary Statistics")
 print(df.describe())
 
+# Histograms
 
+df.hist(figsize=(14, 10))
+plt.suptitle("Histogram of Features")
+plt.show()
 
+# Bar chart of target distribution
 
+class_count = df[target].value_counts()
 
+plt.figure(figsize=(6, 5))
+plt.bar(class_count.index.astype(str), class_count.values, color=["skyblue", "orange"])
+plt.xlabel("Diagnosis")
+plt.ylabel("Count")
+plt.title("Target Distribution")
+plt.show()
 
+# Scatter plot: Glucose vs BMI
 
+plt.figure(figsize=(7, 5))
 
+diabetic = df[df[target] == 1]
+non_diabetic = df[df[target] == 0]
 
+plt.scatter(non_diabetic["Glucose"], non_diabetic["BMI"], color="blue", label="Non-Diabetic")
+plt.scatter(diabetic["Glucose"], diabetic["BMI"], color="red", label="Diabetic")
 
+plt.xlabel("Glucose")
+plt.ylabel("BMI")
+plt.title("Glucose vs BMI")
+plt.legend()
+plt.show()
 
+# Box plot
 
+plt.figure(figsize=(12, 6))
+numeric_columns = df.select_dtypes(include=np.number).columns
+plt.boxplot([df[col] for col in numeric_columns], tick_labels=numeric_columns)
+plt.xticks(rotation=45)
+plt.title("Box Plot of Numerical Features")
+plt.show()
 
+# Heatmap
 
+corr = df.corr(numeric_only=True)
 
+plt.figure(figsize=(10, 8))
+plt.imshow(corr, cmap="coolwarm")
+plt.colorbar()
+plt.xticks(range(len(corr.columns)), corr.columns, rotation=90)
+plt.yticks(range(len(corr.columns)), corr.columns)
+plt.title("Correlation Heatmap")
+plt.show()
 
+# Pair plot
 
+plt.figure(figsize=(6, 5))
+plt.scatter(df["Glucose"], df["BMI"])
+plt.xlabel("Glucose")
+plt.ylabel("BMI")
+plt.title("Glucose vs BMI")
+plt.show()
 
+# Class balance
 
+print("\nClass Distribution")
 
+class_count = df[target].value_counts()
 
+plt.figure(figsize=(6, 5))
+plt.bar(class_count.index.astype(str), class_count.values, color=["green", "red"])
+plt.xlabel("Diagnosis")
+plt.ylabel("Number of Samples")
+plt.title("Class Distribution")
+plt.show()
 
+# Train / validation / test split
 
-# import pandas as pd
-# print(pd.__version__)
+from sklearn.model_selection import train_test_split
 
-# #to get label encoder from sckit
-# from sklearn.preprocessing import LabelEncoder
+X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.30, random_state=42)
+X_validation, X_test, y_validation, y_test = train_test_split(X_temp, y_temp, test_size=0.50, random_state=42)
 
-# from sklearn.preprocessing import StandardScaler # used to standardize
+print("\nTraining Shape")
+print(X_train.shape)
 
-# column_names = [
-#     "sepal_length",
-#     "sepal_width",
-#     "petal_length",
-#     "petal_width",
-#     "species"
-# ]
+print("\nValidation Shape")
+print(X_validation.shape)
 
-
-# df = pd.read_csv(
-#     "iris/iris.data",
-#     names=column_names
-# )
-
-# #to display first five record head() default =5
-# print(df.head())
-
-
-# #to display the no of rows
-# print(df.shape[0])
-
-# #to display the no of columns
-# print(df.shape[1])
-
-# #to display the feture name
-
-# print(df.dtypes)
-
-# #or using the df colums
-
-# print("Feature Name:",df.columns)
-
-# # to display the target label value
-# print("Target Label Value",df['species'].head(5))
-# #or 
-# print("Target Label\n\n",df.columns[-1])
-
-# #Data preprocessing
-
-
-# # Identify and handle missing values- Explain the method used to handle missing values
-
-# print("Dropping Null Value\n",df.dropna())
-
-
-# #Remove irrelevant features - Justify whether they should be removed.
-
-# print("Dropping Petal Length And Petal_Width\n\n")
-# # df = df.drop(columns=['petal_length','petal_width'])
-# # to verify the feture have been deleted
-# print(df.head())
-
-
-# #removing duplicates 
-# print(df.duplicated().sum()) #before
-# df = df.drop_duplicates()
-# print(df.duplicated().sum()) #after
-
-
-
-# #Encode categorical variables - Justify the technique used for encoding
-
-# encoder = LabelEncoder()
-
-# df["species"]= encoder.fit_transform(df["species"])
-
-
-# #Normalize or standardize numerical features.
-
-# # standarization
-
-# scaler = StandardScaler()
-
-# features = [
-#     "sepal_length",
-#     "sepal_width",
-#     "petal_length",
-#     "petal_width",
-#     "species"
-# ]
-
-# df[features] = scaler.fit_transform(df[features])
-# print(df.head())
-
-
-# # Compute the Correlation Coefficient and Mutual Information scores for all input features with respect to
-# # the target variable. Tabulate the results and identify the top ‘n’ important features
-
-
-# correlation = df.corr(numeric_only=True)
-# print("confusion Matrix")
-# print(correlation)
-
-# #pip install seaborn
+print("\nTesting Shape")
+print(X_test.shape)

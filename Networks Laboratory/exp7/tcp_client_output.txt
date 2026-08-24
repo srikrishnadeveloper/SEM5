@@ -1,0 +1,111 @@
+========== TC1 ==========
+TCP CLIENT SIMULATION
+Total Data        : 10 KB
+Segment Size      : 1 KB
+Initial Window    : 4 KB
+Sender Rate       : 2 KB/s
+Transmission Delay: 0.05 s
+
+Segment S1 Transmitted
+Segment S2 Transmitted
+Segment S3 Transmitted
+Segment S4 Transmitted
+Sender Waiting - Receiver Window Full
+ACK Received : S1
+Advertised Window : 7 KB
+Segment S5 Transmitted
+Sender Waiting - Receiver Window Full
+ACK Received : S2
+Advertised Window : 7 KB
+Segment S6 Transmitted
+Sender Waiting - Receiver Window Full
+ACK Received : S3
+Advertised Window : 7 KB
+Segment S7 Transmitted
+Sender Waiting - Receiver Window Full
+ACK Received : S4
+Advertised Window : 7 KB
+Segment S8 Transmitted
+Sender Waiting - Receiver Window Full
+ACK Received : S5
+Advertised Window : 7 KB
+Segment S9 Transmitted
+Sender Waiting - Receiver Window Full
+ACK Received : S6
+Advertised Window : 7 KB
+Segment S10 Transmitted
+ACK Received : S7
+Advertised Window : 7 KB
+ACK Received : S8
+Advertised Window : 7 KB
+ACK Received : S9
+Advertised Window : 7 KB
+ACK Received : S10
+Advertised Window : 7 KB
+Transmission Completed
+Total Segments Sent    : 10
+Total ACKs Received    : 10
+Total Waiting Events   : 6
+Total Transmission Time: 5.50 s
+Throughput             : 1.82 KB/s
+
+========== TC2 ==========
+TCP CLIENT SIMULATION
+Total Data        : 20 KB
+Segment Size      : 1 KB
+Initial Window    : 8 KB
+Sender Rate       : 8 KB/s
+Transmission Delay: 0.05 s
+
+Transmission Completed
+Total Segments Sent    : 20
+Total ACKs Received    : 20
+Total Waiting Events   : 16
+Total Transmission Time: 4.23 s
+Throughput             : 4.73 KB/s
+
+========== TC3 ==========
+TCP CLIENT SIMULATION
+Total Data        : 20 KB
+Segment Size      : 1 KB
+Initial Window    : 8 KB
+Sender Rate       : 8 KB/s
+Transmission Delay: 0.05 s
+
+Transmission Completed
+Total Segments Sent    : 20
+Total ACKs Received    : 20
+Total Waiting Events   : 18
+Total Transmission Time: 9.23 s
+Throughput             : 2.17 KB/s
+
+========== TC4 ==========
+TCP CLIENT SIMULATION
+Total Data        : 20 KB
+Segment Size      : 1 KB
+Initial Window    : 8 KB
+Sender Rate       : 8 KB/s
+Transmission Delay: 0.05 s
+
+Transmission Completed
+Total Segments Sent    : 20
+Total ACKs Received    : 20
+Total Waiting Events   : 12
+Total Transmission Time: 3.50 s
+Throughput             : 5.71 KB/s
+
+========== TC5 ==========
+TCP CLIENT SIMULATION
+Total Data        : 20 KB
+Segment Size      : 2 KB
+Initial Window    : 8 KB
+Sender Rate       : 8 KB/s
+Transmission Delay: 0.05 s
+
+Transmission Completed
+Total Segments Sent    : 10
+Total ACKs Received    : 10
+Total Waiting Events   : 6
+Total Transmission Time: 3.35 s
+Throughput             : 5.97 KB/s
+

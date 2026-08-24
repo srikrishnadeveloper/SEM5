@@ -1,0 +1,34 @@
+POST /api/resource (normal traffic - within limit)
+curl -i -X GET http://localhost:8080/api/resource
+
+HTTP/1.1 200 OK
+Content-Type: text/plain
+Request processed successfully
+
+POST /api/resource (burst traffic - exceeds limit)
+curl -i -X GET http://localhost:8080/api/resource
+
+HTTP/1.1 429 Too Many Requests
+Content-Type: text/plain
+HTTP 429 Too Many Requests: rate limit exceeded
+
+POST /api/resource (second burst attempt after reset)
+curl -i -X GET http://localhost:8080/api/resource
+
+HTTP/1.1 200 OK
+Content-Type: text/plain
+Request processed successfully
+
+GET /api/rate-limit-status
+curl -i -X GET http://localhost:8080/api/rate-limit-status
+
+HTTP/1.1 200 OK
+Content-Type: text/plain
+Remaining tokens: 85
+
+GET /api/health
+curl -i -X GET http://localhost:8080/api/health
+
+HTTP/1.1 200 OK
+Content-Type: text/plain
+Service is healthy

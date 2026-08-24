@@ -1,0 +1,27 @@
+Traffic Monitoring CRC Server Started...
+Server listening on 127.0.0.1:5005
+Client Connected: ('127.0.0.1', 62238)
+[Client 62238] Received frame: 11010110111110
+[Client 62238] Generator polynomial: 10011
+[Client 62238] CRC remainder zero, frame accepted
+Client ('127.0.0.1', 62238) disconnected.
+Client Connected: ('127.0.0.1', 62239)
+[Client 62239] Received frame: 11010100111110
+[Client 62239] Generator polynomial: 10011
+[Client 62239] CRC remainder non-zero, frame rejected
+Client ('127.0.0.1', 62239) disconnected.
+Client Connected: ('127.0.0.1', 62240)
+[Client 62240] Received frame: 1001100010001
+[Client 62240] Generator polynomial: 1101
+[Client 62240] CRC remainder non-zero, frame rejected
+Client ('127.0.0.1', 62240) disconnected.
+Client Connected: ('127.0.0.1', 62241)
+[Client 62241] Received frame: 1110000100100101
+[Client 62241] Generator polynomial: 10011
+[Client 62241] CRC remainder non-zero, frame rejected
+Client ('127.0.0.1', 62241) disconnected.
+Client Connected: ('127.0.0.1', 62242)
+[Client 62242] Received frame: 100100001
+[Client 62242] Generator polynomial: 1101
+[Client 62242] CRC remainder zero, frame accepted
+Client ('127.0.0.1', 62242) disconnected.

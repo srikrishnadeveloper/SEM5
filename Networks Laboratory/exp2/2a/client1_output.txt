@@ -1,0 +1,10 @@
+Connected to Banking Validation Server.
+
+Enter Transaction Request: Account Verification - ACC1001
+Server Acknowledgment:
+Account Verification - ACC1001
+Enter Transaction Request: Transaction Confirmation - TXN45879
+Server Acknowledgment:
+Transaction Confirmation - TXN45879
+Enter Transaction Request: exit
+Disconnected from Server.

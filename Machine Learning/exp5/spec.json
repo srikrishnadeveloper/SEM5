@@ -1,0 +1,67 @@
+{
+  "title": "ASSIGNMENT – 5",
+  "subtitle": "Binary Classification using Naive Bayes and K-Nearest Neighbors",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": "To implement Naive Bayes and K-Nearest Neighbors (KNN) classifiers for a binary classification problem, evaluate them using multiple performance metrics, visualize model behavior, and analyze overfitting, underfitting, and bias-variance characteristics."
+    },
+    {
+      "heading": "CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/Machine Learning/exp5/naive_knn.py",
+      "lang": "python"
+    },
+    {
+      "heading": "PLOTS",
+      "plots": [
+        {
+          "image": "C:/Users/srik2/Desktop/College/Machine Learning/exp5/results/knn_acc_vs_k.png",
+          "caption": "KNN accuracy vs number of neighbors"
+        },
+        {
+          "image": "C:/Users/srik2/Desktop/College/Machine Learning/exp5/results/knn_cm.png",
+          "caption": "KNN confusion matrix (best k)"
+        },
+        {
+          "image": "C:/Users/srik2/Desktop/College/Machine Learning/exp5/results/knn_roc.png",
+          "caption": "KNN ROC curve"
+        },
+        {
+          "image": "C:/Users/srik2/Desktop/College/Machine Learning/exp5/results/nb_roc.png",
+          "caption": "Naive Bayes ROC curves"
+        }
+      ]
+    },
+    {
+      "heading": "TASKS PERFORMED",
+      "table": {
+        "headers": ["Task", "Description", "Result"],
+        "rows": [
+          ["Load Spambase dataset", "Loaded 4601 samples with 57 features from Kaggle Spambase", "Binary classification: 2788 not-spam, 1813 spam"],
+          ["Train Naive Bayes", "Trained GaussianNB, MultinomialNB, BernoulliNB variants", "Compared accuracy, precision, recall, F1 across variants"],
+          ["Tune KNN hyperparameters", "GridSearchCV and RandomizedSearchCV over k, weights, metric", "Best k identified, cross-validation accuracy reported"],
+          ["KDTree vs BallTree", "Compared neighbor search algorithms for KNN", "Measured training and prediction times for both"],
+          ["Generate visualizations", "Plotted confusion matrices, ROC curves, accuracy vs k", "All plots saved in results/ directory"],
+          ["Bias-variance analysis", "Discussed overfitting for small k, underfitting for large k", "Optimal k balances bias and variance"]
+        ]
+      },
+      "widths": [110, 240, 190]
+    },
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "Implemented Naive Bayes variants (Gaussian, Multinomial, Bernoulli) and compared their performance",
+        "Built KNN classifier and tuned hyperparameters using GridSearchCV and RandomizedSearchCV",
+        "Compared KDTree and BallTree neighbor search algorithms for computational efficiency",
+        "Analyzed bias-variance tradeoff by varying k and observing training vs validation accuracy",
+        "Generated and interpreted confusion matrices and ROC curves for model evaluation"
+      ]
+    }
+  ]
+}

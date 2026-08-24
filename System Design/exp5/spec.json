@@ -1,0 +1,49 @@
+{
+  "title": "ASSIGNMENT – 5",
+  "subtitle": "Simulation of Consistent Hashing over MongoDB (Spring Boot)",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": "To implement consistent hashing using Spring Boot and MongoDB, distributing Student records across three storage nodes (Docker containers) via a hash ring with virtual nodes. The experiment demonstrates that adding or removing a node only re-routes a small fraction of keys, unlike modulo hashing which reshuffles all records."
+    },
+    {
+      "heading": "CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/System Design/exp5/src/main/java/com/ssn/hashing/hashing/ConsistentHashRing.java"
+    },
+    {
+      "heading": "TASKS PERFORMED",
+      "table": {
+        "headers": ["Task", "Description", "Result"],
+        "rows": [
+          ["Implement hash ring", "Built ConsistentHashRing using MD5 hash and TreeMap for sorted positions", "Ring operational with 3 nodes and 3 virtual nodes each"],
+          ["Start MongoDB nodes", "Docker Compose launched mongo-node1 (27017), node2 (27018), node3 (27019)", "Three independent MongoDB instances running"],
+          ["Add student records", "POST /students with rollNo, name, department, year", "Records distributed across nodes per hash ring mapping"],
+          ["Check distribution", "GET /students/distribution", "Initial distribution e.g. node1: 5, node2: 4, node3: 6"],
+          ["Add 4th node", "POST /nodes/add with new Mongo container", "Only a small fraction of records moved; rest untouched"],
+          ["Remove a node", "POST /nodes/remove", "That node's records relocated; other nodes' data untouched"]
+        ]
+      },
+      "widths": [100, 250, 200]
+    },
+    {
+      "heading": "ANALYSIS",
+      "paragraph": "Consistent hashing maps both keys and nodes onto a circular hash ring (0 to 2^32-1 using MD5). Each physical node gets virtual nodes (default 3) for even distribution. Student records (identified by rollNo) are assigned to the first node clockwise from their hash position. Adding a node only claims the slice between it and its clockwise predecessor — all other keys stay put. Removing a node only reassigns its own slice. This contrasts with modulo hashing (`hash(key) % N`), where changing N reshuffles every key's bucket. The experiment confirms the core benefit: minimal data movement during scale-out/scale-in."
+    },
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "Implemented consistent hashing from scratch using MD5 and TreeMap",
+        "Understood the role of virtual nodes in evenly distributing load",
+        "Observed that adding/removing nodes affects only a small fraction of records",
+        "Compared consistent hashing vs modulo hashing in terms of data movement",
+        "Built a Spring Boot app with custom MongoTemplate management per node"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+Message type: 8-bit binary words
+Data words: ['10101010', '11001100', '11110000']
+1's complement checksum: 10010111
+Data and checksum sent to server...
+Server reply:
+Checksum Status : Valid
+Transaction Processed Successfully

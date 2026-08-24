@@ -1,0 +1,33 @@
+version: "3.8"
+
+# Three independent MongoDB instances = our three storage nodes.
+# Each one is a completely separate database, just like the assignment asks.
+services:
+  mongo-node1:
+    image: mongo:6.0
+    container_name: mongo-node1
+    ports:
+      - "27017:27017"
+    volumes:
+      - node1_data:/data/db
+
+  mongo-node2:
+    image: mongo:6.0
+    container_name: mongo-node2
+    ports:
+      - "27018:27017"
+    volumes:
+      - node2_data:/data/db
+
+  mongo-node3:
+    image: mongo:6.0
+    container_name: mongo-node3
+    ports:
+      - "27019:27017"
+    volumes:
+      - node3_data:/data/db
+
+volumes:
+  node1_data:
+  node2_data:
+  node3_data:

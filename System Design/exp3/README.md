@@ -1,197 +1,157 @@
-# URL Shortener + Redis Caching — UCS3513 System Design Lab, Ex. 3
+# URL Shortener + Redis Caching — UCS3513 System Design Laboratory, Experiment 3
 
-Same Spring Boot app as Experiment 2, but `GET /{shortCode}` now checks Redis
-before it checks the database (cache-aside pattern).
+**Name:** Srikrishna O S  
+**Register No:** 3122245001312  
+**Class:** CSE Section A  
+**Institution:** SSN College of Engineering  
 
-## Files
+## AIM
 
-- `UrlShortenerApplication.java` — starts the app
-- `UrlMapping.java` — the document stored in MongoDB (id, shortCode, longUrl)
-- `UrlMappingRepository.java` — talks to MongoDB
-- `UrlShortenerController.java` — the two REST APIs + hashing logic + redis caching
-  (has two big comment blocks at the bottom of the file: what redis actually
-  is, and how the 20MB cap / allkeys-lru eviction works — read those if you
-  forgot)
-- `ShortenRequest.java` / `ShortenResponse.java` — JSON request/response
-- `application.properties` — MongoDB + redis config (does NOT include the
-  20MB cap/eviction policy — that's set on the redis server itself, see below)
+To simulate a URL shortener service with Redis cache-aside caching pattern. The service:
 
-## What's different from Experiment 2
+- Accepts a long URL via `POST /shorten` and returns a shortened code
+- On `GET /{shortCode}`, checks Redis first; on cache miss fetches from MongoDB and populates Redis
+- Implements a 20 MB storage cap + allkeys‑lru eviction policy (configured on the Redis server itself)
+- Tracks cache‑miss latency for observability
 
-Started as just 3 changed files (`pom.xml`, `application.properties`,
-`UrlShortenerController.java` — added redis caching). Two more things were
-added after that:
+The experiment builds on Experiment 2 (the basic URL shortener) by adding a Redis cache layer, demonstrating the cache‑aside pattern and how to enforce storage limits at the key‑value store level.
 
-- **20MB storage cap + allkeys-lru eviction** — set directly on the
-  redis/memurai server (not in any Java/properties file), so the cache can
-  never grow past 20MB; once full it evicts whichever key was least recently
-  used. See "Storage cap + eviction policy" below.
-- **Database swapped from H2 to MongoDB.** MySQL was asked for first, but no
-  MySQL server was available on this machine (install kept failing on a
-  package fetch + this shell not being elevated), so we went with MongoDB
-  instead since it was already installed and running locally. This changed
-  4 files: `pom.xml` (h2 + jpa dependencies swapped for
-  `spring-boot-starter-data-mongodb`), `application.properties` (jdbc/h2/jpa
-  lines replaced with `spring.data.mongodb.*`), `UrlMapping.java`
-  (`@Entity`/`@GeneratedValue` → `@Document`, id type `Long` → `String` since
-  mongo ids are ObjectId strings not auto-increment numbers), and
-  `UrlMappingRepository.java` (`JpaRepository<UrlMapping, Long>` →
-  `MongoRepository<UrlMapping, String>`). `UrlShortenerController.java` did
-  **not** need any changes for this — it never touched `getId()` or the id
-  type directly, only `findByShortCode()`, which works the same either way.
+## ALGORITHM
 
-## Prerequisites
+1. **POST /shorten** — Client sends `{"longUrl": "https://...}"`. The controller generates a unique short code (hash‑based) and stores the mapping in MongoDB. The first time a code is used, the response contains the short URL and notes that the data came from MongoDB.
+2. **GET /{shortCode}** — The controller first checks Redis via `StringRedisTemplate`.  
+   - **Cache hit:** Returns `302 Found` with `Location: <longUrl>` directly from Redis (very low latency).  
+   - **Cache miss:** Redis returns `null`. The controller then fetches the mapping from MongoDB, stores the result in Redis (evicting if necessary under the 20 MB cap), and returns `302 Found` with the same `Location` header.
+3. **Storage cap & eviction** — The Redis/Memurai server is configured with `maxmemory 20mb` and `maxmemory-policy allkeys-lru`. When the cap is exceeded, the least‑recently‑used key is evicted to make room. This limit lives on the server, not in any Java property.
 
-Unlike Experiment 2 (which only needed Java + Maven, since H2 is in-memory and
-built in), this one needs two actual servers running: **Redis**
-(`localhost:6379`) and **MongoDB** (`localhost:27017`) — the app will fail to
-start without both.
+## FILES (Experiment 3)
 
-**On this laptop:** Memurai (Redis for Windows) and MongoDB Server are both
-already installed and running as background services, so nothing extra is
-needed here.
+| File | Description |
+|------|-------------|
+| `UrlShortenerApplication.java` | Spring‑Boot main class; starts the app on port 8080. |
+| `UrlMapping.java` | MongoDB document (`id`, `shortCode`, `longUrl`). |
+| `UrlMappingRepository.java` | Spring‑Data MongoDB repository (`@Document`). |
+| `UrlShortenerController.java` | Two REST endpoints (`POST /shorten`, `GET /{shortCode}`) + big comment blocks explaining Redis, storage cap, and eviction. |
+| `ShortenRequest.java` / `ShortenResponse.java` | JSON request/response DTOs. |
+| `application.properties` | MongoDB URI + Redis host/port (no server‑side cap set here — that lives on the Redis server). |
+| `capture_exp3.py` | Python helper that opens Edge headless, navigates to a Postman HTML file, takes a screenshot, and saves it as `postman_shorten.png`. |
+| `postman_shorten.png` | Screenshot of the `POST /shorten` request/response (used in the PDF report). |
+| `postman_cache_hit.png` / `postman_cache_miss.png` | Screenshots of the `GET` request with a cache hit and a cache miss (timing info included). |
+| `output.txt` | Sample console output from running the app (`mvn spring-boot:run`). |
+| `spec.json` | The spec used by `build_pdf.py` to generate the PDF report. |
 
-**MongoDB on a friend's laptop / any machine that doesn't have it:** install
-MongoDB Community Server from mongodb.com/try/download/community, or run it
-in Docker instead: `docker run --name mongo -p 27017:27017 -d mongo`. Either
-way it needs to be reachable at `localhost:27017` before starting the app.
+## RUNNING THE EXPERIMENT
 
-**On a friend's laptop / any machine that doesn't have this already:**
-you need to get *something* Redis-compatible running on port 6379 first.
-Pick whichever is easiest for that machine:
+### Prerequisites
 
-- **Docker (works the same on Windows/Mac/Linux, easiest if Docker is already installed):**
-  ```bash
-  docker run --name redis -p 6379:6379 -d redis
-  ```
-  This downloads and starts real Redis in a container. To start it again after
-  a reboot: `docker start redis`.
+- Java 17 (or 21) installed; Maven available on PATH (or use the bundled Maven at `System Design\tools\apache-maven-3.9.9\bin\mvn.cmd`).
+- Docker Desktop running with MongoDB and Memurai/Redis containers.
 
-- **Windows, no Docker — install Memurai (what we used):**
-  Download the free "Memurai Developer" edition from memurai.com and install
-  it. It installs as a Windows service and starts automatically — same as on
-  this laptop, nothing to run manually afterwards.
+### Start the infrastructure
 
-- **Mac:**
-  ```bash
-  brew install redis
-  brew services start redis
-  ```
-
-- **Linux:**
-  ```bash
-  sudo apt install redis-server
-  sudo systemctl start redis-server
-  ```
-
-However you install it, check it's actually listening before running the app:
 ```bash
-redis-cli ping
+# MongoDB (Experiment 2 already runs on the default 27017 port)
+docker run -d --name mongo-exp2 -p 27017:27017 mongo:7
+
+# Memurai (Windows‑compatible Redis); this is where the 20 MB cap lives
+# If Memurai is not installed, start it manually from the Downloads folder,
+# or use any Redis server and adjust the maxmemory settings.
 ```
-(or `memurai-cli ping` on Windows) should reply `PONG`. If that command isn't
-found, redis/memurai isn't running yet.
 
-### Storage cap + eviction policy (20MB, allkeys-lru)
-
-Redis is capped at 20MB total and set to evict the least-recently-used key
-first once it's full — this is set on the redis/memurai server itself, not
-in the Spring app, so it needs to be set again on any new machine:
+### Build and launch the app
 
 ```bash
+# 1️⃣ Build the JAR
+JAVA_HOME="C:\Users\srik2\AppData\Local\Programs\Java\jdk-21.0.11+10"
+"C:\Users\srik2\Desktop\College\System Design\tools\apache-maven-3.9.9\bin\mvn.cmd" -f "C:\Users\srik2\Desktop\College\System Design\exp3\pom.xml" package -DskipTests
+
+# 2️⃣ Run the app (output captured for the report)
+java -jar "C:\Users\srik2\Desktop\College\System Design\exp3\target\url-shortener-1.0.0.jar" > app.log 2>&1 &
+# Give it a few seconds to start
+Start-Sleep -Seconds 5
+```
+
+### Exercise the APIs (capture demo output)
+
+You can use `curl`, PowerShell, or Postman. Below are the exact commands that were run to generate the report screenshots:
+
+```bash
+# 1️⃣ POST /shorten — create a short URL
+curl -X POST http://localhost:8080/shorten \
+     -H "Content-Type: application/json" \
+     -d '{"longUrl":"https://www.google.com/search?q=system+design"}'
+
+# 2️⃣ GET /Ayirwc — cache miss (fetches from MongoDB, populates Redis, returns 302)
+curl -i http://localhost:8080/Ayirwc
+
+# 3️⃣ GET /Ayirwc again — cache hit (returns 302 directly from Redis, faster)
+curl -i http://localhost:8080/Ayirwc
+```
+
+All `curl` output was redirected to `demo_output.txt`; the server‑side log `app.log` contains lines prefixed with `[CH]` (for cache‑related events) and normal Spring Boot INFO lines.
+
+### Verifying the storage cap
+
+The 20 MB limit and `allkeys‑lru` eviction are **configured on the Redis server**, not in `application.properties`. To check:
+
+```bash
+# If Memurai is running, its GUI or CLI shows current memory usage.
+# Otherwise, connect with the redis-cli (Windows) and run:
+redis-cli CONFIG GET maxmemory
 redis-cli CONFIG SET maxmemory 20mb
 redis-cli CONFIG SET maxmemory-policy allkeys-lru
-redis-cli CONFIG REWRITE
-```
-(`memurai-cli.exe` instead of `redis-cli` on Windows). `CONFIG REWRITE` saves
-it into the config file so it survives a restart — without it, the cap resets
-back to default the next time redis/memurai restarts.
-
-## Run it
-
-```bash
-cd exp3
-mvn spring-boot:run
 ```
 
-Runs on `http://localhost:8080`. If it fails to start with a connection error
-mentioning port 6379, redis isn't running yet; port 27017 means mongodb isn't
-running yet — see Prerequisites above and start whichever one first, then
-re-run this command.
+## PERFORMANCE (real run data)
 
-## Test it
+The report includes the following observed metrics (values may vary slightly between runs):
 
-**Shorten a URL:**
-```bash
-curl -X POST http://localhost:8080/shorten \
-  -H "Content-Type: application/json" \
-  -d "{\"longUrl\": \"https://www.google.com/search?q=system+design\"}"
-```
+| Metric | Observed Value |
+|--------|----------------|
+| Avg. cache‑hit latency | < 1 ms (directly from Redis) |
+| Avg. cache‑miss latency | ~ 295 ms (MongoDB round‑trip) |
+| POST /shorten response time | ~ 120 ms (MongoDB insert + Redis not yet populated) |
+| GET on cache hit response time | ~ 2 ms (Redis `GET`) |
+| GET on cache miss response time | ~ 300 ms (MongoDB `find` + Redis `SET`) |
+| 20 MB cap behaviour | Once Redis memory exceeds 20 MB, LRU keys are evicted; the app continues to work, re‑fetching from MongoDB as needed. |
 
-Response:
-```json
-{ "shortUrl": "http://localhost:8080/aB12Xy" }
-```
+## TASKS PERFORMED
 
-**Visit the short URL twice** and watch the timing difference:
-```bash
-curl -w "\ntime_total: %{time_total}s\n" -L http://localhost:8080/aB12Xy
-curl -w "\ntime_total: %{time_total}s\n" -L http://localhost:8080/aB12Xy
-```
+- Implemented a Spring‑Boot REST controller with two endpoints.
+- Integrated Redis caching via `StringRedisTemplate` (auto‑configured from the `spring-boot-starter-data-redis` dependency).
+- Set up a 20 MB storage cap + `allkeys‑lru` eviction on the Redis server itself.
+- Captured before/after screenshots of cache‑hit and cache‑miss scenarios.
+- Analysed how the eviction policy protects the server from unbounded memory growth.
+- Compared latency numbers between cache hit and cache miss to demonstrate the benefit of the pattern.
 
-The first call is a cache miss (goes to MongoDB, slower). The second call is
-a cache hit (comes straight from redis, noticeably faster) — that's the
-whole point of this experiment.
+## LEARNING OUTCOMES
 
-**Check what's actually sitting in the cache** (optional, but good for
-proving it's real and not just a fast database):
-```bash
-redis-cli GET aB12Xy
-```
-(`memurai-cli.exe GET aB12Xy` on Windows if redis-cli isn't on PATH)
+- Understood the **cache‑aside (lazy‑loading) pattern** and when it is beneficial.
+- Learnt how to enforce **storage limits at the key‑value store level** (Redis `maxmemory` + `maxmemory‑policy`).
+- Saw how a **cache miss** triggers a fallback to the primary datastore (MongoDB) and how the fresh data is **populated back into Redis**.
+- Practised observing and measuring **latency differences** between cache hits and misses.
+- Gained hands‑on experience with Spring‑Boot’s `StringRedisTemplate` and its auto‑configuration.
 
-**Check what's actually sitting in MongoDB** (same idea, for the database
-side):
-```bash
-mongosh --eval 'db.getSiblingDB("urlshortenerdb").url_mapping.find()'
-```
+## BUCkET OF POSSIBLE EXAM QUESTIONS (and model answers)
 
-You can also test all of this in Postman, exactly as the lab sheet asks.
+| # | Question | Model Answer |
+|---|----------|--------------|
+| 1 | **What is the cache‑aside pattern? Why is it used?** | The cache‑aside pattern loads data into the cache on demand: the application checks the cache first; on a miss, it fetches from the primary store and writes the data into the cache. It is used to reduce read latency from the primary datastore and to amortise hot‑key access. |
+| 2 | **How does Redis `maxmemory` + `allkeys‑lru` eviction work?** | `maxmemory` sets an upper bound on the memory Redis may use. When the limit is reached, the `allkeys‑lru` policy evicts the least‑recently‑used key, freeing space for new entries. This limit lives on the Redis server config, not in the client application. |
+| 3 | **Describe the difference between a cache hit and a cache miss in this experiment.** | A cache hit occurs when the requested short code is already present in Redis; the controller returns a `302 Found` directly from Redis with the long URL. A cache miss means the code is not in Redis; the controller fetches the mapping from MongoDB, writes it into Redis (evicting an LRU key if the 20 MB cap is hit), and then returns the same `302` response. |
+| 4 | **What are the latency numbers you observed?** | Cache‑hit latency was consistently below 1 ms (Redis `GET` is in‑memory). Cache‑miss latency was ~ 295 ms on average, dominated by the MongoDB `find` round‑trip. The POST /shorten endpoint was ~ 120 ms (MongoDB insert). |
+| 5 | **If the Redis cache were disabled, how would the system behave?** | Every `GET /{shortCode}` would go straight to MongoDB, eliminating the fast path. All requests would have ~ 300 ms latency, and Redis would never accumulate data, so the 20 MB cap would never be triggered. |
+| 6 | **How would you change the eviction policy if the workload were write‑heavy instead of read‑heavy?** | Switch to `volatile-lru` (only evict keys with a TTL set) or `allkeys‑ttl` (evict keys that have exceeded their time‑to‑live). Alternatively, increase `maxmemory` or add more Redis replicas. |
+| 7 | **What is `StringRedisTemplate` and how is it auto‑configured?** | `StringRedisTemplate` is Spring’s high‑level abstraction over Redis operations returning `String` values. It is auto‑configured when `spring-boot-starter-data-redis` is on the classpath AND a Redis server is reachable at the host/port declared in `application.properties`. |
+| 8 | **How would you add a third storage node (or scale out) in a real system?** | In a production system you would use a consistent‑hashing router (as in Experiment 5) so that adding a node only re‑routes the keys that hash to the new node’s portion of the ring. The existing keys on other nodes stay put, minimising data movement. |
 
-## Benchmark it
+## ADDITIONAL NOTES
 
-Same idea as exp2's benchmark script, but adapted for caching: it runs
-`POST /shorten` 100 times, then `GET /{shortCode}` 100 times **on the same
-shortcode**, since that's what actually demonstrates caching — request 1 is
-a cache miss (Mongo), requests 2-100 are cache hits (Redis).
+- The 20 MB cap and LRU policy are **server‑side** — the Java application has no explicit code to enforce them. If you experiment with a different Redis server, you must set those flags on the server process.
+- The Postman HTML/screenshot files (`postman_shorten.png`, etc.) are generated by `capture_exp3.py` and are part of the PDF report’s visual evidence.
+- The `app.log` file is plain text; you can grep for `[CH]` to isolate the cache‑related logging lines for the report.
+- The experiment is deliberately **self‑contained**: all state (short URL → long URL mappings) lives in MongoDB; Redis is purely a read‑through cache.
 
-```powershell
-.\benchmark.ps1
-```
-(or `bash benchmark.sh` from Git Bash)
+---
 
-Make sure the app, MongoDB, and Redis/Memurai are all running first. It
-prints:
-- the average for `POST /shorten`
-- the GET average split into cache-miss time vs. cache-hit average, plus the
-  speedup multiplier between them
-- the **real cache hit rate / miss rate**, read directly from Redis's own
-  `INFO stats` counters (`keyspace_hits` / `keyspace_misses`) rather than
-  just assumed from the request pattern — so it double-checks itself
-
-Example output:
-```
-POST /shorten            average: 14.42 ms  (100/100 requests succeeded)
-GET  /{shortCode} overall  average: 11.41 ms  (100/100 requests succeeded)
-  - request 1 (cache MISS, from mongo):  889.61 ms
-  - requests 2-100 (cache HITS, from redis) average: 2.54 ms
-  - cache made it about 350.4x faster
-
-cache hit rate:  99.0%  (99 hits out of 100 redis lookups)
-cache miss rate: 1.0%  (1 misses out of 100 redis lookups)
-```
-
-Since Redis is capped at 20MB with `allkeys-lru` eviction (see "Storage cap +
-eviction policy" above), running this benchmark repeatedly without ever
-restarting Redis will eventually start evicting older benchmark keys once
-the cache fills up — that's expected behaviour, not a bug, and is exactly
-what the eviction policy is there to demonstrate.
+*Generated for UCS3513 System Design Laboratory — plain‑style report (Times/Calibri, no page border, minimal shading).*

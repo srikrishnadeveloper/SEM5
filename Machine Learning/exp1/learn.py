@@ -1,311 +1,174 @@
-
-# ASSIGNMENT 
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
+df =  pd.read_csv("Diabetes_prediction(2).csv")
 
-#Load the dataset into Python using the Pandas library.
+print(df.head()) #display the first five records
 
-df = pd.read_csv("Diabetes_prediction(2).csv")
-print("Dataset loaded succesfully\n")
-
-#Display the first five records of the dataset.
-
-print("displaying first five record")
+print(df.shape[0]) #row
+print(df.shape[1]) #column
+print(df.columns.tolist()) # to show as to list
+print(df.columns[-1]) # to show target
 print(df.head())
-
-#Determine: Number of rows, Number of columns, Feature names, Target (label) column
-
-
-print("Number of rows\n")
-print(df.shape[0])
-
-print("Number of colums\n")
-print(df.shape[1])
-
-print("Feature Name\n")
-print(df.columns.tolist())  #to list to display it has list
-
-print("Target(label) Column\n")
-print(df.columns[-1])
-
-
-#Data Preprocessing:
-
-#Identify and handle missing values- Explain the method used to handle missing values.
-
-print("Missing values")
-print(df.isnull().sum()) #before
-
-df.fillna(df.mean(numeric_only=True),inplace=True)
-#or
-# df = df.fillna(df.mean(numeric_only=True))
-
-print(df.isnull().sum()) #after
-
-
-
-#Remove irrelevant features - Justify whether they should be removed.
-
-if "id" in df.columns:
-    df.drop("id",axis=1,inplace=True)
-    print(" ID column removed\n")
-else:
-    print("No irrelevent feture found\n")
-
-
-print("Duplicates Before Removal :", df.duplicated().sum())
-
-df = df.drop_duplicates()
-
-print("Duplicates After Removal :", df.duplicated().sum())
-
-
-# Encode categorical variables - Justify the technique used for encoding
-
-from sklearn.preprocessing import LabelEncoder
-
-encoder = LabelEncoder() #object
-
-
-categorical = df.select_dtypes(include="object").columns # the column at end = only show column name
-
-for col in categorical:
-
-    df[col] = encoder.fit_transform(df[col])
-
-print("\nCategorical Features Encoded")
-
-
-from sklearn.preprocessing import StandardScaler
-
-# Create scaler object
-scaler = StandardScaler()
-
-# Only scale input features
-numerical_features = [
-    "Pregnancies",
-    "Glucose",
-    "BloodPressure",
-    "SkinThickness",
-    "Insulin",
-    "BMI",
-    "DiabetesPedigreeFunction",
-    "Age" 
-    #the target feture should not be mentioned here don't make that mistake
-]
-
-df[numerical_features] = scaler.fit_transform(df[numerical_features])
-
-print(df.head())
-
-# Correlation Matrix
-correlation = df.corr(numeric_only=True)
-
-print(correlation)
-
-print("\nCorrelation with Target Variable:")
-print(correlation["Diagnosis"].sort_values(ascending=False))
-
-
-#Mutual Information
-from sklearn.feature_selection import mutual_info_classif
-X = df.drop("Diagnosis",axis=1)
-y = df["Diagnosis"]
-
-mi = mutual_info_classif(X,y)
-mi_scores = pd.Series(mi,index=X.columns)
-print("Mutual Infromation Scores")
-print(mi_scores.sort_values(ascending=False))
-
-
-
-#Important Features
-importance = pd.DataFrame({
-    "Feature": X.columns,
-    "Correlation": correlation["Diagnosis"].drop("Diagnosis").values,
-    "Mutual Information": mi_scores.values
-})
-
-print("Important Features")
-print(importance)
-
-print(mi_scores.head(10))
-
-
-#Exploratory Data Analysis (EDA) and Visualization: 
-
-#Summary statistics
-print("Summary statistics")
+print(df.tail())
+print(df.info())
 print(df.describe())
 
 
-#Histograms,
-df.hist(figsize=(14,10))
-plt.suptitle("Histogram of Fetures")
-plt.show()
+# idetify and handle missing values
+print(df.isnull().sum())
+# df = df.fillna(df.mean(numeric_only=True))
+df = df.ffill().bfill()
+df.fillna(df.mean(numeric_only=True),inplace=True)
 
-#Bar Chart
+#encoder
+# from sklearn.preprocessing import LabelEncoder
+# encoder = LabelEncoder()
+# for col in df.columns:
+#     if df[col].dtype =="object":
+#         df[col]=encoder.fit_transform(df[col])
 
-# class_count = df["Diagnosis"].value_counts()
 
-# plt.figure(figsize=(7,5))
+from sklearn.preprocessing import OneHotEncoder
 
-# plt.bar(
-#     class_count.index.astype(str),
-#     class_count.values,
-#     color=["skyblue", "darkblue"]
-# )
+catgorical = df.select_dtypes(include="object").columns
 
-# plt.xlabel("Diagnosis")
-# plt.ylabel("Count")
-# plt.title("Target Distribution")
+#intlize encoder object
+encoder = OneHotEncoder(sparse_output=False)
 
+encoded = encoder.fit_transform(df[catgorical])
+encoded_df = pd.DataFrame(
+    encoded,
+    columns=encoder.get_feature_names_out(catgorical),
+    index=df.index
+)
+
+df = df.drop(columns=catgorical)
+df = pd.concat([df,encoded_df],axis=1)
+print(df.head())
+
+
+#Standard Scaler
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+target= df.columns[-1]
+
+X=df.drop(columns=[target])
+y=df[target]
+X = scaler.fit_transform(X)
+
+
+#Correlation Matrix:
+correlation = df.corr(numeric_only=True)
+print(correlation)
+print(correlation["Diagnosis"].sort_values(ascending=False))
+
+#Mutual info
+from sklearn.feature_selection import mutual_info_classif
+target = df.columns[-1]
+X=df.drop(columns=[target])
+y= df[target]
+mi = mutual_info_classif(X,y)
+mi_scores = pd.Series(mi,index=X.columns)
+print(mi_scores.sort_values(ascending=False))
+
+#Histograms
+# df.hist(figsize=(14,10))
+# plt.suptitle("Histogram of Fetures")
 # plt.show()
 
-class_count = df["Diagnosis"].value_counts()
+# #plt histogram
+# plt.hist(df["Age"],age=10)
+# plt.hist(data)
 
-plt.figure(figsize=(7,5))
 
+plt.figure(figsize=(8,5))
+plt.hist(
+    df["Age"],
+    bins=10,
+    density=True,
+    edgecolor="black",
+    alpha=0.7, #trasnperancy
+)
+plt.xlabel("Age")
+plt.ylabel("Frequency")
+plt.title("Age distrubtions")
+
+plt.show()
+
+#Bar chart
+
+classcount = df["Diagnosis"].value_counts()
 plt.bar(
-    class_count.index.astype(str), # why astype(str) = bar display string well
-    class_count.values,
-    color=["skyblue","orange"]
+    classcount.index.astype(str),
+    classcount.values,
+    color=["skyblue","darkblue"]
 )
 plt.xlabel("Diagnosis")
 plt.ylabel("count")
 plt.title("Target Distribution")
 
-plt.show()
 
-#Scatter Plot
-
-plt.figure(figsize=(7,5))
+#scatter plot
 
 diabetic = df[df["Diagnosis"]==1]
 non_diabetic = df[df["Diagnosis"]==0]
-
 plt.scatter(non_diabetic["Glucose"],
             non_diabetic["BMI"],
             color="blue",
-            label="Non-Diabetic")
-
+            label="Non-Diabetic"
+            )
 plt.scatter(diabetic["Glucose"],
             diabetic["BMI"],
-            color="red",
-            label="Diabetic")
-    
+            color="blue",
+            label="Non-Diabetic"
+            )
 plt.xlabel("Glucose")
 plt.ylabel("BMI")
 plt.title("Glucose vs BMI")
+plt.show()
 
-plt.legend()
+plt.boxplot(
+    [df["Age"], df["BMI"], df["Glucose"]],
+    label=["Age", "BMI", "Glucose"]
+)
+plt.show()
 
+sns.boxplot(
+    data=df,
+    x="Diagnosis",
+    y="BMI"
+)
+
+
+#heatmap
+sns.heatmap(correlation
+,annot=True,cmap="coolwarm")
 plt.show()
 
 
-# Box Plot
-
-plt.figure(figsize=(12,6))
-numeric_columns = df.select_dtypes(include=np.number).columns
-plt.boxplot([df[col] for col in numeric_columns],
-            tick_labels=numeric_columns)
-
-plt.xticks(rotation=45)
-plt.title("Box Plot of Numerical Features")
-
-plt.show()
-
-#Heatmap
-
-corr = df.corr(numeric_only=True)
-
-plt.figure(figsize=(10,8))
-
-plt.imshow(corr, cmap="coolwarm")
-
-plt.colorbar()
-
-plt.xticks(range(len(corr.columns)),
-           corr.columns,
-           rotation=90)
-
-plt.yticks(range(len(corr.columns)),
-           corr.columns)
-
-plt.title("Correlation Heatmap")
-
-plt.show()
-
-#Pair Plot
-
-
-plt.figure(figsize=(6,5))
-
-plt.scatter(df["Glucose"],
-            df["BMI"])
-
-plt.xlabel("Glucose")
-plt.ylabel("BMI")
-plt.title("Glucose vs BMI")
-
-plt.show()
-
-# Class Balance
-
-print("\nClass Distribution")
-
-count = df["Diagnosis"].value_counts()
-
-plt.figure(figsize=(6,5))
-
-plt.bar(count.index.astype(str),
-        count.values,
-        color=["green","red"])
-
-plt.xlabel("Diagnosis")
-plt.ylabel("Number of Samples")
-plt.title("Class Distribution")
-
-plt.show()
-
-# Data Splitting
+#pair plot
+# sns.pairplot(df,hue="Diagnosis")
+# plt.show()
 
 from sklearn.model_selection import train_test_split
 
-X_train, X_temp, y_train, y_temp = train_test_split(
-
+X_train,X_temp,y_train,y_temp=train_test_split(
     X,
-
     y,
-
     test_size=0.30,
     random_state=42
-
 )
 
-X_validation, X_test, y_validation, y_test = train_test_split(
 
-    X_temp,
-
-    y_temp,
-
-    test_size=0.50,
-
+X_valdiation,X_test,y_valdiation,y_test=train_test_split(
+    X,
+    y,
+    test_size=0.30,
     random_state=42
-
 )
 
-print("\nTraining Shape")
-
-print(X_train.shape)
-
-print("\nValidation Shape")
-
-print(X_validation.shape)
-
-print("\nTesting Shape")
-
-print(X_test.shape) 
+print(X_train.shape())

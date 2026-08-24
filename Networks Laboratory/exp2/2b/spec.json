@@ -1,0 +1,111 @@
+{
+  "title": "ASSIGNMENT \u2013 2b",
+  "subtitle": "Multi-Client Student Record Retrieval Using TCP and UDP Sockets",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": [
+        "To develop a client-server application in Python that lets students retrieve their academic information from a university server. The server reads student records from a CSV file (students.csv) containing Roll Number, Name, Department, Semester, and CGPA, and serves them to clients over the network.",
+        "Two implementations are built: a TCP version (1a) where the server accepts multiple clients concurrently using threads and returns the complete academic profile for the requested Roll Number, and a UDP version (1b) where the client checks whether a Roll Number exists and receives the student's name as a datagram. In both versions the server returns \"Student Record Not Found.\" for unknown Roll Numbers. The two implementations are then compared (1c) on connection, reliability, ordering, error recovery, and communication."
+      ]
+    },
+    {
+      "heading": "DATASET - students.csv",
+      "subheading": "Sample records used by both servers",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2b/students.csv",
+      "lang": "csv"
+    },
+    {
+      "heading": "1a. TCP - SERVER CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2b/tcp_server.py",
+      "lang": "python"
+    },
+    {
+      "heading": "1a. TCP - CLIENT CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2b/tcp_client.py",
+      "lang": "python"
+    },
+    {
+      "heading": "1a. TCP - SERVER OUTPUT",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2b/tcp_server_output.txt"
+    },
+    {
+      "heading": "1a. TCP - CLIENT 1 OUTPUT (RECORD FOUND)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2b/tcp_client1_output.txt"
+    },
+    {
+      "heading": "1a. TCP - CLIENT 2 OUTPUT (NOT FOUND)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2b/tcp_client2_output.txt"
+    },
+    {
+      "heading": "1b. UDP - SERVER CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2b/udp_server.py",
+      "lang": "python"
+    },
+    {
+      "heading": "1b. UDP - CLIENT CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2b/udp_client.py",
+      "lang": "python"
+    },
+    {
+      "heading": "1b. UDP - SERVER OUTPUT",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2b/udp_server_output.txt"
+    },
+    {
+      "heading": "1b. UDP - CLIENT 1 OUTPUT (RECORD FOUND)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2b/udp_client1_output.txt"
+    },
+    {
+      "heading": "1b. UDP - CLIENT 2 OUTPUT (NOT FOUND)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp2/2b/udp_client2_output.txt"
+    },
+    {
+      "heading": "1c. TCP vs UDP COMPARISON",
+      "table": {
+        "headers": ["Parameter", "TCP", "UDP"],
+        "rows": [
+          ["Connection", "Connection-oriented: three-way handshake before data transfer and explicit close", "Connectionless: datagrams are sent directly with no setup or teardown"],
+          ["Reliability", "Reliable: guaranteed delivery with acknowledgments and retransmission of lost segments", "Unreliable: best-effort delivery, datagrams may be lost without detection"],
+          ["Ordering", "Ordered: segments are sequenced and delivered in the same order they were sent", "Unordered: datagrams may arrive out of order"],
+          ["Error Recovery", "Recovers from errors: ACKs, retransmission, and flow control", "No recovery: only checksum-based error detection, damaged packets are dropped"],
+          ["Communication", "Stream-oriented with higher overhead (larger headers, connection state)", "Message-oriented with lower overhead (small 8-byte header), faster and simpler"]
+        ],
+        "widths": [85, 195, 200]
+      }
+    },
+    {
+      "heading": "TASKS PERFORMED",
+      "table": {
+        "headers": ["Task", "Details", "Result"],
+        "rows": [
+          ["Load student records", "Read students.csv with csv.DictReader into a dictionary keyed by Roll Number", "8 student records loaded by both servers"],
+          ["Create TCP server", "Bind to 127.0.0.1:5002; spawn one thread per accepted client", "Two clients connected and were served at the same time"],
+          ["TCP record found", "Client sent 3122245001002; server searched the CSV and sent the full profile", "Client received Roll Number, Name, Department, Semester, CGPA"],
+          ["TCP record not found", "Client sent 9999999999; no matching record in the CSV", "Server returned \"Student Record Not Found.\""],
+          ["Create UDP server", "Bind UDP socket to 127.0.0.1:5003; reply with sendto for every datagram", "UDP Student Record Server Started; sender IP/port shown per request"],
+          ["UDP record found", "Client sent 3122245001006; server confirmed the record and sent the name", "Client received \"Name: Divya Nair\" as the datagram reply"],
+          ["UDP record not found", "Client sent 8888888888; no matching record in the CSV", "Server returned \"Student Record Not Found.\""],
+          ["Graceful termination", "Client closes its connection after the reply; other clients unaffected", "Server kept running and logged both disconnections cleanly"]
+        ],
+        "widths": [80, 220, 180]
+      }
+    },
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "I read a CSV file with csv.DictReader and built a lookup dictionary keyed by Roll Number.",
+        "I implemented a threaded TCP server that serves multiple student clients concurrently.",
+        "I implemented a connectionless UDP server and clients using sendto() and recvfrom().",
+        "I handled both found and not-found cases with the exact message \"Student Record Not Found.\"",
+        "I compared TCP and UDP on connection, reliability, ordering, error recovery, and communication.",
+        "I observed that a print lock is needed when multiple threads log to the same console."
+      ]
+    }
+  ]
+}

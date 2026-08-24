@@ -1,0 +1,248 @@
+============================================================
+BREAST CANCER CLASSIFICATION USING SVM
+============================================================
+
+Dataset shape: (10000, 21)
+
+First 5 rows:
+   Patient_ID  Age  ... Breastfeeding_History  Annual_Income_USD
+0      100001   71  ...                    No             101316
+1      100002   34  ...                   Yes              30023
+2      100003   80  ...                   Yes              34819
+3      100004   40  ...                   Yes              68025
+4      100005   43  ...                   Yes              90919
+
+[5 rows x 21 columns]
+
+Dataset info:
+<class 'pandas.DataFrame'>
+RangeIndex: 10000 entries, 0 to 9999
+Data columns (total 21 columns):
+ #   Column                  Non-Null Count  Dtype  
+---  ------                  --------------  -----  
+ 0   Patient_ID              10000 non-null  int64  
+ 1   Age                     10000 non-null  int64  
+ 2   Gender                  10000 non-null  str    
+ 3   BMI                     9700 non-null   float64
+ 4   Family_History          10000 non-null  str    
+ 5   Smoking                 10000 non-null  str    
+ 6   Alcohol_Consumption     9700 non-null   str    
+ 7   Physical_Activity       9700 non-null   str    
+ 8   Hormone_Therapy         9700 non-null   str    
+ 9   Menopause_Status        10000 non-null  str    
+ 10  Genetic_Mutation        10000 non-null  str    
+ 11  Tumor_Size_cm           9700 non-null   float64
+ 12  Lymph_Node_Involvement  10000 non-null  str    
+ 13  Mammogram_Result        10000 non-null  str    
+ 14  Biopsy_Result           10000 non-null  str    
+ 15  Blood_Pressure          10000 non-null  int64  
+ 16  Cholesterol             10000 non-null  int64  
+ 17  Diabetes                10000 non-null  str    
+ 18  Exercise_Days_Per_Week  10000 non-null  int64  
+ 19  Breastfeeding_History   10000 non-null  str    
+ 20  Annual_Income_USD       10000 non-null  int64  
+dtypes: float64(2), int64(6), str(13)
+memory usage: 1.6 MB
+None
+
+Summary statistics:
+         Patient_ID           Age          BMI  Tumor_Size_cm  Blood_Pressure   Cholesterol  Exercise_Days_Per_Week  Annual_Income_USD
+count   10000.00000  10000.000000  9700.000000    9700.000000    10000.000000  10000.000000            10000.000000       10000.000000
+mean   105000.50000     52.033800    27.051227       2.630334      134.811100    214.071500                3.535200       82337.305000
+std      2886.89568     18.789517     4.494501       1.589789       26.174742     49.242034                2.282385       39102.629984
+min    100001.00000     20.000000    11.100000       0.000000       90.000000    130.000000                0.000000       15002.000000
+25%    102500.75000     36.000000    24.000000       1.370000      112.000000    172.000000                2.000000       48145.750000
+50%    105000.50000     52.000000    27.000000       2.510000      135.000000    213.000000                4.000000       81813.500000
+75%    107500.25000     68.000000    30.100000       3.720000      157.000000    257.000000                6.000000      116217.500000
+max    110000.00000     84.000000    44.100000       9.880000      180.000000    300.000000                7.000000      149996.000000
+
+Missing values per column:
+BMI                    300
+Tumor_Size_cm          300
+Hormone_Therapy        300
+Physical_Activity      300
+Alcohol_Consumption    300
+Family_History           0
+Gender                   0
+Age                      0
+Patient_ID               0
+Smoking                  0
+dtype: int64
+
+Percentage missing per column:
+BMI                    3.0
+Tumor_Size_cm          3.0
+Hormone_Therapy        3.0
+Physical_Activity      3.0
+Alcohol_Consumption    3.0
+Family_History         0.0
+Gender                 0.0
+Age                    0.0
+Patient_ID             0.0
+Smoking                0.0
+dtype: float64
+
+Unique values per column:
+Patient_ID                10000
+Age                          65
+Gender                        2
+BMI                         280
+Family_History                2
+Smoking                       2
+Alcohol_Consumption           2
+Physical_Activity             3
+Hormone_Therapy               2
+Menopause_Status              2
+Genetic_Mutation              2
+Tumor_Size_cm               728
+Lymph_Node_Involvement        2
+Mammogram_Result              3
+Biopsy_Result                 2
+Blood_Pressure               91
+Cholesterol                 171
+Diabetes                      2
+Exercise_Days_Per_Week        8
+Breastfeeding_History         3
+Annual_Income_USD          9645
+dtype: int64
+
+Is Patient_ID unique for every row? True
+
+Categorical columns: ['Gender', 'Family_History', 'Smoking', 'Alcohol_Consumption', 'Physical_Activity', 'Hormone_Therapy', 'Menopause_Status', 'Genetic_Mutation', 'Lymph_Node_Involvement', 'Mammogram_Result', 'Diabetes', 'Breastfeeding_History']
+  Gender: 2 categories
+  Family_History: 2 categories
+  Smoking: 2 categories
+  Alcohol_Consumption: 2 categories
+  Physical_Activity: 3 categories
+  Hormone_Therapy: 2 categories
+  Menopause_Status: 2 categories
+  Genetic_Mutation: 2 categories
+  Lymph_Node_Involvement: 2 categories
+  Mammogram_Result: 3 categories
+  Diabetes: 2 categories
+  Breastfeeding_History: 3 categories
+
+Target class distribution:
+Biopsy_Result
+Benign       8067
+Malignant    1933
+Name: count, dtype: int64
+
+Target class proportion:
+Biopsy_Result
+Benign       0.807
+Malignant    0.193
+Name: proportion, dtype: float64
+
+Training set shape: (8000, 22)
+Test set shape: (2000, 22)
+Missing values after imputation: 0
+
+============================================================
+SVM BASELINE RESULTS
+============================================================
+ Kernel  Training Accuracy  Testing Accuracy  Precision   Recall  F1 Score  Training Time (s)  Prediction Time (s)
+ Linear           0.939250            0.9350   0.839050 0.821705  0.830287           5.923644             0.094183
+   Poly           0.971625            0.9250   0.839542 0.757106  0.796196           5.891793             0.170393
+    Rbf           0.968250            0.9380   0.854447 0.819121  0.836412           3.615521             0.297402
+Sigmoid           0.904000            0.9155   0.796196 0.757106  0.776159           2.270563             0.072771
+
+============================================================
+HYPERPARAMETER TUNING
+============================================================
+
+Table 1: Hyperparameter Tuning Summary
+    Kernel  Best C Best Gamma Best Degree  Best CV Accuracy
+    Linear      10         NA          NA          0.937250
+Polynomial       1      scale           3          0.928625
+       RBF       1      scale          NA          0.937500
+   Sigmoid      10       0.01          NA          0.935625
+
+============================================================
+FINAL MODEL RESULTS
+============================================================
+
+Classification Reports:
+
+Linear Kernel
+              precision    recall  f1-score   support
+
+      Benign       0.96      0.96      0.96      1613
+   Malignant       0.84      0.82      0.83       387
+
+    accuracy                           0.94      2000
+   macro avg       0.90      0.89      0.90      2000
+weighted avg       0.94      0.94      0.94      2000
+
+
+Polynomial Kernel
+              precision    recall  f1-score   support
+
+      Benign       0.94      0.97      0.95      1613
+   Malignant       0.84      0.76      0.80       387
+
+    accuracy                           0.93      2000
+   macro avg       0.89      0.86      0.88      2000
+weighted avg       0.92      0.93      0.92      2000
+
+
+RBF Kernel
+              precision    recall  f1-score   support
+
+      Benign       0.96      0.97      0.96      1613
+   Malignant       0.85      0.82      0.84       387
+
+    accuracy                           0.94      2000
+   macro avg       0.91      0.89      0.90      2000
+weighted avg       0.94      0.94      0.94      2000
+
+
+Sigmoid Kernel
+              precision    recall  f1-score   support
+
+      Benign       0.95      0.96      0.96      1613
+   Malignant       0.84      0.80      0.82       387
+
+    accuracy                           0.93      2000
+   macro avg       0.90      0.88      0.89      2000
+weighted avg       0.93      0.93      0.93      2000
+
+
+============================================================
+CROSS-VALIDATION PERFORMANCE (5-FOLD)
+============================================================
+    Kernel  Accuracy  Precision   Recall  F1 Score
+    Linear  0.937250   0.856154 0.811769  0.833292
+Polynomial  0.928625   0.868230 0.743848  0.801082
+       RBF  0.937500   0.874801 0.789784  0.830077
+   Sigmoid  0.935625   0.857422 0.800125  0.827638
+
+============================================================
+TEST SET PERFORMANCE
+============================================================
+    Kernel  Training Accuracy  Testing Accuracy  Precision   Recall  F1 Score  ROC-AUC  Training Time (s)  Prediction Time (s)
+    Linear           0.939375             0.936   0.841689 0.824289  0.832898 0.975261          10.384583             0.031974
+Polynomial           0.971625             0.925   0.839542 0.757106  0.796196 0.970096           2.247390             0.052105
+       RBF           0.968250             0.938   0.854447 0.819121  0.836412 0.975648           3.122798             0.289416
+   Sigmoid           0.933125             0.932   0.838275 0.803618  0.820580 0.974919           2.253876             0.074924
+
+Best performing kernel based on testing accuracy:
+Kernel                      RBF
+Training Accuracy       0.96825
+Testing Accuracy          0.938
+Precision              0.854447
+Recall                 0.819121
+F1 Score               0.836412
+ROC-AUC                0.975648
+Training Time (s)      3.122798
+Prediction Time (s)    0.289416
+
+Number of misclassified samples: 124
+      Patient_ID  Age  Gender   BMI Family_History Smoking Alcohol_Consumption Physical_Activity Hormone_Therapy Menopause_Status Genetic_Mutation  Tumor_Size_cm Lymph_Node_Involvement Mammogram_Result Biopsy_Result  Blood_Pressure  Cholesterol Diabetes  Exercise_Days_Per_Week Breastfeeding_History  Annual_Income_USD  Predicted
+1352      101353   25  Female  25.2             No     Yes                 Yes              High              No              Pre         Positive           1.19                    Yes         Abnormal     Malignant             128          164      Yes                       6        Not Applicable             137189     Benign
+1892      101893   57  Female  23.1             No     Yes                  No               Low              No              Pre         Negative           4.37                    Yes           Normal     Malignant             126          265       No                       7                   Yes              56273     Benign
+9321      109322   46    Male  28.4            Yes     Yes                 Yes          Moderate              No             Post         Positive           2.62                     No           Normal        Benign             103          207       No                       6                    No              80431  Malignant
+9658      109659   55  Female  35.0             No      No                 Yes               Low              No             Post         Positive           3.39                     No           Normal     Malignant             166          212       No                       1                   Yes              93443     Benign
+1392      101393   54    Male  34.2             No      No                  No          Moderate             Yes             Post         Negative           3.03                    Yes           Normal     Malignant             144          170       No                       3                   Yes             113354     Benign
+
+Experiment completed.

@@ -1,0 +1,20 @@
+POST /shorten
+curl -i -X POST http://localhost:8080/shorten -H "Content-Type: application/json" -d @body.json
+
+HTTP/1.1 201 Created
+Content-Type: application/json
+{"shortUrl":"http://localhost:8080/Ayirwc"}
+
+GET /Ayirwc (cache miss)
+curl -i -w " time_total: %{time_total}" http://localhost:8080/Ayirwc
+
+HTTP/1.1 302 Found
+Location: https://www.google.com/search?q=system+design
+ time_total: 0.295927 s
+
+GET /Ayirwc (cache hit)
+curl -i -w " time_total: %{time_total}" http://localhost:8080/Ayirwc
+
+HTTP/1.1 302 Found
+Location: https://www.google.com/search?q=system+design
+ time_total: 0.004459 s

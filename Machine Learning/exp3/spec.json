@@ -1,0 +1,116 @@
+{
+  "title": "ASSIGNMENT \u2013 3",
+  "subtitle": "Breast Cancer Classification using Support Vector Machine",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": "To implement a Support Vector Machine (SVM) classifier for breast cancer diagnosis using a real-world breast cancer prediction dataset (breast_cancer_prediction.csv), evaluate classification performance with multiple kernels (linear, polynomial, RBF, sigmoid), tune hyperparameters using GridSearchCV with 5-fold stratified cross-validation, and compare the models using accuracy, precision, recall, F1 score, ROC-AUC, confusion matrices, and ROC curves. The target variable is Biopsy_Result (Benign / Malignant), and the experiment also includes data inspection, missing-value imputation, standardization, and misclassification analysis. Libraries used: pandas, numpy, matplotlib, seaborn, scikit-learn."
+    },
+    {
+      "heading": "DATASET DESCRIPTION",
+      "paragraph": "The Breast Cancer Prediction dataset consists of 10,000 patient records with clinical and diagnostic attributes (21 columns: demographics like Age, Gender and BMI, lifestyle factors like Smoking, Alcohol_Consumption and Physical_Activity, clinical measurements like Tumor_Size_cm, Blood_Pressure and Cholesterol, and an annual income field). The target variable is Biopsy_Result (Benign / Malignant), making this a binary classification problem. Patient_ID is a unique identifier column and carries no predictive information."
+    },
+    {
+      "heading": "DATA PREPROCESSING",
+      "subheading": "Missing values, irrelevant features, encoding, and standardization",
+      "paragraph": [
+        "Missing values: BMI, Tumor_Size_cm, Hormone_Therapy, Physical_Activity and Alcohol_Consumption each have 300 missing values (~3% each); all other columns have none. Missing numerical values are imputed with the median of each column computed only from the training set, then applied to both train and test, because the median is robust to outliers in skewed clinical measurements. Fitting the imputation on the training set only avoids data leakage from the test set.",
+        "Irrelevant features: Patient_ID is unique for every row (10000 unique values), so it is removed; all other columns are retained since none is constant or purely identifier-like.",
+        "Encoding and standardization: the categorical (object) columns are one-hot encoded with pd.get_dummies(drop_first=True) because they are nominal categories with no natural order. After encoding, the feature set has 22 columns. The data is split 80-20 (stratified on the target) into 8000 training and 2000 test samples, and StandardScaler is applied (fit on train, transform both) because SVM is a distance-based algorithm and unscaled features would dominate the margin computation."
+      ]
+    },
+    {
+      "heading": "CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/main.py",
+      "lang": "python"
+    },
+    {
+      "heading": "OUTPUT",
+      "output_file": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/output.txt"
+    },
+    {
+      "heading": "PLOTS",
+      "plots": [
+        {"image": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/plots/plot_01.png", "caption": "Fig 1 - Class Distribution: Benign vs Malignant"},
+        {"image": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/plots/plot_02.png", "caption": "Fig 2 - Correlation Heatmap of Numerical Features"},
+        {"image": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/plots/plot_03.png", "caption": "Fig 3 - Distribution of Age"},
+        {"image": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/plots/plot_04.png", "caption": "Fig 4 - Distribution of BMI"},
+        {"image": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/plots/plot_05.png", "caption": "Fig 5 - Distribution of Tumor Size (cm)"},
+        {"image": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/plots/plot_06.png", "caption": "Fig 6 - Distribution of Blood Pressure"},
+        {"image": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/plots/plot_07.png", "caption": "Fig 7 - Distribution of Cholesterol"},
+        {"image": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/plots/plot_08.png", "caption": "Fig 8 - Count of Records by Categorical Features"},
+        {"image": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/plots/plot_09.png", "caption": "Fig 9 - Scatter Plots: Tumor Size vs Age and Cholesterol vs BMI"},
+        {"image": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/plots/plot_10.png", "caption": "Fig 10 - Box Plots of Important Features"},
+        {"image": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/plots/plot_11.png", "caption": "Fig 11 - Box Plots of Features Split by Diagnosis"},
+        {"image": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/plots/plot_12.png", "caption": "Fig 12 - Pair Plot of Important Features"},
+        {"image": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/plots/plot_13.png", "caption": "Fig 13 - Confusion Matrices of Tuned SVM Kernels"},
+        {"image": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/plots/plot_14.png", "caption": "Fig 14 - ROC Curve Comparison"},
+        {"image": "C:/Users/srik2/Desktop/College/Machine Learning/exp3/plots/plot_15.png", "caption": "Fig 15 - Kernel Comparison: Accuracy vs F1 Score"}
+      ]
+    },
+    {
+      "heading": "TASKS PERFORMED",
+      "table": {
+        "headers": ["Task", "Description", "Result / Output"],
+        "rows": [
+          ["Loaded and inspected the dataset", "Read breast_cancer_prediction.csv with pandas and checked shape, info, and describe", "10000 rows x 21 columns; 8 int, 8 float, 5 object columns"],
+          ["Checked missing values", "Used isnull().sum() and percentage missing per column", "BMI, Tumor_Size_cm, Hormone_Therapy, Physical_Activity, Alcohol_Consumption each had 300 missing values (~3%); Family_History, Gender, Age, Patient_ID, Smoking had 0"],
+          ["Checked unique values", "Used nunique() to inspect categorical / numerical cardinality", "Patient_ID has 10000 unique values (removed); Biopsy_Result has 2 classes; Mammogram_Result has 3 categories"],
+          ["Explored target distribution", "Count and proportion of Benign vs Malignant cases", "Benign: 8067 (80.7%), Malignant: 1933 (19.3%) - imbalanced"],
+          ["Visualized EDA plots", "Class distribution, correlation heatmap, histograms, categorical count bars, scatter plots, box plots, and pair plot", "Figs 1-12"],
+          ["Prepared features and target", "Dropped Patient_ID and Biopsy_Result; one-hot encoded categorical columns; mapped target to 0 (Benign) and 1 (Malignant)", "Final feature set has 22 columns"],
+          ["Split the dataset", "Stratified train-test split with test_size=0.20 and random_state=42", "Training: 8000 samples, Test: 2000 samples"],
+          ["Imputed missing values", "Filled missing values using training-set medians for both train and test", "0 missing values after imputation"],
+          ["Standardized features", "StandardScaler fit on training set and applied to both train and test", "Features scaled to mean 0 and std 1"],
+          ["Trained baseline SVM models", "SVC with C=1, gamma=scale, degree=3, probability=True for all four kernels", "Linear test acc 0.9350, Poly 0.9250, RBF 0.9380, Sigmoid 0.9155"],
+          ["Tuned hyperparameters", "GridSearchCV with 5-fold StratifiedKFold over C, gamma, and degree for each kernel", "Linear: C=10; Polynomial: C=1, gamma=scale, degree=3; RBF: C=1, gamma=scale; Sigmoid: C=10, gamma=0.01"],
+          ["Evaluated tuned models", "Predictions, classification reports, confusion matrices, ROC-AUC on the test set", "Figs 13-15; RBF achieved best test accuracy 0.938"],
+          ["Ran 5-fold cross-validation", "cross_validate on the training set with accuracy, precision, recall, f1 scoring", "RBF: 0.937500 accuracy, Linear: 0.937250, Sigmoid: 0.935625, Polynomial: 0.928625"],
+          ["Analyzed misclassifications", "Collected test samples where best kernel (RBF) prediction differs from actual label", "124 misclassified samples out of 2000 test rows"]
+        ],
+        "widths": [70, 190, 220]
+      }
+    },
+    {
+      "heading": "OBSERVATIONS",
+      "bullets": [
+        "Missing values are imputed with training-set medians only, avoiding data leakage.",
+        "Patient_ID is removed as an irrelevant identifier feature.",
+        "Categorical features are one-hot encoded before model training.",
+        "Features are standardized using StandardScaler before fitting the SVM.",
+        "All four kernels are compared under identical preprocessing.",
+        "Hyperparameters (C, gamma, degree) are tuned with GridSearchCV using 5-fold stratified CV.",
+        "RBF is the best kernel: test accuracy 0.9380, ROC-AUC 0.9756, F1 score 0.8364.",
+        "124 samples out of 2000 test rows are misclassified by the best (RBF) kernel."
+      ]
+    },
+    {
+      "heading": "CONCLUSION",
+      "paragraph": "An SVM classifier was implemented for breast cancer diagnosis using the Breast Cancer Prediction dataset. Data preprocessing - irrelevant feature removal, categorical one-hot encoding, training-based median imputation, and feature standardization - was applied before training. Four kernels (Linear, Polynomial, RBF, Sigmoid) were compared before and after hyperparameter tuning. Based on the test-set results, the RBF kernel with C=1 and gamma=scale performed best with a testing accuracy of 0.938 and an ROC-AUC of 0.976, making it the most suitable choice for this classification task."
+    },
+    {
+      "heading": "REFERENCES",
+      "bullets": [
+        "Scikit-learn Documentation - Support Vector Machines: https://scikit-learn.org/stable/modules/svm.html",
+        "Scikit-learn Documentation - GridSearchCV: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html",
+        "Breast Cancer Prediction Dataset (Kaggle): breast_cancer_prediction.csv"
+      ]
+    },
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "I loaded, inspected, and visualized a real-world medical classification dataset using pandas and seaborn.",
+        "I handled missing values and standardized features before training the SVM.",
+        "I implemented SVM with four kernels (linear, polynomial, RBF, sigmoid).",
+        "I used GridSearchCV with StratifiedKFold to tune C, gamma, and degree.",
+        "I evaluated models using accuracy, precision, recall, F1 score, and ROC-AUC, and identified RBF as the best kernel."
+      ]
+    }
+  ]
+}

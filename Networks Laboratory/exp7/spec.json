@@ -1,0 +1,92 @@
+{
+  "title": "ASSIGNMENT \u2013 7",
+  "subtitle": "Simulation of TCP Flow Control Using SimPy",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": [
+        "To simulate TCP flow control using SimPy. A sender generates data segments and transmits them over a sliding window, but it is allowed to send only as much outstanding (unacknowledged) data as the receiver advertises. The receiver keeps a receive buffer of fixed size, reads segments out of it at a fixed processing rate, and advertises the free buffer space in every ACK and window update. When the advertised window becomes zero, the sender stops and waits for a window update before resuming.",
+        "The TCP Client module generates segments at a configurable sender rate, keeps track of the outstanding segments, and transmits a segment only when the outstanding data is below the effective window, which is the smaller of the initial window and the receiver's latest advertised window. While the window is full the sender waits, and each such wait is counted as a waiting event. The TCP Server module receives segments into a buffer, prints the buffer occupancy and advertised window for each segment, sends an ACK carrying the current advertised window, processes the oldest segment at the receiver rate, and then sends a window update with the new free space so a blocked sender can resume. Five scenarios are simulated with different segment sizes, initial windows, buffer sizes, and sender/receiver rates, and the throughput, waiting events, buffer occupancy, and full-buffer events are compared."
+      ]
+    },
+    {
+      "heading": "ALGORITHM",
+      "bullets": [
+        "CLIENT: generate a segment at the sender rate and transmit it when the outstanding data is below the effective window.",
+        "CLIENT: when the window is full, wait for an ACK or a window update from the receiver and count a waiting event.",
+        "CLIENT: track segments sent, ACKs received, waiting events, transmission time, and throughput.",
+        "SERVER: receive each segment into the receive buffer, print the buffer occupancy and advertised window, and send an ACK with the current advertised window.",
+        "SERVER: process the oldest segment at the receiver rate and send a window update advertising the new free space.",
+        "SERVER: detect full-buffer events and compute average and maximum buffer occupancy and the average advertised window."
+      ]
+    },
+    {
+      "heading": "TCP CLIENT MODULE - tcp_client.py",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp7/tcp_client.py",
+      "lang": "python"
+    },
+    {
+      "heading": "TCP SERVER MODULE - tcp_server.py",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp7/tcp_server.py",
+      "lang": "python"
+    },
+    {
+      "heading": "SIMULATION DRIVER - run_tcp_sim.py",
+      "code_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp7/run_tcp_sim.py",
+      "lang": "python"
+    },
+    {
+      "heading": "CLIENT OUTPUT (FULL TRACE FOR TC1 + SUMMARIES)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp7/tcp_client_output.txt"
+    },
+    {
+      "heading": "SERVER OUTPUT (FULL TRACE FOR TC1 + SUMMARIES)",
+      "output_file": "C:/Users/srik2/Desktop/College/Networks Laboratory/exp7/tcp_server_output.txt"
+    },
+    {
+      "heading": "PERFORMANCE COMPARISON",
+      "table": {
+        "headers": ["Test Case", "Init Window (KB)", "Buffer (KB)", "Sender (KB/s)", "Receiver (KB/s)", "Waiting Events", "Time (s)", "Throughput (KB/s)", "Max Occupancy (KB)", "Full Events"],
+        "rows": [
+          ["TC1", "4", "8", "2", "4", "6", "5.50", "1.82", "1", "0"],
+          ["TC2", "8", "4", "8", "4", "16", "4.23", "4.73", "4", "13"],
+          ["TC3", "8", "2", "8", "2", "18", "9.23", "2.17", "2", "19"],
+          ["TC4", "8", "8", "8", "4", "12", "3.50", "5.71", "7", "0"],
+          ["TC5", "8", "8", "8", "4", "6", "3.35", "5.97", "8", "4"]
+        ],
+        "widths": [42, 48, 40, 46, 50, 48, 40, 56, 58, 52]
+      }
+    },
+    {
+      "heading": "TASKS PERFORMED",
+      "table": {
+        "headers": ["Task", "Details", "Result"],
+        "rows": [
+          ["Sliding window transmit", "Client transmits a segment only when outstanding data is below the effective window (minimum of initial window and advertised window)", "No segment was ever sent beyond the receiver's advertised window"],
+          ["Window updates", "Receiver sends a window update with the new free space after each processing step", "Blocked sender resumed automatically when space became available"],
+          ["Buffer overflow control", "Buffer occupancy tracked for every receive and every processed segment", "Buffer size never exceeded in any scenario, e.g. max 4 KB with a 4 KB buffer in TC2"],
+          ["Ack generation", "Every received segment answered with an ACK carrying the current advertised window", "ACKs generated equalled segments received in all five scenarios"],
+          ["Scenario comparison", "Five scenarios varying segment size, initial window, buffer size, and sender/receiver rates", "TC3 (2 KB buffer) showed 19 full-buffer events while TC4 (8 KB buffer) showed none"],
+          ["Throughput analysis", "Throughput computed as total data divided by total transmission time", "Small buffer throttled throughput to the receiver rate (2.17 KB/s in TC3 vs 5.97 KB/s in TC5)"]
+        ],
+        "widths": [80, 215, 185]
+      }
+    },
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "I modelled TCP flow control with a sliding window governed by the receiver's advertised window.",
+        "I implemented window updates so a sender blocked on a full window resumes automatically.",
+        "I observed that a small receive buffer throttles the sender to the receiver's processing rate.",
+        "I computed average and maximum buffer occupancy, waiting events, and throughput from real runs.",
+        "I understood why the advertised window never lets the receive buffer overflow in any scenario."
+      ]
+    }
+  ]
+}

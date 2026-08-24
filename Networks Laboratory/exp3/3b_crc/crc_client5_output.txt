@@ -1,0 +1,9 @@
+Data frame: 100100
+Generator polynomial: 1101
+CRC remainder: 001
+Transmitted frame (data + CRC): 100100001
+Frame and polynomial sent to server...
+Server reply:
+CRC Verification Successful
+No Error Detected
+Frame Accepted

@@ -1,0 +1,33 @@
+2026-08-20 14:47:50,200 INFO o.a.j.u.JMeterUtils: Setting Locale to en_IN
+2026-08-20 14:47:50,221 INFO o.a.j.JMeter: Loading user properties from: user.properties
+2026-08-20 14:47:50,222 INFO o.a.j.JMeter: Loading system properties from: system.properties
+2026-08-20 14:47:50,229 INFO o.a.j.JMeter: Copyright (c) 1998-2024 The Apache Software Foundation
+2026-08-20 14:47:50,229 INFO o.a.j.JMeter: Version 5.6.3
+2026-08-20 14:47:50,229 INFO o.a.j.JMeter: java.version=21.0.11
+2026-08-20 14:47:50,229 INFO o.a.j.JMeter: java.vm.name=OpenJDK 64-Bit Server VM
+2026-08-20 14:47:50,229 INFO o.a.j.JMeter: os.name=Windows 11
+2026-08-20 14:47:50,229 INFO o.a.j.JMeter: os.arch=amd64
+2026-08-20 14:47:50,229 INFO o.a.j.JMeter: os.version=10.0
+2026-08-20 14:47:50,229 INFO o.a.j.JMeter: file.encoding=UTF-8
+2026-08-20 14:47:50,229 INFO o.a.j.JMeter: java.awt.headless=null
+2026-08-20 14:47:50,230 INFO o.a.j.JMeter: Max memory     =4223664128
+2026-08-20 14:47:50,230 INFO o.a.j.JMeter: Available Processors =16
+2026-08-20 14:47:50,239 INFO o.a.j.JMeter: Default Locale=English (India)
+2026-08-20 14:47:50,240 INFO o.a.j.JMeter: JMeter  Locale=English (India)
+2026-08-20 14:47:50,240 INFO o.a.j.JMeter: JMeterHome=C:\Users\srik2\Desktop\College\System Design\tools\apache-jmeter-5.6.3
+2026-08-20 14:47:50,240 INFO o.a.j.JMeter: user.dir  =C:\Users\srik2\Desktop\College\System Design\tools\apache-jmeter-5.6.3\bin
+2026-08-20 14:47:50,240 INFO o.a.j.JMeter: PWD       =C:\Users\srik2\Desktop\College\System Design\tools\apache-jmeter-5.6.3\bin
+2026-08-20 14:47:50,241 INFO o.a.j.JMeter: IP: 10.106.136.227 Name: JOS FullName: JOS
+2026-08-20 14:47:50,256 INFO o.a.j.JMeter: Loaded icon properties from org/apache/jmeter/images/icon.properties
+2026-08-20 14:47:50,482 INFO o.a.j.JMeterGuiLauncher: Setting LAF to: com.github.weisj.darklaf.DarkLaf:com.github.weisj.darklaf.theme.DarculaTheme
+2026-08-20 14:49:01,288 INFO o.a.j.s.FileServer: Default base='C:\Users\srik2\Desktop\College\System Design\tools\apache-jmeter-5.6.3\bin'
+2026-08-20 14:52:48,071 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/html is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-08-20 14:52:48,071 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xhtml+xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-08-20 14:52:48,071 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-08-20 14:52:48,071 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-08-20 14:52:48,071 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/vnd.wap.wml is org.apache.jmeter.protocol.http.parser.RegexpHTMLParser
+2026-08-20 14:52:48,071 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/css is org.apache.jmeter.protocol.http.parser.CssParser
+2026-08-20 14:55:34,815 INFO o.a.j.s.SampleResult: Note: Sample TimeStamps are START times
+2026-08-20 14:55:34,816 INFO o.a.j.s.SampleResult: sampleresult.default.encoding is set to UTF-8
+2026-08-20 14:55:34,816 INFO o.a.j.s.SampleResult: sampleresult.useNanoTime=true
+2026-08-20 14:55:34,816 INFO o.a.j.s.SampleResult: sampleresult.nanoThreadSleep=5000

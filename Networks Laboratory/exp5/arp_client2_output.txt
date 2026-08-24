@@ -1,0 +1,6 @@
+Enter the IP address : 155.157.65.128
+Enter the Mac address : 45-DA-62-21-1A-B2
+ARP Request Received : 123.128.34.56 | AF-45-E5-00-97-12 | 155.157.65.128
+IP address matches
+ARP Reply Sent : 123.128.34.56 | AF-45-E5-00-97-12 | 155.157.65.128 | 45-DA-62-21-1A-B2
+Received Packet is : 123.128.34.56 | AF-45-E5-00-97-12 | 155.157.65.128 | 45-DA-62-21-1A-B2 | 1011110000101010

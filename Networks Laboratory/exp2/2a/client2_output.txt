@@ -1,0 +1,13 @@
+Connected to Banking Validation Server.
+
+Enter Transaction Request: Balance Enquiry - ACC2005
+Server Acknowledgment:
+Balance Enquiry - ACC2005
+Enter Transaction Request: Mini Statement Request
+Server Acknowledgment:
+Mini Statement Request
+Enter Transaction Request: Fund Transfer Validation
+Server Acknowledgment:
+Fund Transfer Validation
+Enter Transaction Request: exit
+Disconnected from Server.
