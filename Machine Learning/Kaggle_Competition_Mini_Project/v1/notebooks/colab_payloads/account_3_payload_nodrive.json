@@ -1,0 +1,21 @@
+{
+  "name": "filament_colab_strong_b3_1024",
+  "encoder": "tu-efficientnet_b3",
+  "train_res": 1024,
+  "batch_size": 1,
+  "accumulation": 2,
+  "epochs": 30,
+  "tta": true,
+  "account_id": 3,
+  "model_name": "unet",
+  "inference_res": 2048,
+  "lr": "2e-4",
+  "min_lr": "1e-6",
+  "patience": 10,
+  "n_folds": 5,
+  "val_fold": 2,
+  "threshold": 0.45,
+  "download_results": true,
+  "competition": "filament-segmentation-2026",
+  "seed_offset": 3
+}

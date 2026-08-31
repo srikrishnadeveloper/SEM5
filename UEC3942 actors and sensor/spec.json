@@ -1,0 +1,314 @@
+{
+  "title": "ASSIGNMENT – 1",
+  "subtitle": "Introduction to Sensors and Actuators (UEC 3942)",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": "To design sensor-based systems for twenty real-world application scenarios, selecting appropriate sensors, signal conditioning, processing, and display/actuation elements for each. The designs cover temperature, optical, pressure, strain, and piezoelectric sensing principles."
+    },
+
+    {
+      "heading": "Q1. Automatic Temperature Monitoring and Control for a Cold Storage Warehouse (RTD/Thermistor)",
+      "paragraph": "A PT100 RTD senses the warehouse temperature and a PID controller on a microcontroller holds the room between +2°C and -18°C by switching the refrigeration compressor through a solid-state relay.",
+      "bullets": [
+        "Sensing: PT100 RTD (±0.1°C, nearly linear) in a three-wire Wheatstone bridge to cancel lead resistance.",
+        "Conditioning: INA125 instrumentation amplifier scales the bridge output to the ADC range.",
+        "Control: microcontroller (ATmega328P/ESP32) runs a PID loop with 2°C hysteresis to stop compressor short-cycling.",
+        "Output: SSR drives the compressor; LCD shows live temperature; buzzer alarms on excursions.",
+        "Extra: door sensor raises an alarm if the door stays open over 30 seconds."
+      ],
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/diagrams/q1_coldstorage.png",
+          "caption": "Fig 1. Closed-loop temperature control for the cold storage warehouse" },
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/images/rtd_pt100.jpg",
+          "caption": "PT100 RTD probe and bare sensing elements" }
+      ]
+    },
+
+    {
+      "heading": "Q2. Fiber-Optic Security System for Detecting Unauthorized Entry",
+      "paragraph": "An infrared beam carried on optical fiber is stretched across the entry path; breaking the beam instantly triggers the alarm chain.",
+      "bullets": [
+        "Sensing: through-beam pair – 850 nm IR LED feeding the transmitter fiber, photodiode on the receiver fiber.",
+        "Interference rejection: LED modulated at 38 kHz so the receiver only accepts the modulated signal (sunlight/ambient rejected).",
+        "Detection: LM358 comparator flags the beam break and fires a microcontroller interrupt.",
+        "Response: siren + CCTV trigger + magnetic door lock; latching relay holds the alarm until a key-switch reset.",
+        "Why fiber: immune to EMI, no electrical conductor at the sensing point, works around metal doors and machinery."
+      ]
+    },
+
+    {
+      "heading": "Q3. Solar Energy Monitoring System Using a Photovoltaic Sensor",
+      "paragraph": "A calibrated PV cell measures solar irradiance while an MPPT converter keeps the panel at its maximum power point; everything is logged to the cloud.",
+      "bullets": [
+        "Sensing: BPW34 photodiode in photovoltaic mode – short-circuit current is proportional to irradiance (0–1000 W/m²).",
+        "Conditioning: OP07 transimpedance amplifier (10⁴ V/A) followed by a 1 s RC low-pass filter against cloud flicker.",
+        "Conversion: 16-bit ADC (ADS1118) with calibration constant converts to W/m².",
+        "Power tracking: ESP32 runs perturb-and-observe MPPT, adjusting a DC-DC buck converter duty cycle.",
+        "Logging: irradiance, voltage, current, power published over MQTT; local LCD for field checks."
+      ]
+    },
+
+    {
+      "heading": "Q4. Optical Fire Detection System Using a Photodiode/Phototransistor for Industrial Safety",
+      "paragraph": "A dual-wavelength optical detector senses both smoldering fires (IR light scattered by smoke) and open flames (visible flicker), latching an alarm and reporting over wireless.",
+      "bullets": [
+        "Smoke channel: 880 nm IR LED and phototransistor at 90° in a dark chamber – smoke particles scatter light onto the detector.",
+        "Flame channel: 660 nm band photodiode detects the characteristic 1–5 Hz flicker of real flames (steady lamps/sun rejected).",
+        "Threshold: alarm at ~4.5%/ft obscuration (scatter coefficient > 0.3 m⁻¹) with hysteresis to stop chattering.",
+        "Alerting: 85 dB piezo sounder + beacon; state broadcast over LoRa to the plant BMS.",
+        "Self-test: button injects a known scatter signal to verify the whole chain."
+      ],
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/diagrams/q4_firedetect.png",
+          "caption": "Fig 2. Optical fire detector using 90-degree light scatter chamber" },
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/images/ir_led.jpg",
+          "caption": "Infrared emitting LEDs used as the chamber source" }
+      ]
+    },
+
+    {
+      "heading": "Q5. Automatic Brightness Control Circuit for an LCD Display Using a Photo Sensor",
+      "paragraph": "An ambient light sensor feeds a PI control loop that continuously trims the backlight PWM so panel luminance stays constant as room light changes.",
+      "bullets": [
+        "Sensing: BPW34 photodiode or LDR voltage divider beside the display; ADC reading converted to lux.",
+        "Control: PI loop against a comfort setpoint (~200 cd/m²); ~1 s settling so changes never distract.",
+        "Drive: backlight LED driver PWM at >200 Hz (no visible flicker), duty cycle 0–100%.",
+        "Automotive variant: two sensors – road-facing (glare) and sky-facing (ambient) – blended for stability.",
+        "Result: readable in sunlight, dim at night, and lower power draw."
+      ],
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/images/ldr.jpg",
+          "caption": "LDR (photoresistor) used as the low-cost ambient light sensor" }
+      ]
+    },
+
+    {
+      "heading": "Q6. Barcode Scanning System Using Optical Sensors",
+      "paragraph": "Red illumination and a line sensor capture the bar pattern, and a decoder converts the reflected waveform into the product code.",
+      "bullets": [
+        "Illumination: 660 nm red LED – dark bars absorb, white background reflects strongly.",
+        "Capture: CCD line sensor, or a laser spot swept by a mirror galvanometer onto one photodiode.",
+        "Decoding: comparator thresholds the waveform; DSP measures bar/space widths and matches symbol geometry.",
+        "Output: UART/USB-HID string to the POS system.",
+        "Specs: 45° field of view, 50–200 mm working distance; camera alternative (OV7670) also reads QR codes."
+      ]
+    },
+
+    {
+      "heading": "Q7. Smart Traffic Signal Controller Adjusting Brightness with Ambient Light",
+      "paragraph": "Photocells on each signal head dim the LEDs at night and brighten them in daylight, while the same controller adapts signal timing to traffic.",
+      "bullets": [
+        "Brightness: LDR on each head; full current in daylight, 30–50% at night to cut glare and power.",
+        "Stability: switch thresholds at 50 lux down / 80 lux up (hysteresis against dusk oscillation).",
+        "Timing: day mode gives longer green to heavier approaches via vehicle loops; night mode shortens cycles.",
+        "Preemption: 38 kHz IR receiver lets ambulances/fire trucks force a green corridor.",
+        "Safety: min green 10 s, max 60 s; watchdog forces all-red flash if sensor feedback is lost."
+      ]
+    },
+
+    {
+      "heading": "Q8. Temperature and Pressure Monitoring System for a Steam Pipeline (Thermocouple + Pressure Sensor)",
+      "paragraph": "A Type K thermocouple and a 4–20 mA pressure transmitter watch the steam line, with alarms and trends on SCADA.",
+      "bullets": [
+        "Temperature: Type K thermocouple (–200°C to +1350°C) in an Inconel thermowell; MAX31855 does cold-junction compensation.",
+        "Pressure: 4–20 mA transmitter (0–100 bar); 250 Ω sense resistor gives 1–5 V, and <4 mA signals a broken wire.",
+        "Acquisition: both channels sampled at 1 Hz by a DAQ module.",
+        "Display: SCADA panel with live values and 24 h trend curves.",
+        "Alarms: SMS/email above 400°C or 80 bar, all events timestamp-logged."
+      ],
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/images/thermocouple.jpg",
+          "caption": "Type K thermocouple probe used for steam line measurement" }
+      ]
+    },
+
+    {
+      "heading": "Q9. Pulse Monitoring System Using Optical Sensors (Photodiode/Phototransistor)",
+      "paragraph": "Light through a fingertip rises and falls with each heartbeat; filtering that tiny signal out of the large DC baseline recovers the pulse waveform and BPM.",
+      "bullets": [
+        "Principle: photoplethysmography – blood volume modulates light absorption (Beer-Lambert law).",
+        "Sensing: IR LED one side of the finger, BPW34 photodiode on the other.",
+        "Conditioning: transimpedance amplifier, then 0.5–5 Hz bandpass removing DC drift, respiration and mains hum.",
+        "Processing: peak detection on the filtered pulse; BPM = 60 / RR-interval, averaged over beats.",
+        "Display: 128×64 OLED shows waveform + BPM; adding 660 nm + 940 nm LEDs enables SpO₂."
+      ],
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/diagrams/q9_pulse.png",
+          "caption": "Fig 3. Photoplethysmography signal chain of the pulse monitor" }
+      ]
+    },
+
+    {
+      "heading": "Q10. Optical Smoke Detector for Residential Buildings (Photodiodes and Infrared LEDs)",
+      "paragraph": "A photoelectric chamber detects smoke by the infrared light it scatters toward a photodiode, sounding a loud alarm while sipping battery current.",
+      "bullets": [
+        "Chamber: 850 nm IR LED and photodiode at 90°; clean air means no light reaches the detector.",
+        "Thresholds: alarm at 4.5%/ft obscuration, reset at 3.5%/ft (hysteresis); sensitivity ~1.5%/ft.",
+        "Power: pulsed LED (burst every 10 s) gives 5-year life on 3×AA cells.",
+        "Features: 15-minute hush button; 433 MHz wireless interconnect sounds every unit in the house.",
+        "Testing: button injects a known scatter signal; verify periodically with aerosol smoke."
+      ]
+    },
+
+    {
+      "heading": "Q11. Automatic Museum Lighting System to Protect Artifacts from Light Exposure",
+      "paragraph": "Lux and motion sensors let the lighting follow visitors and daylight, holding illumination on artifacts inside conservation limits.",
+      "bullets": [
+        "Sensing: TCS34725 lux/color sensor at exhibit level; PIR (HB100) for visitor presence.",
+        "Conservation: total light held at 150–300 lux; daylight harvesting dims LEDs when sun exceeds 300 lux.",
+        "Occupancy: lights fade to 10% after 5 min empty; 5 s ramp-up when someone approaches.",
+        "Quality: fixtures with CRI > 90 plus UV/IR filtering (the main pigment damagers).",
+        "Control/energy: DMX512 zoning per case; 10% security lighting after hours; 60–80% energy saving."
+      ]
+    },
+
+    {
+      "heading": "Q12. Portable Digital Body Temperature Monitoring Device",
+      "paragraph": "A non-contact infrared thermopile reads forehead temperature in a second, with compensation and averaging for clinical accuracy.",
+      "bullets": [
+        "Sensing: MLX90614 IR thermopile, –40°C to +300°C, ±0.2°C in the body range, internal 16-bit ADC.",
+        "Compensation: ambient (die) temperature correction curve for forehead-to-core offset.",
+        "Processing: 5 Hz sampling, 5-reading moving average with outlier rejection.",
+        "UI: 1.3\" TFT at 0.1° resolution; green/orange/red result; beep above 38°C fever threshold.",
+        "Power: 2×AAA for 1000+ readings; factory calibration with ±0.5°C user offset."
+      ],
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/images/ir_thermometer.jpg",
+          "caption": "Infrared thermometer of the type built around a thermopile sensor" }
+      ]
+    },
+
+    {
+      "heading": "Q13. Industrial Monitoring System Measuring Stress, Pressure, and Temperature Simultaneously",
+      "paragraph": "Strain gauges, a pressure transmitter and an RTD feed one time-aligned acquisition chain that streams engineering-unit data to the cloud with edge alarms.",
+      "bullets": [
+        "Stress: 350 Ω foil strain gauges in Wheatstone bridge (full-bridge cancels bending errors), INA125 amplifier.",
+        "Pressure: 4–20 mA loop (0–100 bar) into 250 Ω sense resistor.",
+        "Temperature: PT100 RTD in its own bridge.",
+        "Acquisition: 74HC4051 multiplexer into a 16-bit ADS1117 (860 S/s) keeps channels time-aligned.",
+        "Edge/cloud: Raspberry Pi 4 converts to engineering units, alarms at strain >2000 µε, publishes MQTT, buffers locally on outage; Zigbee mesh backhaul."
+      ]
+    },
+
+    {
+      "heading": "Q14. Automatic Vehicle Headlight Control System Using LDR and Phototransistor",
+      "paragraph": "Two light sensors decide when the headlights belong on, and a servo auto-levels the beam so it never dazzles oncoming drivers.",
+      "bullets": [
+        "Sensing: sky-facing LDR (ambient) + road-facing phototransistor (tunnels, oncoming glare).",
+        "Logic: on below 200 lux, off above 100 lux (hysteresis) with 5 s delay against overpass flicker.",
+        "Drivers: halogen via relay; HID via DC-DC boost + igniter; LED via 0–100% PWM dimming.",
+        "Auto-leveling: ADXL345 pitch sensing drives beam-height servos when the rear is loaded.",
+        "Override: manual switch always wins for driver confidence."
+      ]
+    },
+
+    {
+      "heading": "Q15. Structural Health Monitoring System for a Bridge Using Resistive Strain Gauges",
+      "paragraph": "Strain gauges at the bridge's critical sections stream load data continuously, watching both overload and stiffness changes that reveal damage.",
+      "bullets": [
+        "Placement: midspan bottom flanges (max positive bending), over piers (negative bending), main cables/trusses.",
+        "Compensation: temperature-compensated half/full bridges; co-located RTD subtracts thermal strain (δ = αLT).",
+        "Acquisition: instrumentation amps + 24-bit ADCs at 1 Hz per node.",
+        "Alarms: quasi-static strain >2000 µε (0.2%), strain-rate spikes (impact), FFT natural-frequency drift (stiffness loss).",
+        "Network: 802.15.4 Zigbee mesh to a cellular gateway; low duty cycle gives 10-year battery life."
+      ]
+    },
+
+    {
+      "heading": "Q16. Electronic Weighing Scale Using Resistive Strain Gauges and a Wheatstone Bridge",
+      "paragraph": "A four-gauge full-bridge load cell turns weight into a tiny differential voltage that amplification and a 24-bit ADC resolve to 1 g.",
+      "bullets": [
+        "Load cell: aluminum bending beam with 4× 350 Ω gauges (2 tension, 2 compression) – 4× sensitivity, self-compensating.",
+        "Signal: ~10 mV full scale (2 mV/V at 5 V excitation); INA125 at gain 100 → 1 V.",
+        "Conversion: ADS1256 24-bit sigma-delta at 2000 S/s, ~200 ms averaging for a stable reading.",
+        "Calibration: EEPROM zero (tare) + span with certified 5 kg weight; ±0.1% FS accuracy.",
+        "UI: LED display, auto-tare button, RS232 to POS; mechanical overload stop at 150%."
+      ],
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/diagrams/q16_scale.png",
+          "caption": "Fig 4. Full-bridge load cell measurement chain of the weighing scale" }
+      ]
+    },
+
+    {
+      "heading": "Q17. Piezoelectric Sensor-Based Vibration Monitoring for Engine Knock Detection",
+      "paragraph": "A piezoelectric sensor on the engine block hears the characteristic 5–10 kHz ringing of knock, and the ECU retards timing until it stops.",
+      "bullets": [
+        "Sensing: PZT piezo element converts block vibration to charge (Q = d·F).",
+        "Conditioning: charge amplifier (~10⁹ V/C effective) for the high-impedance source; bandpass 5–10 kHz isolates knock resonance.",
+        "Gating: signal windowed per cylinder from the crank-angle sensor; RMS computed in-window.",
+        "Control: knock declared above ~1.5 V RMS (noise-adaptive); ignition retarded 2°–8° CA, then advanced back gradually.",
+        "Logging: Arduino Mega-class MCU with fast ADC; per-cylinder knock intensity to SD card and LCD."
+      ]
+    },
+
+    {
+      "heading": "Q18. Wireless Tire Pressure Monitoring System (TPMS) Using Pressure Sensors",
+      "paragraph": "A battery module inside each wheel measures pressure and temperature and radioes it to the dashboard, warning the driver before a tire becomes dangerous.",
+      "bullets": [
+        "Sensing: MEMS absolute pressure sensor (0–8 bar) + thermistor for internal air temperature.",
+        "Power: accelerometer wakes the module only when the wheel rolls; CR1620 cell lasts 2+ years.",
+        "Link: 433 MHz ASK/OOK frame with unique 32-bit ID, pressure, temperature, battery status; ~30 ft range.",
+        "Matching: ECU learns wheel positions by deflate/inflate relearn or stationary magnet tool (20 min).",
+        "Compliance: FMVSS 138 – warn at 25% below placard pressure; fast-leak (>1 psi/s) triggers an immediate red warning."
+      ],
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/diagrams/q18_tpms.png",
+          "caption": "Fig 5. TPMS wireless transmission link from wheel module to dashboard" },
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/images/tpms.jpg",
+          "caption": "TPMS sensor strapped inside the wheel on the rim" }
+      ]
+    },
+
+    {
+      "heading": "Q19. Real-Time Pressure Monitoring System for an Industrial Boiler",
+      "paragraph": "A HART pressure transmitter with redundant sampling watches drum pressure, with a hard-wired safety interlock as the last line of defense.",
+      "bullets": [
+        "Sensing: 4–20 mA transmitter, 0–250 bar, ±0.1% FS; HART digital overlay carries diagnostics and trimmed values.",
+        "Redundancy: 250 Ω sense resistor → 1–5 V sampled on two ADC channels with voting logic.",
+        "Local UI: LCD with bar graph at the boiler, independent of the control network.",
+        "Alarms: SMS to plant manager at 90% setpoint; at 110% a hard-wired interlock trips the burner and feedwater (no software in the path).",
+        "Records: SCADA historian (InfluxDB) every 10 s; independent bourdon-tube gauge as regulatory backup."
+      ]
+    },
+
+    {
+      "heading": "Q20. Design of an Automatic Temperature Monitoring and Control System for a Cold Storage Warehouse Using an RTD or Thermistor (Variant B)",
+      "paragraph": "This variant uses an NTC thermistor instead of an RTD, trading a little accuracy for much lower cost – suitable for a small commercial cold room.",
+      "bullets": [
+        "Sensing: 10 kΩ NTC thermistor in a voltage divider; Steinhart-Hart equation linearizes the strongly nonlinear R-T curve in firmware.",
+        "Conditioning: divider buffered by an op-amp voltage follower into the ADC (no bridge needed).",
+        "Control: same PID + hysteresis structure on the compressor SSR; setpoints +2°C / -18°C.",
+        "Extras: capacitive hygrometer (HSM20G) for humidity, door-open alarm >30 s, data-logged excursions.",
+        "Trade-off: thermistor ±0.5°C over 0–40°C and lower cost vs RTD ±0.1°C and better long-term stability."
+      ]
+    },
+
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "Selected sensing elements (RTD, thermocouple, photodiode, LDR, strain gauge, piezoelectric, MEMS) by range, accuracy and environment.",
+        "Designed complete signal chains: bridges, instrumentation/charge/transimpedance amplifiers, filtering, ADC choice.",
+        "Applied modulation, hysteresis and thresholding to reject interference and stop control chattering.",
+        "Integrated microcontroller processing: PID loops, FFT analysis, peak detection, MPPT.",
+        "Specified end-to-end systems from sensor to display, alarm and cloud/SCADA reporting."
+      ]
+    },
+    {
+      "heading": "REFERENCES",
+      "bullets": [
+        "D. Patranabis, Sensors and Transducers, PHI Learning.",
+        "C. R. Webb, Sensors and Actuators: Engineering System Instrumentation, Elsevier.",
+        "J. Fraden, Handbook of Modern Sensors, Springer.",
+        "UEC 3942 Introduction to Sensors and Actuators, SSN College of Engineering, Regulations 2024."
+      ]
+    }
+  ]
+}

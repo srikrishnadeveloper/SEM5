@@ -1,0 +1,411 @@
+{
+  "title": "ASSIGNMENT – 1",
+  "subtitle": "Software Engineering (UCS3504) — Hospital Management System: Comprehensive Analysis, SDLC, SRS, Use Case and DFD",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": "To apply software engineering principles to analyze, model, and design a real-world software system. The chosen system is a Hospital Management System (HMS). This report presents a comprehensive study including problem definition, scope, objectives, risk analysis, ethics and sustainability, SDLC selection and schedule, feasibility study, requirements engineering with a full IEEE-style SRS, use case modeling with detailed scenarios, and data-flow design with a data dictionary."
+    },
+
+    {
+      "heading": "1. INTRODUCTION AND PROBLEM DEFINITION",
+      "paragraph": "Modern hospitals operate in a high-pressure environment where accurate, real-time information can be the difference between efficient patient care and operational chaos. Many hospitals still rely on a mix of paper files, spreadsheets, and disconnected departmental applications. This fragmentation causes delayed appointments, duplicated tests, prescription errors, billing disputes, and poor resource utilization. The proposed Hospital Management System (HMS) is a unified, web-based platform that integrates patient registration, appointment scheduling, electronic medical records (EMR), diagnosis, prescriptions, pharmacy, laboratory, billing, admission/discharge, staff scheduling, inventory, and analytics.",
+      "bullets": [
+        "Target users: Patients, doctors, nurses, receptionists, pharmacists, lab technicians, billing staff, and hospital administrators.",
+        "Primary stakeholders: Hospital management, clinical staff, patients and their families, insurance companies, pharmacy suppliers, medical device vendors, and government health authorities.",
+        "Project scope: A multi-tenant, role-based web application supporting outpatient and inpatient workflows for a 250-bed multi-specialty hospital.",
+        "Major modules: Patient Registration, Appointment Scheduling, EMR, Doctor Workbench, Pharmacy & Inventory, Laboratory, Billing & Payments, Admission/Discharge, Staff Scheduling, Reports & Analytics.",
+        "Expected outcomes: Reduced average waiting time by 40%, elimination of duplicate records, faster billing cycles, centralized audit-ready data, and improved regulatory compliance."
+      ]
+    },
+
+    {
+      "heading": "1.1 PROJECT OBJECTIVES",
+      "table": {
+        "headers": ["Objective", "Measurable target"],
+        "rows": [
+          ["Reduce patient wait time", "Average OPD wait time under 15 minutes"],
+          ["Improve data accuracy", "Less than 1% record duplication after first year"],
+          ["Faster billing", "80% of bills generated within 5 minutes of service"],
+          ["Resource optimization", "Bed occupancy visibility and staff scheduling improved by 25%"],
+          ["Audit compliance", "100% traceability of prescription and billing changes"]
+        ]
+      },
+      "widths": [200, 280]
+    },
+
+    {
+      "heading": "1.2 RISK ANALYSIS",
+      "table": {
+        "headers": ["Risk", "Impact", "Probability", "Mitigation strategy", "Owner"],
+        "rows": [
+          ["Data breach / unauthorized PHI access", "High", "Medium", "RBAC, AES-256 encryption, TLS 1.3, audit logs, periodic security audits", "Security team"],
+          ["System downtime during peak hours", "High", "Medium", "Cloud HA, daily backups, failover, disaster recovery drills", "Infrastructure team"],
+          ["Staff resistance to digital workflows", "Medium", "High", "Phased rollout, hands-on training, super-user program, feedback loops", "Change manager"],
+          ["Integration failure with lab devices", "Medium", "Medium", "HL7/FHIR interfaces, test environment, middleware adapters", "Integration team"],
+          ["Budget or schedule overrun", "High", "Low", "Agile/incremental delivery, MVP-first, fixed-scope sprints", "Project manager"],
+          ["Medication errors from data entry", "High", "Medium", "Barcode scanning, drug-allergy alerts, double-check prompts", "Clinical safety team"],
+          ["Vendor lock-in to cloud provider", "Medium", "Low", "Containerized deployment, portable database schema", "Architecture team"]
+        ]
+      },
+      "widths": [130, 50, 60, 200, 80]
+    },
+
+    {
+      "heading": "2. ETHICS, LEGAL AND SUSTAINABILITY CONSIDERATIONS",
+      "paragraph": "Building an HMS involves sensitive personal health information. Ethical design must be baked into the system from the start, not added later.",
+      "bullets": [
+        "Patient privacy and confidentiality: The system must comply with the Digital Information Security in Healthcare Act (DISHA) India and follow HIPAA-style principles for data minimization, consent, and breach notification.",
+        "Informed consent: Patients must explicitly consent to data sharing with insurers, researchers, or third-party providers; consent must be revocable.",
+        "Data minimization: Collect only the data needed for care, billing, or compliance; avoid unnecessary personal identifiers.",
+        "Fair access and digital inclusion: The UI should support local languages, high-contrast modes, and simple navigation so elderly and differently-abled users are not excluded.",
+        "Algorithmic transparency: Any decision-support or triage scoring must be explainable and auditable, with human oversight.",
+        "Sustainability: Cloud deployment reduces physical hardware and paper consumption, supporting SDG 9 (Industry, Innovation and Infrastructure) and SDG 12 (Responsible Consumption and Production).",
+        "Professional responsibility: Developers, doctors, and administrators must follow ACM/IEEE code of ethics and not bypass safety checks for speed or profit."
+      ]
+    },
+
+    {
+      "heading": "3. SDLC MODEL SELECTION",
+      "paragraph": "The Incremental Software Development Life Cycle model is selected for the HMS. A hospital cannot pause operations for a big-bang replacement. The Incremental model lets the team build and deploy the system in prioritized, working increments, collect real user feedback, and extend the product over time. Each increment delivers a usable subsystem, reducing both technical and business risk."
+    },
+
+    {
+      "heading": "3.1 JUSTIFICATION FOR INCREMENTAL MODEL",
+      "table": {
+        "headers": ["Factor", "Why Incremental fits"],
+        "rows": [
+          ["Business continuity", "Modules go live one at a time; old processes continue for unaffected departments"],
+          ["Risk reduction", "High-risk modules (e.g., EMR, billing) are prototyped and validated early"],
+          ["User feedback", "Doctors and staff can use real increments and request changes before later modules are built"],
+          ["Budget control", "Management can pause or reprioritize increments based on ROI"],
+          ["Regulatory testing", "Each increment is validated independently, making audits easier"]
+        ]
+      },
+      "widths": [120, 360]
+    },
+
+    {
+      "heading": "3.2 INCREMENTAL PLAN",
+      "table": {
+        "headers": ["Increment", "Modules", "Deliverable"],
+        "rows": [
+          ["Increment 1", "Patient Registration + Appointment Scheduling", "Working appointment portal and reception dashboard"],
+          ["Increment 2", "EMR + Doctor Diagnosis/Prescription", "Electronic records and prescription workflow"],
+          ["Increment 3", "Pharmacy + Laboratory + Inventory", "Medicine and test order management"],
+          ["Increment 4", "Billing + Admission/Discharge + Reports", "End-to-end revenue and administration workflow"],
+          ["Increment 5", "Admin + Analytics + Integration", "Hospital-wide dashboards and third-party integrations"]
+        ]
+      },
+      "widths": [80, 250, 200]
+    },
+
+    {
+      "heading": "3.3 PROJECT SCHEDULE",
+      "paragraph": "The proposed schedule covers 20 weeks, with planning in the first month and each implementation increment taking approximately three weeks.",
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/Software Engineering/Assignment 1/diagrams/gantt.png",
+          "caption": "Fig 4. Incremental SDLC Gantt chart" }
+      ]
+    },
+
+    {
+      "heading": "4. FEASIBILITY ANALYSIS",
+      "paragraph": "A feasibility study evaluates whether the HMS project is worth pursuing. The analysis covers technical, economic, operational, legal, and schedule dimensions."
+    },
+
+    {
+      "heading": "4.1 TECHNICAL FEASIBILITY",
+      "paragraph": "The system can be built using mature open-source and commercial technologies. The recommended stack is Spring Boot or Django for the backend, React for the frontend, PostgreSQL for transactional data, Redis for caching, and AWS/Azure/ on-premise private cloud for hosting. HL7/FHIR libraries and DICOM viewers are available for integration with lab and imaging systems. The hospital already has LAN/WAN connectivity, so no major network upgrade is needed."
+    },
+
+    {
+      "heading": "4.2 ECONOMIC FEASIBILITY",
+      "table": {
+        "headers": ["Cost / Benefit item", "Estimate"],
+        "rows": [
+          ["Initial development cost (5 increments)", "₹ 25–30 lakhs"],
+          ["Annual cloud and maintenance cost", "₹ 4–5 lakhs"],
+          ["Annual savings from reduced paper, faster billing, fewer duplicate tests", "₹ 8–10 lakhs"],
+          ["Payback period", "Approximately 3 years"],
+          ["Break-even point", "After second year of operation"]
+        ]
+      },
+      "widths": [250, 230]
+    },
+
+    {
+      "heading": "4.3 OPERATIONAL FEASIBILITY",
+      "paragraph": "The hospital has an IT helpdesk and network infrastructure. Doctors and nurses are familiar with computers, but a structured change-management program is essential. Operational feasibility is high because the system mirrors existing workflows rather than forcing a complete redesign."
+    },
+
+    {
+      "heading": "4.4 LEGAL AND REGULATORY FEASIBILITY",
+      "paragraph": "The HMS must comply with the IT Act 2000, DISHA (India), and data-localization guidelines. With role-based access, encryption, audit logs, and consent management, compliance is achievable. A legal review of insurance and billing integration is recommended before go-live."
+    },
+
+    {
+      "heading": "4.5 SCHEDULE FEASIBILITY",
+      "paragraph": "A 20-week incremental plan with a working MVP after 8 weeks is realistic for a team of 6–8 developers. Buffer time is included for user acceptance testing and integration."
+    },
+
+    {
+      "heading": "4.6 FEASIBILITY SUMMARY",
+      "table": {
+        "headers": ["Feasibility type", "Feasible?", "Reason"],
+        "rows": [
+          ["Technical", "Yes", "Mature stack, existing network, reusable healthcare standards"],
+          ["Economic", "Yes", "Payback in ~3 years through efficiency gains"],
+          ["Operational", "Yes", "Existing IT support; workflows map to current practice"],
+          ["Legal", "Yes with controls", "Compliance achievable with RBAC, encryption, audit logs"],
+          ["Schedule", "Yes", "20-week incremental plan with MVP at week 8"]
+        ]
+      },
+      "widths": [100, 70, 250]
+    },
+
+    {
+      "heading": "5. REQUIREMENTS ENGINEERING",
+      "paragraph": "Requirements engineering identifies what the HMS must do and how well it must do it. Functional requirements define behavior; non-functional requirements define quality attributes."
+    },
+
+    {
+      "heading": "5.1 FUNCTIONAL REQUIREMENTS",
+      "table": {
+        "headers": ["ID", "Requirement", "Priority"],
+        "rows": [
+          ["FR-01", "The system shall register a new patient, generate a unique patient ID, and store demographics, contact, insurance, and emergency details.", "High"],
+          ["FR-02", "The system shall allow patients or receptionists to search doctors by department and book, reschedule, or cancel appointments without double-booking.", "High"],
+          ["FR-03", "The system shall let doctors view patient history, add diagnosis notes, prescribe medicines, and order lab tests.", "High"],
+          ["FR-04", "The system shall dispatch prescriptions to the pharmacy and update the dispensing status.", "High"],
+          ["FR-05", "The system shall generate consolidated bills from consultation, lab, pharmacy, and room charges, and support cash, card, UPI, and insurance payments.", "High"],
+          ["FR-06", "The system shall manage admission, bed allocation, and discharge with discharge summaries.", "Medium"],
+          ["FR-07", "The system shall maintain medicine and consumable inventory with stock alerts.", "Medium"],
+          ["FR-08", "The system shall schedule doctors and nursing staff by department and shift.", "Medium"],
+          ["FR-09", "The system shall provide dashboards and reports for administration.", "Medium"],
+          ["FR-10", "The system shall notify patients and staff via SMS/email for appointments, reports, and bills.", "Low"]
+        ]
+      },
+      "widths": [40, 420, 60]
+    },
+
+    {
+      "heading": "5.2 NON-FUNCTIONAL REQUIREMENTS",
+      "table": {
+        "headers": ["ID", "Requirement"],
+        "rows": [
+          ["NFR-01", "Availability: 99.9% uptime during operating hours; critical modules must failover within 60 seconds."],
+          ["NFR-02", "Performance: Search and booking response time under 2 seconds for 95% of requests."],
+          ["NFR-03", "Security: AES-256 at rest, TLS 1.3 in transit, RBAC, MFA for admins, and immutable audit logs."],
+          ["NFR-04", "Scalability: Support 100 concurrent users in phase 1 and 1,000 users by year 3."],
+          ["NFR-05", "Usability: Responsive UI, multi-language support, accessibility compliance (WCAG 2.1 Level AA)."],
+          ["NFR-06", "Reliability: Daily automated backups, point-in-time recovery within 24 hours."],
+          ["NFR-07", "Maintainability: Modular architecture, test coverage above 80%, and CI/CD pipelines."]
+        ]
+      },
+      "widths": [50, 500]
+    },
+
+    {
+      "heading": "5.3 IEEE SRS DOCUMENT OUTLINE",
+      "table": {
+        "headers": ["Section", "Content summary"],
+        "rows": [
+          ["1. Introduction", "Purpose, scope, definitions, acronyms, references, overview"],
+          ["2. Overall Description", "Product perspective, functions, user classes, operating environment, constraints"],
+          ["3. System Features", "All FRs with priority, stimuli/response sequences, related use cases"],
+          ["4. External Interface Requirements", "User interfaces, hardware interfaces, software interfaces, communication"],
+          ["5. Non-Functional Requirements", "Performance, safety, security, availability, maintainability, portability"],
+          ["6. Data Requirements", "Logical data model, entity-relationship diagram, data dictionary"],
+          ["7. Appendices", "Assumptions, dependencies, acceptance criteria, traceability matrix"]
+        ]
+      },
+      "widths": [140, 340]
+    },
+
+    {
+      "heading": "6. USE CASE MODEL",
+      "paragraph": "The use case diagram identifies the actors and the major functions they perform. Patients interact with registration and appointments; doctors with diagnosis and prescriptions; receptionists with admissions; pharmacists, lab staff, billing staff, and administrators with their respective modules.",
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/Software Engineering/Assignment 1/diagrams/use_case.png",
+          "caption": "Fig 1. Use Case Diagram — Hospital Management System" }
+      ]
+    },
+
+    {
+      "heading": "6.1 USE CASE DESCRIPTION: BOOK APPOINTMENT",
+      "table": {
+        "headers": ["Field", "Description"],
+        "rows": [
+          ["Use case ID", "UC-01"],
+          ["Use case name", "Book Appointment"],
+          ["Actors", "Patient, Receptionist"],
+          ["Description", "A patient or receptionist searches a doctor by department or name, selects an available time slot, and confirms an appointment."],
+          ["Precondition", "Patient is registered; doctor schedule is configured."],
+          ["Main flow", "1. Actor selects department. 2. System lists doctors. 3. Actor chooses a doctor. 4. System shows available slots. 5. Actor selects slot. 6. System confirms booking. 7. System sends notification."],
+          ["Alternate flow", "A1. No slot available: system suggests next available date/time."],
+          ["Postcondition", "Appointment record created, doctor schedule updated, patient notified."]
+        ]
+      },
+      "widths": [120, 350]
+    },
+
+    {
+      "heading": "6.2 USE CASE DESCRIPTION: CONSULT PATIENT",
+      "table": {
+        "headers": ["Field", "Description"],
+        "rows": [
+          ["Use case ID", "UC-02"],
+          ["Use case name", "Consult Patient"],
+          ["Actors", "Doctor"],
+          ["Description", "Doctor reviews the patient’s medical history, records the current diagnosis, writes prescriptions, and orders lab tests."],
+          ["Precondition", "Doctor is logged in; patient has an active appointment."],
+          ["Main flow", "1. Doctor opens patient record. 2. System displays history and vitals. 3. Doctor enters diagnosis. 4. Doctor selects medicines from formulary. 5. Doctor sets dosage and duration. 6. Doctor orders lab tests if needed. 7. System saves EMR and notifies pharmacy/lab."],
+          ["Alternate flow", "A1. Medicine unavailable: doctor selects an alternative. A2. Allergy alert: system warns doctor of known allergy."],
+          ["Postcondition", "Consultation record and prescription stored; pharmacy and lab receive requests."]
+        ]
+      },
+      "widths": [120, 350]
+    },
+
+    {
+      "heading": "6.3 USE CASE DESCRIPTION: PROCESS BILLING",
+      "table": {
+        "headers": ["Field", "Description"],
+        "rows": [
+          ["Use case ID", "UC-03"],
+          ["Use case name", "Process Billing"],
+          ["Actors", "Billing Staff"],
+          ["Description", "Billing staff retrieves the patient's service history, applies insurance or discount rules, generates an invoice, and records payment."],
+          ["Precondition", "Patient services are completed and charges are posted from consultation, lab, and pharmacy."],
+          ["Main flow", "1. Staff selects patient. 2. System aggregates charges. 3. Staff applies insurance/discount. 4. System generates invoice. 5. Staff receives payment. 6. System prints/email receipt."],
+          ["Alternate flow", "A1. Partial payment: system records balance and generates payment plan."],
+          ["Postcondition", "Payment recorded, accounts updated, receipt issued."]
+        ]
+      },
+      "widths": [120, 350]
+    },
+
+    {
+      "heading": "6.4 USE CASE DESCRIPTION: MANAGE INVENTORY",
+      "table": {
+        "headers": ["Field", "Description"],
+        "rows": [
+          ["Use case ID", "UC-04"],
+          ["Use case name", "Manage Inventory"],
+          ["Actors", "Pharmacist, Admin"],
+          ["Description", "Users update medicine and consumable stock, set reorder levels, and generate purchase requests."],
+          ["Precondition", "User has inventory-management role."],
+          ["Main flow", "1. User views current stock. 2. System flags items below reorder level. 3. User updates quantities or creates purchase order. 4. System logs transaction."],
+          ["Alternate flow", "A1. Item out of stock: system blocks prescription dispensing until restocked."],
+          ["Postcondition", "Inventory records updated; purchase order generated if needed."]
+        ]
+      },
+      "widths": [120, 350]
+    },
+
+    {
+      "heading": "7. DATA FLOW MODEL",
+      "paragraph": "The Data Flow Diagram (DFD) shows how data moves between external entities, processes, and data stores. The Context DFD presents the HMS as a single process. The Level 1 DFD decomposes it into nine interacting processes with six data stores and the relevant external entities."
+    },
+
+    {
+      "heading": "7.1 CONTEXT DIAGRAM",
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/Software Engineering/Assignment 1/diagrams/context_dfd.png",
+          "caption": "Fig 2. Context Diagram (Level 0 DFD)" }
+      ]
+    },
+
+    {
+      "heading": "7.2 LEVEL 1 DFD",
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/Software Engineering/Assignment 1/diagrams/level1_dfd.png",
+          "caption": "Fig 3. Level 1 Data Flow Diagram" }
+      ]
+    },
+
+    {
+      "heading": "7.3 DFD DESCRIPTION",
+      "table": {
+        "headers": ["Process", "Input", "Output", "Data stores"],
+        "rows": [
+          ["P1 Patient Registration", "Patient data", "Patient ID", "D1 Patient DB"],
+          ["P2 Appointment Scheduling", "Booking request", "Appointment confirmation", "D2 Appointment DB"],
+          ["P3 Diagnosis & Prescription", "Symptoms, history", "Diagnosis, prescription", "D3 Medical Records DB"],
+          ["P4 Medical Records", "Patient ID", "Medical history", "D3 Medical Records DB"],
+          ["P5 Admission & Discharge", "Admission data", "Bed status, discharge summary", "D1 Patient DB, D4 Billing DB"],
+          ["P6 Billing", "Service charges", "Invoice, receipt", "D4 Billing DB"],
+          ["P7 Inventory Management", "Stock update, usage", "Stock alert, purchase order", "D5 Inventory DB"],
+          ["P8 Staff Scheduling", "Admin inputs", "Schedule, leave status", "D6 Staff DB"],
+          ["P9 Reports & Analytics", "Aggregated data", "Dashboard, reports", "All data stores"]
+        ]
+      },
+      "widths": [120, 120, 150, 190]
+    },
+
+    {
+      "heading": "7.4 DATA DICTIONARY",
+      "table": {
+        "headers": ["Data store / flow", "Description", "Key data elements"],
+        "rows": [
+          ["D1 Patient DB", "Master patient demographics and contact/insurance info", "patient_id, name, DOB, gender, phone, address, insurance_id"],
+          ["D2 Appointment DB", "Appointment slots, status, and history", "appointment_id, patient_id, doctor_id, date, time, status"],
+          ["D3 Medical Records DB", "EMR including diagnosis, prescriptions, lab results", "record_id, patient_id, diagnosis, prescription, notes, attachments"],
+          ["D4 Billing DB", "Invoices, payments, dues, insurance claims", "bill_id, patient_id, items, total, payment_status"],
+          ["D5 Inventory DB", "Medicine and consumable stock levels", "item_id, name, quantity, expiry, reorder_level"],
+          ["D6 Staff DB", "Doctors, nurses, and admin staff schedules", "staff_id, name, role, department, shift, leave"],
+          ["Patient data", "Flow from patient/receptionist during registration", "demographic and contact details"],
+          ["Prescription", "Flow from doctor to pharmacy", "medicine, dosage, duration"],
+          ["Bill info", "Flow from billing process to payment", "charges, discounts, total"]
+        ]
+      },
+      "widths": [130, 200, 220]
+    },
+
+    {
+      "heading": "8. TESTING AND QUALITY ASSURANCE",
+      "bullets": [
+        "Unit testing: Each service and controller tested with JUnit/Mocha; target 80% code coverage.",
+        "Integration testing: Verify HL7/FHIR message flow between EMR, lab, and pharmacy modules.",
+        "System testing: End-to-end workflows including patient registration, appointment, consultation, billing, and discharge.",
+        "User acceptance testing: Doctors, nurses, and receptionists validate real-world scenarios in a staging environment.",
+        "Security testing: Penetration testing, RBAC verification, and audit-log completeness."
+      ]
+    },
+
+    {
+      "heading": "9. ASSUMPTIONS AND DEPENDENCIES",
+      "bullets": [
+        "The hospital will provide accurate master data (doctors, departments, room inventory, medicine catalog) before go-live.",
+        "Stable internet and LAN/WAN connectivity are available at all hospital locations.",
+        "Legacy paper records will be digitized for active patients only; historical records can be scanned on demand.",
+        "Insurance company APIs or file formats for claim submission are available.",
+        "Regulatory requirements (DISHA, IT Act) remain stable during development."
+      ]
+    },
+
+    {
+      "heading": "10. CONCLUSION",
+      "paragraph": "The proposed Hospital Management System addresses the major operational pain points of a multi-specialty hospital through an integrated, incremental, and secure software solution. The analysis shows that the project is technically, economically, operationally, legally, and schedule-feasible. The Incremental SDLC model is appropriate because it allows the hospital to adopt modules gradually without disrupting daily operations. Use case and DFD models confirm that patient data flows cleanly through registration, appointment, consultation, pharmacy, lab, billing, and administration. With strong security, privacy, and sustainability practices, the HMS can improve patient care quality, reduce administrative overhead, and support regulatory compliance."
+    },
+
+    {
+      "heading": "11. LEARNING OUTCOMES",
+      "bullets": [
+        "Defined a real-world problem statement, scope, stakeholders, measurable objectives, and risk mitigation for the HMS.",
+        "Analyzed ethical, legal, and sustainability concerns and justified the Incremental SDLC with a detailed schedule.",
+        "Performed comprehensive technical, economic, operational, legal, and schedule feasibility analysis.",
+        "Specified functional and non-functional requirements and produced an IEEE-style SRS outline.",
+        "Developed a use case model with four detailed use-case descriptions covering key HMS workflows.",
+        "Designed Context and Level 1 DFDs with a supporting data dictionary and process descriptions."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "title": "ASSIGNMENT – 1",
+  "subtitle": "Computer Networks (UCS3501) — Question 3: Geographic Distribution of DNS Servers and Network Performance",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": "To design and develop a comparative framework that evaluates how the geographic distribution of DNS servers affects network performance. The study compares the DNS infrastructure of four domains hosted in different countries — www.nus.edu.sg, www.ntu.edu.sg, www.iitm.ac.in, and www.nic.in — using live DNS queries, geolocation data, and performance metrics."
+    },
+
+    {
+      "heading": "PROBLEM STATEMENT",
+      "paragraph": "A multinational cloud provider must decide where to place DNS infrastructure to minimize resolution latency and improve availability. The placement of authoritative, caching, and edge DNS servers determines how quickly users resolve domain names, how resilient the service is to failures, and how well it scales globally. This assignment compares real DNS deployments across Singapore and India to identify performance differences and recommend improvements."
+    },
+
+    {
+      "heading": "METHODOLOGY",
+      "paragraph": "Data was collected programmatically using Python with the dnspython library. For each domain, A-record resolution time was averaged over five queries from a client in Chennai, India. Authoritative NS records for the apex domain were resolved and their A-record IP addresses were geolocated using the ip-api.com service. The DNS resolution hierarchy (root, TLD, authoritative) was also traced. The collected metrics are: average DNS resolution time, number of authoritative name servers, geographic spread of name servers and web endpoints, and inferred CDN/DNS provider."
+    },
+
+    {
+      "heading": "DNS RECORD TYPES USED IN THE STUDY",
+      "bullets": [
+        "A record: maps a host name to an IPv4 address. This is the most common record for web servers and was used to locate the actual web endpoint of each domain.",
+        "AAAA record: maps a host name to an IPv6 address. IPv6 adoption is useful for future-proofing networks and was checked for each domain.",
+        "NS record: identifies the authoritative name servers for a domain. This directly shows how many servers are responsible for answering queries about the zone.",
+        "CNAME record: creates an alias from one domain name to another. It is widely used by CDNs to point users to a canonical edge hostname.",
+        "SOA record: specifies the Start of Authority for a zone, including the primary name server and refresh/retry/expire timers.",
+        "MX record: specifies mail exchange servers for a domain, relevant for mail delivery but not directly for web DNS performance.",
+        "TXT record: holds arbitrary text, often used for SPF, DKIM, and domain verification strings."
+      ]
+    },
+
+    {
+      "heading": "DATA COLLECTED",
+      "table": {
+        "headers": ["Domain", "A record IP(s)", "Avg resolution (ms)", "Apex NS count", "Primary locations observed"],
+        "rows": [
+          ["www.nus.edu.sg", "45.60.33.225", "166.1", "4", "Singapore (Incapsula UK edge)"],
+          ["www.ntu.edu.sg", "104.16.4.14", "171.0", "4", "Singapore + Cloudflare Toronto"],
+          ["www.iitm.ac.in", "103.158.42.45", "167.5", "3", "India (Chennai, Mumbai)"],
+          ["www.nic.in", "23.32.238.209, 23.32.238.241", "164.7", "4", "India (New Delhi) + Germany Akamai"]
+        ]
+      },
+      "widths": [110, 140, 90, 80, 180]
+    },
+
+    {
+      "heading": "GEOLOCATION OF RESOLVED ENDPOINTS",
+      "table": {
+        "headers": ["IP", "Country", "City/Region", "Organization/AS"],
+        "rows": [
+          ["45.60.33.225", "United Kingdom", "London", "AS19551 Incapsula"],
+          ["104.16.4.14", "Canada", "Toronto", "AS13335 Cloudflare"],
+          ["103.158.42.45", "India", "Chennai", "AS141340 IIT Madras"],
+          ["23.32.238.209 / .241", "Germany", "Frankfurt", "AS20940 Akamai"],
+          ["137.132.123.4", "Singapore", "Singapore", "AS7472 NUS"],
+          ["165.21.83.11", "Singapore", "Singapore", "AS3758 SingNet"],
+          ["164.100.4.2", "India", "New Delhi", "AS4758 NIC"],
+          ["164.100.11.2", "India", "New Delhi", "AS4758 NIC"],
+          ["35.244.9.74", "India", "Mumbai", "AS396982 Google Cloud"]
+        ]
+      },
+      "widths": [130, 90, 110, 220]
+    },
+
+    {
+      "heading": "DNS RESOLUTION PERFORMANCE",
+      "paragraph": "Average A-record resolution times were measured from a client located in Chennai, India. The values are all in the 160–172 ms range, which is expected because the local resolver is on the same campus/ISP and likely caches common TLD data. Differences arise mainly from whether the authoritative server is local or overseas, whether the domain uses a third-party CDN/DNS service, and how the recursive resolver retrieves the chain. The measured resolution time is not pure DNS latency from the authoritative server; it includes local cache lookup, network round-trip to the recursive resolver, and any recursive resolution required when cache entries expire."
+    },
+
+    {
+      "heading": "AUTHORITATIVE NAME SERVER ANALYSIS",
+      "paragraph": "The number of authoritative name servers indicates redundancy. Three of the four domains use four authoritative servers; IIT Madras uses three. NTU and NUS mix in-country institutional servers with country-level ISP/secondary DNS providers, while NIC and IITM keep most servers within India. A larger number of geographically separated authoritative servers improves availability and reduces the impact of a single network or power failure. However, if the servers are all within one city or country, a national-level outage can still affect all of them simultaneously."
+    },
+
+    {
+      "heading": "PER-DOMAIN ANALYSIS",
+      "bullets": [
+        "www.nus.edu.sg: Uses Incapsula for the web endpoint (resolved to London, UK) and a mix of institutional NUS name servers plus SingNet DNSSEC servers in Singapore. The geographic split between the CDN edge and the authoritative infrastructure means global users get a nearby edge, while Singapore-based resolvers still reach authoritative servers in-country.",
+        "www.ntu.edu.sg: Resolves to a Cloudflare IP in Toronto, Canada, indicating that the CDN is serving the content. The authoritative servers include NTU's own data-center servers and Cyberway's Singapore infrastructure. The combination gives resilience, but a client in Singapore may not always hit a local web edge if the CDN mapping sends them overseas.",
+        "www.iitm.ac.in: Keeps both web endpoint and name servers within India. The A record points to a Chennai IP under the IIT Madras AS, and the authoritative servers are located in Chennai and Mumbai. This is a purely institutional deployment with minimal CDN use, giving predictable domestic latency but possibly weaker global performance.",
+        "www.nic.in: Uses National Informatics Centre servers in New Delhi for authority, but the web endpoint is served by Akamai from Frankfurt, Germany. This is a hybrid in-house authority plus global CDN strategy, common for government sites that want both local control and global reach."
+      ]
+    },
+
+    {
+      "heading": "GEOGRAPHIC DISTRIBUTION FINDINGS",
+      "bullets": [
+        "The A-record endpoints do not always match the country of the institution. NTU's endpoint resolved to Canada, NUS's to the UK, and NIC's to Germany, showing that all three use global CDNs.",
+        "IIT Madras is the only domain whose A-record endpoint stayed inside the home country (Chennai, India), because it is not fronted by a major commercial CDN.",
+        "Authoritative name servers for the .sg domains are in Singapore; .in domains have authority in India. This matches the country-code TLD delegation.",
+        "NTU and NUS each have 4 authoritative servers; IITM has 3; NIC has 4. Higher counts provide better redundancy and load sharing.",
+        "Singapore TLD servers are operated by SGNIC, APNIC, and PCH; Indian TLD servers are operated by registry.in. The top-level infrastructure is distributed but still country-centric."
+      ]
+    },
+
+    {
+      "heading": "DNS HIERARCHY TRACE",
+      "table": {
+        "headers": ["Stage", "www.nus.edu.sg", "www.ntu.edu.sg", "www.iitm.ac.in", "www.nic.in"],
+        "rows": [
+          ["Root (.)", "c,k,h,i,b,e.root-servers.net", "d,h,i,b,a,e.root-servers.net", "j,l,h,d,i,c.root-servers.net", "l,h,c,j,b,e.root-servers.net"],
+          ["TLD (.sg / .in)", "ns4.apnic.net, dsany*.sgnic.sg, pch.sgzones.sg", "dsany*.sgnic.sg, pch.sgzones.sg, ns4.apnic.net", "ns1-4.registry.in", "ns1-4.registry.in"],
+          ["Authoritative", "ns2/1.nus.edu.sg, dnssec1/2.singnet.com.sg", "sdc-dns-ext-02/ndc-dns-ext-01.ntu.edu.sg, secdns*.cyberway.com.sg", "dns1/2/3.iitm.ac.in", "ns4/6/8.nic.in, nicnet.nic.in"]
+        ]
+      },
+      "widths": [80, 150, 150, 150, 150]
+    },
+
+    {
+      "heading": "OBSERVATIONS",
+      "bullets": [
+        "Resolution latency was similar (≈165 ms) for all four domains because the local recursive resolver cached TLD and root information; most of the time is network round-trip and cache lookup.",
+        "NTU and NUS rely partly on commercial DNS/CDN services (Cloudflare for NTU, Incapsula for NUS), which shifts web endpoints outside Singapore. This improves global availability but can increase latency for local users if the nearest CDN node is far away.",
+        "IIT Madras uses institutional name servers in Chennai and a third Google Cloud DNS server in Mumbai, keeping authority and services within India.",
+        "NIC uses National Informatics Centre servers in New Delhi and Akamai for the website, demonstrating a hybrid in-house + CDN strategy.",
+        "All .sg domains use the same TLD servers (SGNIC, APNIC PCH) while all .in domains use registry.in servers, showing country-level delegation.",
+        "NTU and NUS have 4 authoritative servers; IITM has 3; NIC has 4 (including one whose A record was not resolvable during the test, indicating a possible reachability issue)."
+      ]
+    },
+
+    {
+      "heading": "COMPARATIVE ANALYSIS",
+      "table": {
+        "headers": ["Parameter", "www.nus.edu.sg", "www.ntu.edu.sg", "www.iitm.ac.in", "www.nic.in"],
+        "rows": [
+          ["Latency", "Medium", "Medium", "Medium", "Medium"],
+          ["CDN / global edge", "Incapsula (UK edge)", "Cloudflare (Toronto)", "None (institutional)", "Akamai (Frankfurt)"],
+          ["Server hierarchy", "Root → .sg → NUS/SingNet", "Root → .sg → NTU/Cyberway", "Root → .in → IITM", "Root → .in → NIC"],
+          ["Auth server count", "4", "4", "3", "4"],
+          ["Geographic spread", "Singapore + UK", "Singapore + Canada", "India only", "India + Germany"],
+          ["Performance implication", "Good global reach", "Strong CDN resilience", "Low domestic latency", "CDN handles load"]
+        ]
+      },
+      "widths": [100, 120, 120, 120, 120]
+    },
+
+    {
+      "heading": "SECURITY AND RESILIENCE CONSIDERATIONS",
+      "bullets": [
+        "DNSSEC is desirable for all domains because it prevents attackers from injecting false records into resolver caches. Only the Singapore .sg TLD and many government Indian domains have started DNSSEC adoption; institutions should also sign their zones.",
+        "Distributing authoritative servers across multiple autonomous systems (AS) and regions protects against single-provider failures. NUS and NTU mix their own AS with commercial providers, which is a good practice.",
+        "NIC and IITM have all authority inside India. While this gives policy control, a national routing issue could make the domain unreachable from outside during a partial internet outage.",
+        "CDNs improve DDoS absorption because they can absorb large request volumes, but they also create a dependency on a third-party provider."
+      ]
+    },
+
+    {
+      "heading": "SCALABILITY AND FAULT TOLERANCE",
+      "bullets": [
+        "Anycast DNS routes user queries to the nearest available name server by advertising the same IP from multiple locations. This is the most effective way to improve both latency and resilience for global services.",
+        "A mixture of in-house and secondary DNS providers eliminates single points of failure. If one provider is attacked or misconfigures a zone, the other providers still answer queries.",
+        "CDNs reduce the load on the origin server by serving static content from edge nodes and can also absorb DNS query spikes during traffic surges.",
+        "For fast-growing universities or government portals, DNS infrastructure should be monitored continuously for resolution failures, TTL expiration, and geographic reachability."
+      ]
+    },
+
+    {
+      "heading": "RECOMMENDATIONS",
+      "bullets": [
+        "Increase authoritative server count to at least 4, geographically separated across continents, for domains that currently rely on a single region.",
+        "Deploy Anycast DNS services so queries are routed to the nearest available name server, reducing resolution time for international users.",
+        "Use a CDN with local PoPs in the same country as the target audience, so edge nodes match user geography rather than generic global nodes.",
+        "Enable DNSSEC to protect against cache poisoning and spoofing, especially for government and educational domains.",
+        "Monitor and fix resolvable NS A-records (e.g. ns8.nic.in had no A record in the test) to avoid resolution failures.",
+        "Implement redundant secondary DNS with providers in different AS numbers and regions to improve fault tolerance."
+      ]
+    },
+
+    {
+      "heading": "CONCLUSION",
+      "paragraph": "The comparative framework shows that DNS server geographic distribution and CDN strategy strongly influence where user traffic lands, how resilient the service is to failures, and how the domain performs for a global audience. Singaporean universities rely on global CDNs, which improves worldwide availability but sometimes serves traffic from distant continents. Indian institutions prefer in-house or country-level authority, giving domestic control and latency but weaker global edge presence. The best practice for a multinational cloud provider is a hybrid design: Anycast authoritative DNS for fast, resilient resolution; a CDN with local PoPs for content delivery; and DNSSEC for integrity. This combination gives low latency, high availability, and strong security for users in any region."
+    },
+
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "Understood the hierarchical DNS resolution path from root to TLD to authoritative servers.",
+        "Collected and analyzed real DNS records using the dnspython library.",
+        "Correlated IP addresses with physical locations using geolocation APIs.",
+        "Compared resolution latency, authoritative server count, and geographic spread across four domains.",
+        "Recommended strategies to improve DNS performance, availability, and resilience for globally distributed services."
+      ]
+    }
+  ]
+}

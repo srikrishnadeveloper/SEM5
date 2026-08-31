@@ -1,0 +1,144 @@
+{
+  "collected_at": "2026-08-30 18:02:26",
+  "domains": [
+    {
+      "domain": "www.nus.edu.sg",
+      "avg_resolution_ms": 622.5981999999931,
+      "resolution_error": null,
+      "records": {
+        "A": [
+          "45.60.33.225"
+        ],
+        "AAAA": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.nus.edu.sg. IN AAAA)"
+        ],
+        "CNAME": [
+          "mgnzsqc.x.incapdns.net."
+        ],
+        "NS": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.nus.edu.sg. IN NS)"
+        ],
+        "MX": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.nus.edu.sg. IN MX)"
+        ],
+        "SOA": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.nus.edu.sg. IN SOA)"
+        ],
+        "TXT": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.nus.edu.sg. IN TXT)"
+        ]
+      },
+      "ns_servers_with_ips": [
+        {
+          "name": "(NoAnswer: The DNS response does not contain an answer to the question: www.nus.edu.sg. IN NS)",
+          "ip": "(A DNS label is > 63 octets long.)"
+        }
+      ]
+    },
+    {
+      "domain": "www.ntu.edu.sg",
+      "avg_resolution_ms": 244.1831799999818,
+      "resolution_error": null,
+      "records": {
+        "A": [
+          "104.16.4.14"
+        ],
+        "AAAA": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.ntu.edu.sg. IN AAAA)"
+        ],
+        "CNAME": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.ntu.edu.sg. IN CNAME)"
+        ],
+        "NS": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.ntu.edu.sg. IN NS)"
+        ],
+        "MX": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.ntu.edu.sg. IN MX)"
+        ],
+        "SOA": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.ntu.edu.sg. IN SOA)"
+        ],
+        "TXT": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.ntu.edu.sg. IN TXT)"
+        ]
+      },
+      "ns_servers_with_ips": [
+        {
+          "name": "(NoAnswer: The DNS response does not contain an answer to the question: www.ntu.edu.sg. IN NS)",
+          "ip": "(A DNS label is > 63 octets long.)"
+        }
+      ]
+    },
+    {
+      "domain": "www.iitm.ac.in",
+      "avg_resolution_ms": 293.1969800000388,
+      "resolution_error": null,
+      "records": {
+        "A": [
+          "103.158.42.45"
+        ],
+        "AAAA": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.iitm.ac.in. IN AAAA)"
+        ],
+        "CNAME": [
+          "waf01.iitm.ac.in."
+        ],
+        "NS": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.iitm.ac.in. IN NS)"
+        ],
+        "MX": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.iitm.ac.in. IN MX)"
+        ],
+        "SOA": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.iitm.ac.in. IN SOA)"
+        ],
+        "TXT": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.iitm.ac.in. IN TXT)"
+        ]
+      },
+      "ns_servers_with_ips": [
+        {
+          "name": "(NoAnswer: The DNS response does not contain an answer to the question: www.iitm.ac.in. IN NS)",
+          "ip": "(A DNS label is > 63 octets long.)"
+        }
+      ]
+    },
+    {
+      "domain": "www.nic.in",
+      "avg_resolution_ms": 553.9861600000222,
+      "resolution_error": null,
+      "records": {
+        "A": [
+          "23.32.238.241",
+          "23.32.238.209"
+        ],
+        "AAAA": [
+          "2a02:26f0:3500:2b::17cf:d25a",
+          "2a02:26f0:3500:2b::17cf:d244"
+        ],
+        "CNAME": [
+          "www.nic.in.edgesuite.net."
+        ],
+        "NS": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.nic.in. IN NS)"
+        ],
+        "MX": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.nic.in. IN MX)"
+        ],
+        "SOA": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.nic.in. IN SOA)"
+        ],
+        "TXT": [
+          "(NoAnswer: The DNS response does not contain an answer to the question: www.nic.in. IN TXT)"
+        ]
+      },
+      "ns_servers_with_ips": [
+        {
+          "name": "(NoAnswer: The DNS response does not contain an answer to the question: www.nic.in. IN NS)",
+          "ip": "(A DNS label is > 63 octets long.)"
+        }
+      ]
+    }
+  ],
+  "ip_geolocation": {}
+}

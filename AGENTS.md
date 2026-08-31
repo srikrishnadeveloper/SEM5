@@ -19,6 +19,10 @@
 
 - Use the `.opencode/skills/lab-report-pdf/` skill. Generate with `capture_run.py` + `build_pdf.py`.
 - **All subjects = polished style**: Poppins text, Consolas code on dark `#1E1E1E` with VS Code-like token colors, page border 0.9pt inset 9mm, running Name/Class/RegNo header, tables with header `#DDE7F5` and alternating rows `#F7F9FC`, plots capped ~85mm and captioned. No subject uses plain mode — every PDF must look polished.
+- **spec.json section keys**: only `heading`, `paragraph` (single string), `bullets` (list), `table`, `plots`/`screenshots`, `code_file`, `output_file` are supported. NEVER use `paragraphs` (plural) — `build_pdf.py` silently skips it and the section vanishes from the PDF.
+- **JSON validity**: never put Python `None` in a spec; use a string or omit the field. Validate with `python -c "import json;json.load(open(...))"` before building.
+- **Always verify after building**: extract text with pymupdf and check the character count is sane, count embedded images, and scan for spans with bbox x1 > ~545pt. Do not tell the user the PDF is done until content is confirmed present.
+- **Work log**: after every working session, append a dated entry to `C:\Users\srik2\Desktop\College\WORKLOG.md` (goal, deliverable full path, what was done, lessons learned). Newest entries at the top.
 - Nothing in a report may be fabricated.
 - Combine one exercise/assignment into one report by default (e.g., Assignment 3 = 3a checksum + 3b CRC in a single PDF) unless the user specifically asks for separate reports.
 - **One folder per assignment**: the report PDF(s) live at the folder root (e.g., `exp3/Assignment_3_...pdf`), and per-part code/outputs go in subfolders (e.g., `exp3/3a_checksum/`, `exp3/3b_crc/`, `exp2/2a/`, `exp2/2b/`). Never split one assignment across multiple top-level folders.
@@ -81,4 +85,5 @@ Configured globally in `~/.config/opencode/opencode.jsonc`:
 ## Avoiding stuck / canceled commands
 
 - If a command is taking too long, hanging, or gets canceled, do not keep retrying the same thing. Pause and use an alternative that does not depend on the failing tool.
+- **PowerShell has no heredocs.** Never use `python << 'EOF'` or `python -c` with multi-line/multi-quote code — it fails with parser errors. Instead: Write tool a `.py` file into `C:\Users\srik2\AppData\Local\Temp\opencode\`, then run `python <that file>`.
 - Example: converting PDF to DOCX with `win32com` Word COM can hang. Prefer building the DOCX directly from the `spec.json` with `python-docx` instead of trying to convert the PDF.

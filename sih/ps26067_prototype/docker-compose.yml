@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  oceanviz:
+    build: .
+    ports:
+      - "8765:8765"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8765

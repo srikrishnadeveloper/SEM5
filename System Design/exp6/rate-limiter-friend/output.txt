@@ -1,0 +1,22 @@
+Sending 15 requests as client-id: user1
+-------------------------------------------------
+Request 1: 200 OK
+Request 2: 200 OK
+Request 3: 200 OK
+Request 4: 200 OK
+Request 5: 200 OK
+Request 6: 200 OK
+Request 7: 200 OK
+Request 8: 200 OK
+Request 9: 200 OK
+Request 10: 200 OK
+Request 11: 200 OK
+Request 12: 429 TOO MANY REQUESTS
+Request 13: 429 TOO MANY REQUESTS
+Request 14: 429 TOO MANY REQUESTS
+Request 15: 429 TOO MANY REQUESTS
+-------------------------------------------------
+Summary: 11 succeeded, 4 rate-limited
+
+Current bucket status:
+Remaining tokens: 0

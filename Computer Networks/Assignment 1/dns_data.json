@@ -1,0 +1,442 @@
+{
+  "collected_at": "2026-08-30 18:03:34",
+  "domains": [
+    {
+      "domain_www": "www.nus.edu.sg",
+      "domain_apex": "nus.edu.sg",
+      "avg_resolution_ms_www_a": 166.12088000001677,
+      "a_records": [
+        "45.60.33.225"
+      ],
+      "apex_ns_records": [
+        {
+          "name": "ns2.nus.edu.sg",
+          "ips": [
+            "137.132.5.2"
+          ]
+        },
+        {
+          "name": "dnssec2.singnet.com.sg",
+          "ips": [
+            "165.21.100.11"
+          ]
+        },
+        {
+          "name": "ns1.nus.edu.sg",
+          "ips": [
+            "137.132.123.4"
+          ]
+        },
+        {
+          "name": "dnssec1.singnet.com.sg",
+          "ips": [
+            "165.21.83.11"
+          ]
+        }
+      ],
+      "resolution_trace_stages": [
+        {
+          "stage": ".",
+          "ns": [
+            "c.root-servers.net",
+            "k.root-servers.net",
+            "h.root-servers.net",
+            "i.root-servers.net",
+            "b.root-servers.net",
+            "e.root-servers.net"
+          ]
+        },
+        {
+          "stage": "sg.",
+          "ns": [
+            "ns4.apnic.net",
+            "dsany4.sgnic.sg",
+            "pch.sgzones.sg",
+            "dsany2.sgnic.sg",
+            "dsany3.sgnic.sg"
+          ]
+        },
+        {
+          "stage": "www.nus.edu.sg",
+          "ns": [
+            "(The DNS response does not contain an answer to the question: www.nus.edu.sg. IN NS)"
+          ]
+        }
+      ]
+    },
+    {
+      "domain_www": "www.ntu.edu.sg",
+      "domain_apex": "ntu.edu.sg",
+      "avg_resolution_ms_www_a": 171.02426000001287,
+      "a_records": [
+        "104.16.4.14"
+      ],
+      "apex_ns_records": [
+        {
+          "name": "sdc-dns-ext-02.ntu.edu.sg",
+          "ips": [
+            "155.69.254.230"
+          ]
+        },
+        {
+          "name": "secdns2.cyberway.com.sg",
+          "ips": [
+            "203.116.254.150"
+          ]
+        },
+        {
+          "name": "secdns.cyberway.com.sg",
+          "ips": [
+            "203.116.1.94"
+          ]
+        },
+        {
+          "name": "ndc-dns-ext-01.ntu.edu.sg",
+          "ips": [
+            "155.69.254.5"
+          ]
+        }
+      ],
+      "resolution_trace_stages": [
+        {
+          "stage": ".",
+          "ns": [
+            "d.root-servers.net",
+            "h.root-servers.net",
+            "i.root-servers.net",
+            "b.root-servers.net",
+            "a.root-servers.net",
+            "e.root-servers.net"
+          ]
+        },
+        {
+          "stage": "sg.",
+          "ns": [
+            "dsany3.sgnic.sg",
+            "pch.sgzones.sg",
+            "dsany2.sgnic.sg",
+            "ns4.apnic.net",
+            "dsany4.sgnic.sg"
+          ]
+        },
+        {
+          "stage": "www.ntu.edu.sg",
+          "ns": [
+            "(The DNS response does not contain an answer to the question: www.ntu.edu.sg. IN NS)"
+          ]
+        }
+      ]
+    },
+    {
+      "domain_www": "www.iitm.ac.in",
+      "domain_apex": "iitm.ac.in",
+      "avg_resolution_ms_www_a": 167.48721999997542,
+      "a_records": [
+        "103.158.42.45"
+      ],
+      "apex_ns_records": [
+        {
+          "name": "dns3.iitm.ac.in",
+          "ips": [
+            "35.244.9.74"
+          ]
+        },
+        {
+          "name": "dns1.iitm.ac.in",
+          "ips": [
+            "103.158.42.2"
+          ]
+        },
+        {
+          "name": "dns2.iitm.ac.in",
+          "ips": [
+            "103.158.43.2"
+          ]
+        }
+      ],
+      "resolution_trace_stages": [
+        {
+          "stage": ".",
+          "ns": [
+            "j.root-servers.net",
+            "l.root-servers.net",
+            "h.root-servers.net",
+            "d.root-servers.net",
+            "i.root-servers.net",
+            "c.root-servers.net"
+          ]
+        },
+        {
+          "stage": "in.",
+          "ns": [
+            "ns1.registry.in",
+            "ns4.registry.in",
+            "ns3.registry.in",
+            "ns2.registry.in"
+          ]
+        },
+        {
+          "stage": "www.iitm.ac.in",
+          "ns": [
+            "(The DNS response does not contain an answer to the question: www.iitm.ac.in. IN NS)"
+          ]
+        }
+      ]
+    },
+    {
+      "domain_www": "www.nic.in",
+      "domain_apex": "nic.in",
+      "avg_resolution_ms_www_a": 164.69938000000184,
+      "a_records": [
+        "23.32.238.209",
+        "23.32.238.241"
+      ],
+      "apex_ns_records": [
+        {
+          "name": "ns4.nic.in",
+          "ips": [
+            "164.100.11.2"
+          ]
+        },
+        {
+          "name": "nicnet.nic.in",
+          "ips": [
+            "164.100.105.105"
+          ]
+        },
+        {
+          "name": "ns8.nic.in",
+          "ips": [
+            "(A-resolve-error:The DNS response does not contain an answer to the question: ns8.nic.in. IN A)"
+          ]
+        },
+        {
+          "name": "ns6.nic.in",
+          "ips": [
+            "164.100.4.2"
+          ]
+        }
+      ],
+      "resolution_trace_stages": [
+        {
+          "stage": ".",
+          "ns": [
+            "l.root-servers.net",
+            "h.root-servers.net",
+            "c.root-servers.net",
+            "j.root-servers.net",
+            "b.root-servers.net",
+            "e.root-servers.net"
+          ]
+        },
+        {
+          "stage": "in.",
+          "ns": [
+            "ns4.registry.in",
+            "ns3.registry.in",
+            "ns1.registry.in",
+            "ns2.registry.in"
+          ]
+        },
+        {
+          "stage": "www.nic.in",
+          "ns": [
+            "(The DNS response does not contain an answer to the question: www.nic.in. IN NS)"
+          ]
+        }
+      ]
+    }
+  ],
+  "ip_geolocation": {
+    "103.158.42.45": {
+      "country": "India",
+      "countryCode": "IN",
+      "regionName": "Tamil Nadu",
+      "city": "Chennai",
+      "lat": 13.0895,
+      "lon": 80.2739,
+      "org": "Iitm",
+      "as": "AS141340 IIT Madras"
+    },
+    "103.158.43.2": {
+      "country": "India",
+      "countryCode": "IN",
+      "regionName": "Tamil Nadu",
+      "city": "Chennai",
+      "lat": 13.0895,
+      "lon": 80.2739,
+      "org": "Iitm",
+      "as": "AS141340 IIT Madras"
+    },
+    "203.116.254.150": {
+      "country": "Singapore",
+      "countryCode": "SG",
+      "regionName": "Central Singapore",
+      "city": "Singapore",
+      "lat": 1.32414,
+      "lon": 103.893,
+      "org": "Starhub Internet Pte Ltd",
+      "as": "AS4657 StarHub Ltd"
+    },
+    "23.32.238.209": {
+      "country": "Germany",
+      "countryCode": "DE",
+      "regionName": "Hesse",
+      "city": "Frankfurt am Main",
+      "lat": 50.1169,
+      "lon": 8.6837,
+      "org": "Akamai Technologies, Inc.",
+      "as": "AS20940 Akamai International B.V."
+    },
+    "165.21.100.11": {
+      "country": "Singapore",
+      "countryCode": "SG",
+      "regionName": "Central Singapore",
+      "city": "Singapore",
+      "lat": 1.31894,
+      "lon": 103.894,
+      "org": "SingNet Pte Ltd",
+      "as": "AS3758 SingNet"
+    },
+    "103.158.42.2": {
+      "country": "India",
+      "countryCode": "IN",
+      "regionName": "Tamil Nadu",
+      "city": "Chennai",
+      "lat": 13.0895,
+      "lon": 80.2739,
+      "org": "Iitm",
+      "as": "AS141340 IIT Madras"
+    },
+    "164.100.4.2": {
+      "country": "India",
+      "countryCode": "IN",
+      "regionName": "National Capital Territory of Delhi",
+      "city": "New Delhi",
+      "lat": 28.6327,
+      "lon": 77.2198,
+      "org": "National Informatics Centre",
+      "as": "AS4758 National Informatics Centre"
+    },
+    "35.244.9.74": {
+      "country": "India",
+      "countryCode": "IN",
+      "regionName": "Maharashtra",
+      "city": "Mumbai",
+      "lat": 19.0759,
+      "lon": 72.8776,
+      "org": "Google Cloud (asia-south1)",
+      "as": "AS396982 Google LLC"
+    },
+    "45.60.33.225": {
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "regionName": "England",
+      "city": "London",
+      "lat": 51.5072,
+      "lon": -0.127586,
+      "org": "Incapsula Inc",
+      "as": "AS19551 Incapsula Inc"
+    },
+    "164.100.105.105": {
+      "country": "India",
+      "countryCode": "IN",
+      "regionName": "National Capital Territory of Delhi",
+      "city": "New Delhi",
+      "lat": 28.6205,
+      "lon": 77.2136,
+      "org": "National Informatics Centre",
+      "as": "AS4758 National Informatics Centre"
+    },
+    "137.132.123.4": {
+      "country": "Singapore",
+      "countryCode": "SG",
+      "regionName": "Central Singapore",
+      "city": "Singapore",
+      "lat": 1.29758,
+      "lon": 103.773,
+      "org": "National University of Singapore",
+      "as": "AS7472 NUS Information Technology"
+    },
+    "23.32.238.241": {
+      "country": "Germany",
+      "countryCode": "DE",
+      "regionName": "Hesse",
+      "city": "Frankfurt am Main",
+      "lat": 50.1169,
+      "lon": 8.6837,
+      "org": "Akamai Technologies, Inc.",
+      "as": "AS20940 Akamai International B.V."
+    },
+    "104.16.4.14": {
+      "country": "Canada",
+      "countryCode": "CA",
+      "regionName": "Ontario",
+      "city": "Toronto",
+      "lat": 43.6532,
+      "lon": -79.3832,
+      "org": "Cloudflare, Inc.",
+      "as": "AS13335 Cloudflare, Inc."
+    },
+    "203.116.1.94": {
+      "country": "Singapore",
+      "countryCode": "SG",
+      "regionName": "Central Singapore",
+      "city": "Singapore",
+      "lat": 1.32414,
+      "lon": 103.893,
+      "org": "Starhub Internet Pte Ltd",
+      "as": "AS4657 StarHub Ltd"
+    },
+    "155.69.254.230": {
+      "country": "Singapore",
+      "countryCode": "SG",
+      "regionName": "South West",
+      "city": "Singapore",
+      "lat": 1.34712,
+      "lon": 103.68,
+      "org": "Nanyang Technological University",
+      "as": "AS9419 Nanyang Technological University"
+    },
+    "155.69.254.5": {
+      "country": "Singapore",
+      "countryCode": "SG",
+      "regionName": "South West",
+      "city": "Singapore",
+      "lat": 1.34712,
+      "lon": 103.68,
+      "org": "Nanyang Technological University",
+      "as": "AS9419 Nanyang Technological University"
+    },
+    "137.132.5.2": {
+      "country": "Singapore",
+      "countryCode": "SG",
+      "regionName": "Central Singapore",
+      "city": "Singapore",
+      "lat": 1.29758,
+      "lon": 103.773,
+      "org": "National University of Singapore",
+      "as": "AS7472 NUS Information Technology"
+    },
+    "165.21.83.11": {
+      "country": "Singapore",
+      "countryCode": "SG",
+      "regionName": "Central Singapore",
+      "city": "Singapore",
+      "lat": 1.31894,
+      "lon": 103.894,
+      "org": "SingNet Pte Ltd",
+      "as": "AS3758 SingNet"
+    },
+    "164.100.11.2": {
+      "country": "India",
+      "countryCode": "IN",
+      "regionName": "National Capital Territory of Delhi",
+      "city": "New Delhi",
+      "lat": 28.6327,
+      "lon": 77.2198,
+      "org": "National Informatics Centre",
+      "as": "AS4758 National Informatics Centre"
+    }
+  }
+}

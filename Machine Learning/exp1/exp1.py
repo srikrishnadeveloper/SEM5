@@ -1,4 +1,3 @@
-
 # ASSIGNMENT - 1 
 # Machine Learning EDA on Diabetes dataset
 # using NumPy, Pandas, Scikit-Learn and Matplotlib
@@ -6,7 +5,6 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
 
 #Load the dataset into Python using the Pandas library.
 

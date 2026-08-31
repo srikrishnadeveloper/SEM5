@@ -176,7 +176,7 @@ def calc_metrics(y_true, y_pred):
 
 # Linear Regression tries to use all features.
 # Ridge Regression keeps all features but shrinks their coefficients. Less important features have smaller influence on the prediction.
-# Lasso Regression: Hair Color and Favorite Food don't help predict the loan amount. It removes them.
+# Lasso Regression: if it don't help predict the loan amount. It removes them.
 # Elastic Net Regression combines both advantages of Ridge and Lasso:
                 # Ridge → Keeps all features but reduces their importance.
                 # Lasso → Can completely remove unimportant features.

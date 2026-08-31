@@ -1,0 +1,129 @@
+{
+  "title": "ASSIGNMENT – 1",
+  "subtitle": "Introduction to Sensors and Actuators (UEC 3942) — Question 16",
+  "name": "Arjun M",
+  "class_section": "Information Technology",
+  "regno": "3122245002302",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": "To design a structural health monitoring (SHM) system for a bridge using resistive strain gauges that continuously measures stress and detects structural deformation, including sensor placement, signal conditioning, data processing, and damage-detection logic."
+    },
+
+    {
+      "heading": "PROBLEM STATEMENT",
+      "paragraph": "Bridges deteriorate silently: corrosion, fatigue cracking, cable loosening, and overload events reduce stiffness long before any visible damage. A monitoring system must measure the live strain at the bridge's critical sections around the clock, separate real load effects from temperature effects, and raise an inspection alert when the structure's behaviour drifts from its healthy baseline."
+    },
+
+    {
+      "heading": "SYSTEM OVERVIEW",
+      "paragraph": "Each measurement node combines strain gauges in a temperature-compensated Wheatstone bridge, an instrumentation amplifier and 24-bit ADC, and a microcontroller that converts readings to stress, runs FFT analysis on the dynamic component, and checks alarm limits. Nodes report over a Zigbee mesh to a gateway with cellular backhaul.",
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/diagrams/b1_block.png",
+          "caption": "Fig 1. Complete measurement chain of the bridge SHM node" }
+      ]
+    },
+
+    {
+      "heading": "SENSING PRINCIPLE — RESISTIVE STRAIN GAUGE",
+      "paragraph": "A metallic foil strain gauge changes resistance when deformed: R = R0(1 + GF·ε), with a gauge factor GF ≈ 2 for constantan foil. Steel structures work up to ~2000 µε, so the resistance change is tiny (350 Ω gauge → ~0.7 Ω at full scale). Four gauges wired in a Wheatstone bridge (two in tension, two in compression) multiply sensitivity by four and cancel axial/bending-unwanted components; the bridge output is only a few millivolts, which sets the amplifier requirement.",
+      "bullets": [
+        "Gauge: constantan foil, 350 Ω (CEA-series), with self-temperature-compensation matched to the steel's expansion coefficient.",
+        "Bonding: surface abraded, cleaned, bonded with cyanoacrylate/epoxy, coated with waterproofing + mechanical guard — installation quality decides everything.",
+        "Bridge: half-bridge (bending) or full-bridge configuration; shunt calibration resistor verifies the gain periodically.",
+        "Why strain gauges over other sensors: cheap per point, proven for decades on steel and concrete, direct stress measurement, DC-coupled so both static (dead load) and dynamic (traffic) strain are captured."
+      ],
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/images/strain_gauge.jpg",
+          "caption": "Foil strain gauge — the sensing element bonded to the structure" }
+      ]
+    },
+
+    {
+      "heading": "SENSOR PLACEMENT ON THE BRIDGE",
+      "paragraph": "Gauges go where the stress analysis says the extremes live: midspan bottom fibres (maximum positive bending/tension), top fibres over the piers (maximum negative bending/compression), and on main cables or truss members in cable/steel bridges. A co-located RTD measures temperature so thermal expansion (δ = αLT) can be subtracted analytically from the strain reading.",
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/diagrams/b2_placement.png",
+          "caption": "Fig 2. Strain gauge placement: midspan tension, pier-top compression, co-located RTD" }
+      ]
+    },
+
+    {
+      "heading": "SIGNAL CONDITIONING AND ACQUISITION",
+      "bullets": [
+        "Bridge excitation: 5 V DC, low-drift reference; sense wires (6-wire Kelvin connection) cancel cable-resistance errors over long runs to the junction box.",
+        "Amplification: INA125/INA128 instrumentation amplifier, gain 100–500, raises the millivolt bridge output to the ADC range; RC anti-alias filter before sampling.",
+        "Conversion: 24-bit sigma-delta ADC (ADS1256-class) at 1 Hz for quasi-static strain, with a faster burst window (50–100 Hz) for dynamic/FFT analysis.",
+        "Cabling: shielded twisted pair to a weatherproof junction box; surge protection for outdoor runs.",
+        "Power: solar panel + LiFePO4 battery per node; duty-cycled acquisition gives year-round unattended operation."
+      ]
+    },
+
+    {
+      "heading": "PROCESSING AND DAMAGE DETECTION",
+      "paragraph": "The microcontroller applies three complementary checks to the strain history: static overload, abnormal strain rate, and modal-frequency drift.",
+      "bullets": [
+        "Static check: convert strain to stress (σ = E·ε, E ≈ 200 GPa for steel); inspect-alert if quasi-static strain exceeds 2000 µε (0.2%).",
+        "Rate check: a sudden strain-rate spike indicates an impact or overload event — logged with timestamp for correlation with permits/accidents.",
+        "Modal check (the clever one): FFT of the dynamic strain under normal traffic extracts the natural frequencies. Stiffness loss from cracking or cable loosening shifts natural frequencies down — an 8% drift in the first bending mode (e.g. 1.42 Hz → 1.31 Hz) triggers an inspection, long before visible damage.",
+        "Baseline statistics: healthy-frequency fingerprints stored per season (temperature also shifts frequency slightly), compared with control charts so only statistically significant changes alert.",
+        "Data pipeline: edge MCU computes features and alarms locally; raw/featured data flows over 802.15.4 Zigbee mesh to a gateway with cellular backhaul; local SD card buffers during network outages."
+      ],
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/diagrams/b3_fft.png",
+          "caption": "Fig 3. FFT of dynamic strain: natural-frequency shift reveals stiffness loss" }
+      ]
+    },
+
+    {
+      "heading": "COMPONENT SELECTION",
+      "table": {
+        "headers": ["Block", "Component (example)", "Key specification", "Why chosen"],
+        "rows": [
+          ["Strain sensor", "CEA-06-250UW-350 foil gauge", "350 Ω, GF ≈ 2.05, STC matched", "Proven, cheap, direct stress measurement"],
+          ["Bridge network", "4-gauge full/half Wheatstone", "6-wire Kelvin, shunt cal", "4× sensitivity, temperature and bending compensation"],
+          ["Temperature ref", "PT100 RTD co-located", "±0.1 °C", "Subtract thermal strain analytically"],
+          ["Amplifier", "INA125 instrumentation amp", "Gain 100–500, low drift", "Resolves µV-level bridge outputs"],
+          ["ADC", "ADS1256 24-bit sigma-delta", "2000 S/s max, 23-bit noise-free", "Resolves microstrain over years of drift"],
+          ["Controller", "STM32L0 low-power MCU", "FFT in burst mode, <10 µA sleep", "Edge features + alarms, solar-powered"],
+          ["Telemetry", "802.15.4 Zigbee mesh + cellular GW", "Mesh self-healing across span", "Covers the whole bridge without cabling"],
+          ["Power", "10 W solar + LiFePO4", "5-day autonomy", "Unattended year-round operation"]
+        ]
+      },
+      "widths": [85, 160, 155, 170]
+    },
+
+    {
+      "heading": "PERFORMANCE AND PRACTICAL CONSIDERATIONS",
+      "bullets": [
+        "Resolution: 24-bit chain resolves < 1 µε — enough to see daily thermal cycles and individual vehicle passages.",
+        "Alarm policy: strain > 2000 µε, strain-rate spike, or statistically significant modal-frequency drift → inspection alert with node ID and data snapshot.",
+        "Environmental: gauges waterproofed and guarded; junction boxes IP67; lightning/surge protection on all outdoor cabling.",
+        "Installation practice: gauge installation is the weakest link — surface prep, alignment, and cure time are quality-controlled; spare channels installed for redundancy.",
+        "Scalability: same node design scales from a single span to hundreds of channels; the mesh adds nodes without new cabling."
+      ]
+    },
+
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "Understood the strain-gauge principle (R = R0(1 + GF·ε)) and Wheatstone bridge configurations for sensitivity and compensation.",
+        "Learned where gauges belong on a bridge and why temperature compensation with a co-located RTD is essential.",
+        "Designed the conditioning chain: Kelvin excitation, instrumentation amplifier, 24-bit sigma-delta ADC.",
+        "Applied FFT-based natural-frequency monitoring as a stiffness-loss/damage indicator with statistical baselines."
+      ]
+    },
+    {
+      "heading": "REFERENCES",
+      "bullets": [
+        "D. Patranabis, Sensors and Transducers, PHI Learning.",
+        "J. Fraden, Handbook of Modern Sensors, Springer — strain gauge chapter.",
+        "J. M. Ko and Y. Q. Ni, 'Technology developments in structural health monitoring of large-scale bridges', Engineering Structures, 2005.",
+        "UEC 3942 Introduction to Sensors and Actuators, SSN College of Engineering, Regulations 2024."
+      ]
+    }
+  ]
+}

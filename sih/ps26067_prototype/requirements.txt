@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+numpy
+Pillow
+matplotlib
+aiofiles
+python-pptx
+# Optional — only needed for NetCDFSource
+# xarray
+# netCDF4

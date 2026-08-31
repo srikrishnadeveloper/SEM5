@@ -1,0 +1,46 @@
+# Python & Environments
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.env
+
+# Large Competition Datasets & Archives
+data/
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Model Checkpoints & Weights
+*.pth
+*.pt
+*.bin
+*.onnx
+*.safetensors
+models/
+code/models/
+filament_out/
+
+# Intermediate Probability Maps & Cache
+*.npy
+*.npz
+tests/_scratch_synth/
+.cache/
+
+# Jupyter & IDEs
+.ipynb_checkpoints/
+.vscode/
+.idea/
+
+# Secrets & Tokens
+kaggle.json
+*kaggle_token*
+*.key
+*.pem
+
+# Generated Submissions & Output logs (keep repo clean)
+submissions/*.csv
+!submissions/.gitkeep

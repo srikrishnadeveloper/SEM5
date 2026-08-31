@@ -1,0 +1,111 @@
+{
+  "title": "ASSIGNMENT – 6",
+  "subtitle": "API Rate Limiter using Token Bucket Algorithm (Spring Boot + Redis)",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": "To implement an API rate limiter using the Token Bucket algorithm with Spring Boot and Redis. The system must enforce a controlled request rate per client while allowing short bursts up to a configured capacity, and should return HTTP 429 Too Many Requests when the bucket is empty."
+    },
+
+    {
+      "heading": "SYSTEM ARCHITECTURE",
+      "paragraph": "The application is a Spring Boot 3.2.5 service with three REST endpoints. Client identity comes from an optional `client-id` header, falling back to the request IP. The `TokenBucketService` stores each client's token count and last-refill timestamp in Redis, so the limit is shared across instances if the service is scaled. The block diagram below shows the flow from the client request through the controller, service, Redis state, and HTTP response.",
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/System Design/exp6/diagrams/f1_arch.png",
+          "caption": "Fig 1. Rate limiter system architecture" }
+      ]
+    },
+
+    {
+      "heading": "TOKEN BUCKET ALGORITHM",
+      "paragraph": "Each client has a bucket that starts full. A request is allowed only if at least one token is available; the token is then consumed. Tokens are refilled at a fixed rate (refill-amount per refill-interval-millis) up to the bucket capacity. In this implementation Redis stores two keys per client: `rate_limit:<client>:tokens` and `rate_limit:<client>:last_refill`. The `tryConsume` method is `synchronized` so that read-refill-decrement is atomic on a single instance."
+    },
+
+    {
+      "heading": "CONFIGURATION",
+      "table": {
+        "headers": ["Property", "Value", "Effect"],
+        "rows": [
+          ["rate.limiter.bucket-capacity", "10", "Maximum tokens a client can accumulate"],
+          ["rate.limiter.refill-interval-millis", "1000", "One token added every 1 second"],
+          ["rate.limiter.refill-amount", "1", "Number of tokens added per refill interval"],
+          ["spring.data.redis.host", "localhost", "Redis server location"],
+          ["spring.data.redis.port", "6379", "Redis server port"],
+          ["server.port", "8080", "Spring Boot application port"]
+        ]
+      },
+      "widths": [220, 90, 230]
+    },
+
+    {
+      "heading": "ENDPOINTS",
+      "table": {
+        "headers": ["Method", "Path", "Description"],
+        "rows": [
+          ["GET", "/api/health", "Health check, not rate-limited"],
+          ["GET", "/api/resource", "Rate-limited resource; returns 200 if token available, 429 if not"],
+          ["GET", "/api/rate-limit-status", "Returns the remaining token count without consuming"]
+        ]
+      },
+      "widths": [80, 170, 240]
+    },
+
+    {
+      "heading": "CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/System Design/exp6/rate-limiter-friend/src/main/java/com/ssn/ratelimiter/TokenBucketService.java"
+    },
+
+    {
+      "heading": "CONTROLLER",
+      "code_file": "C:/Users/srik2/Desktop/College/System Design/exp6/rate-limiter-friend/src/main/java/com/ssn/ratelimiter/RateLimiterController.java"
+    },
+
+    {
+      "heading": "TEST OUTPUT",
+      "paragraph": "The application was built and run on a Windows host using Maven 3.9.16 and Java 21, with Redis provided by Memurai on localhost:6379. The `test-rate-limiter.bat` script was executed with 15 requests for `client-id: user1`. Because the default bucket capacity is 10 and one token refills during the burst, the first 11 requests returned HTTP 200 and the remaining 4 were rejected with HTTP 429. This confirms the token bucket allows a short burst above the sustained rate and then enforces the limit.",
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/System Design/exp6/diagrams/f3_burst.png",
+          "caption": "Fig 3. Burst test: 15 rapid requests" }
+      ],
+      "output_file": "C:/Users/srik2/Desktop/College/System Design/exp6/rate-limiter-friend/output.txt"
+    },
+
+    {
+      "heading": "VERIFICATION",
+      "bullets": [
+        "`/api/health` returned 200 with body `Service is healthy`.",
+        "15 rapid requests to `/api/resource` returned 11 × 200 and 4 × 429, matching the token bucket behavior.",
+        "`/api/rate-limit-status` for `user1` returned `Remaining tokens: 0` immediately after the burst, and later refilled to 2 after a few seconds.",
+        "Client `user1` and `user2` have independent buckets; running the test with a new `client-id` resets the test because Redis keeps per-client keys.",
+        "Redis keys `rate_limit:<client>:tokens` and `rate_limit:<client>:last_refill` are visible with `keys rate_limit:*`, proving the state is centralized."
+      ]
+    },
+
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "Implemented the Token Bucket rate-limiting algorithm in a Spring Boot service.",
+        "Used Redis as the shared state store so rate limits are correct under horizontal scaling.",
+        "Observed the difference between burst capacity (bucket size) and sustained rate (refill rate).",
+        "Returned the standard HTTP 429 status code for rejected requests.",
+        "Understood why `synchronized` is used for atomic read-refill-decrement in a single-instance lab setup."
+      ]
+    },
+
+    {
+      "heading": "REFERENCES",
+      "bullets": [
+        "Spring Boot 3.2.5 Reference Documentation — https://spring.io/projects/spring-boot",
+        "Redis Documentation — https://redis.io/documentation",
+        "RFC 6585: HTTP Status Code 429 (Too Many Requests)",
+        "System Design course, SSN College of Engineering, Academic Year 2026-27."
+      ]
+    }
+  ]
+}

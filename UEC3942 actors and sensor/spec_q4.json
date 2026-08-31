@@ -1,0 +1,122 @@
+{
+  "title": "ASSIGNMENT – 1",
+  "subtitle": "Introduction to Sensors and Actuators (UEC 3942) — Question 4",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": "To design an optical fire detection system using a photodiode/phototransistor for industrial safety, covering the sensing principle, signal conditioning, processing, alarm logic, and integration with the plant safety network."
+    },
+
+    {
+      "heading": "PROBLEM STATEMENT",
+      "paragraph": "Industrial fires begin either as open flames or as smoldering combustion that releases smoke particles long before flames appear. A reliable detector must catch both, must not false-alarm on welding flash, sunlight, steam, or dust, and must report to the plant safety system even if the local unit loses mains power. The design below uses the optical (photoelectric) principle: an infrared LED and a phototransistor arranged at 90 degrees inside a dark chamber, so that only smoke — by scattering light — makes the sensor respond."
+    },
+
+    {
+      "heading": "SYSTEM OVERVIEW",
+      "paragraph": "The system is a chain of five stages: a pulsed 880 nm IR source, a dark scatter chamber, a phototransistor receiver, an analog signal-conditioning front end, and a microcontroller that applies thresholds, hysteresis, and alarm logic. Outputs are a local 85 dB sounder with beacon, and a LoRa wireless link to the plant building-management system.",
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/diagrams/f1_block.png",
+          "caption": "Fig 1. Complete system block diagram of the optical fire detector" }
+      ]
+    },
+
+    {
+      "heading": "SENSING PRINCIPLE — 90-DEGREE LIGHT SCATTER",
+      "paragraph": "Inside the chamber the IR beam normally travels straight across and is absorbed by a black baffle: with clean air, no light reaches the phototransistor and its photocurrent is only leakage. When smoke particles (typically 0.1–10 µm) enter the chamber, they scatter the beam in all directions (Mie scattering, dominant for these particle sizes); the phototransistor mounted at 90 degrees receives this scattered light and its photocurrent rises in proportion to smoke density.",
+      "bullets": [
+        "Source: 880 nm IR LED — invisible, high power, and matches the phototransistor's peak spectral sensitivity, giving the best signal-to-noise ratio.",
+        "Geometry: LED and phototransistor at 90 degrees with a baffle — clean air gives a near-zero baseline, so tiny scatter changes are measurable.",
+        "Why optical beats ionization here: optical chambers respond fast to smoldering (cool, smoky) fires typical of cable trays and storage areas, and contain no radioactive source (no Am-241 licensing/disposal issues in an industrial plant).",
+        "Chamber design: black ABS with maze-style insect screens — blocks external light and dust, lets smoke in by diffusion within seconds."
+      ],
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/diagrams/f2_chamber.png",
+          "caption": "Fig 2. 90-degree scatter geometry inside the sensing chamber" }
+      ]
+    },
+
+    {
+      "heading": "SIGNAL CONDITIONING",
+      "bullets": [
+        "Transimpedance amplifier: the phototransistor drives an op-amp TIA that converts photocurrent to voltage; feedback resistor sets sensitivity (typ. 1–10 MΩ for µA-level photocurrents).",
+        "Bandpass filtering: an RC bandpass around the LED pulse rate rejects slow ambient drift (sunlight warming the sensor) and 50 Hz mains pickup.",
+        "Synchronous detection: the MCU samples the phototransistor output only during the LED ON window and subtracts the LED OFF reading — this cancels ambient light almost completely, which is why the LED is pulsed instead of driven continuously.",
+        "Rectifier + integrator: burst samples are averaged over several pulses into a smoke-density value, smoothing single-particle noise spikes (a fly passing through must not alarm).",
+        "Power: LED driven in short high-current bursts (one 100 µs burst every 10 s in standby) — average current stays in the tens of µA, so a backup battery runs the sensing loop for months."
+      ]
+    },
+
+    {
+      "heading": "PROCESSING AND ALARM LOGIC",
+      "paragraph": "The microcontroller converts the conditioned signal into an obscuration reading and applies standards-based thresholds with hysteresis and double-confirmation before latching an alarm.",
+      "bullets": [
+        "Threshold: alarm when obscuration exceeds ~4.5% per foot (EN 54-7 / UL 268 class); reset only below 3.5%/ft — the hysteresis band stops alarm chattering at the boundary.",
+        "Confirmation: two consecutive burst windows above threshold are required — kills false alarms from a single dust puff or insect.",
+        "Drift compensation: the MCU tracks the slow baseline over hours and adjusts the reference, so chamber ageing and dust never eat into the margin.",
+        "Fault supervision: LED open/short and sensor-line faults are flagged as a trouble signal (distinct slow beep), never silently ignored.",
+        "Self-test: a test button injects a known scatter-equivalent signal; annual verification uses real aerosol smoke.",
+        "Outputs: 85 dB piezo sounder + strobe beacon locally; alarm state latched and transmitted over LoRa to the plant BMS with the detector's ID; a relay output drives the local HVAC shutdown to stop smoke spreading."
+      ],
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/diagrams/f3_waveform.png",
+          "caption": "Fig 3. Phototransistor signal in clean air vs smoke event with threshold and hysteresis" },
+        { "image": "C:/Users/srik2/Desktop/College/UEC3942/diagrams/f4_flowchart.png",
+          "caption": "Fig 4. Detection logic state machine (idle, sample, confirm, latch, reset)" }
+      ]
+    },
+
+    {
+      "heading": "COMPONENT SELECTION",
+      "table": {
+        "headers": ["Block", "Component (example)", "Key specification", "Why chosen"],
+        "rows": [
+          ["IR source", "TSAL6200 (880 nm IR LED)", "940 mW/sr peak, 1.2 A pulsed rating", "Spectral match to receiver; high radiant intensity in short bursts"],
+          ["Receiver", "BPW34 PIN photodiode / PT334 phototransistor", "Peak sensitivity ~880 nm, fast response", "Direct spectral match; µA-level response to scatter"],
+          ["Front end", "OP07 / MCP6021 TIA", "Low offset, low noise, 1–10 MΩ feedback", "Converts µA photocurrent to a clean measurable voltage"],
+          ["Controller", "STM32L0 / ATtiny (low-power MCU)", "10-bit ADC, sleep currents < 5 µA", "Runs synchronous sampling and years on backup battery"],
+          ["Alarm", "Piezo sounder 85 dB + strobe", "3 m audible per code requirements", "Local occupant warning"],
+          ["Telemetry", "LoRa module (868/915 MHz)", "km-range, µA sleep", "Reaches plant BMS without wiring the whole floor"],
+          ["Backup", "Li-SOCl2 cell", "10-year shelf, wide temperature", "Detector keeps sensing through mains failure"]
+        ]
+      },
+      "widths": [80, 170, 160, 160]
+    },
+
+    {
+      "heading": "PERFORMANCE AND STANDARDS",
+      "bullets": [
+        "Sensitivity: alarm at 4.5%/ft obscuration, reset at 3.5%/ft (UL 268 / EN 54-7 class thresholds).",
+        "Response: detects smoldering cable-tray smoke within tens of seconds at the detector; flame detection is supplemented by an IR3 flame sensor in high-risk zones.",
+        "False-alarm control: 90-degree geometry + synchronous sampling + double-confirmation + drift compensation together reject sunlight, lamp flicker, welding flash, steam and dust.",
+        "Supervision: loop fault, chamber contamination and low-battery are reported as trouble states to the BMS.",
+        "Placement (industrial): under ceilings/roof voids, away from HVAC outlets and welding bays; one detector per ~100 m² as a starting rule, refined by the site risk assessment."
+      ]
+    },
+
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "Understood the 90-degree light-scatter principle and why geometry gives a near-zero clean-air baseline.",
+        "Designed the full chain: pulsed IR source, TIA, filtering, synchronous sampling, thresholding with hysteresis.",
+        "Applied fire-safety standards (UL 268 / EN 54-7) thresholds and double-confirmation logic to avoid false alarms.",
+        "Integrated an industrial detector with local alarms and wireless (LoRa) plant telemetry, with battery-backed supervision."
+      ]
+    },
+    {
+      "heading": "REFERENCES",
+      "bullets": [
+        "D. Patranabis, Sensors and Transducers, PHI Learning.",
+        "J. Fraden, Handbook of Modern Sensors, Springer — photoelectric smoke sensing chapter.",
+        "UL 268 / EN 54-7: smoke detector sensitivity and testing standards.",
+        "UEC 3942 Introduction to Sensors and Actuators, SSN College of Engineering, Regulations 2024."
+      ]
+    }
+  ]
+}
