@@ -17,3 +17,27 @@ target/
 # archived zip backups (kept on disk, not in git)
 _archive/*.zip
 System Design/_archive/*.zip
+
+# large binaries / datasets / model weights (kept on disk, not in git)
+Machine Learning/Kaggle_Competition_Mini_Project.zip
+Machine Learning/Kaggle_Competition_Mini_Project/models/
+Machine Learning/Kaggle_Competition_Mini_Project/scratch/
+Machine Learning/Kaggle_Competition_Mini_Project/plots/moonshot_2048/
+Machine Learning/exp6/
+Machine Learning/assigment (2).zip
+*.pth
+*.pt
+*.onnx
+*.h5
+*.ckpt
+System Design/as8/
+System Design/as8.zip
+System Design/exp7/
+System Design/exp7.zip
+System Design/exp8
+System Design/webcrawler/
+System Design/webcrawler-ucs3513-lab8.zip
+System Design/tools/apache-jmeter-5.6.3/
+filament_out/
+.venv/
+.playwright-mcp/

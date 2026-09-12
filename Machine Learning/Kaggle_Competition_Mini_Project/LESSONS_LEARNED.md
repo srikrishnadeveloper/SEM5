@@ -162,11 +162,9 @@ The quality difference is negligible but the speed difference is 10-50×.
 ## 14. NEVER RUN SEGFORMER (MIT-B3) AT 1024px ON 16GB T4 GPU
 
 **What went wrong:** In `grandmaster`, `Segformer (mit_b3)` crashed with `OutOfMemoryError: CUDA out of memory` during Epoch 1 on T4. Vision Transformer self-attention maps at 1024×1024 resolution exceed 16GB VRAM during feature concatenation (`self.fuse_stage`).
+---
 
-**Rule:** 
-1. Use CNN-based backbones for 1024px training on T4 GPUs: `UnetPlusPlus (efficientnet-b4)` and `DeepLabV3Plus (resnet50)`. Both stay comfortably under 5GB VRAM.
-2. If using `Segformer (mit_b3)`, cap resolution at 512×512 or use batch size 1 with gradient accumulation.
-
+## 13. DUAL-GPU MODEL PARALLELISM DURING ENSEMBLE INFERENCE
 
 **What went wrong:** In dual-GPU sessions (`GPU T4 x2`), sending all models to `cuda:0` leaves GPU 1 at 0.00% utilization, wasting half the available compute.
 
@@ -175,5 +173,42 @@ The quality difference is negligible but the speed difference is 10-50×.
 2. Run forward passes on each model's designated GPU.
 3. This lights up BOTH GPUs to 100%, doubles available VRAM, and cuts total test inference time in half with zero memory locking!
 
+---
 
+## 14. NEVER RUN SEGFORMER (MIT-B3) AT 1024px ON 16GB T4 GPU
 
+**What went wrong:** In `grandmaster`, `Segformer (mit_b3)` crashed with `OutOfMemoryError: CUDA out of memory` during Epoch 1 on T4. Vision Transformer self-attention maps at 1024×1024 resolution exceed 16GB VRAM during feature concatenation (`self.fuse_stage`).
+
+**Rule:** 
+1. Use CNN-based backbones for 1024px training on T4 GPUs: `UnetPlusPlus (efficientnet-b4)` and `DeepLabV3Plus (resnet50)`. Both stay comfortably under 5GB VRAM.
+2. If using `Segformer (mit_b3)`, cap resolution at 512×512 or use batch size 1 with gradient accumulation.
+
+---
+
+## 15. COCO RLE ENCODING REQUIRES 3D FORTRAN SHAPE (H, W, 1)
+
+**What went wrong:** Passing a 2D array `(H, W)` directly to `pycocotools.mask.encode(asfortranarray(mask))` produces invalid RLE byte sequences or crashes in Kaggle evaluation containers.
+**Rule:** Always reshape Fortran-contiguous binary masks to 3D before encoding:
+`mask_utils.encode(np.asfortranarray(mask, dtype=np.uint8).reshape((h, w, 1)))[0]['counts'].decode('utf-8')`
+
+---
+
+## 16. EMPTY PREDICTIONS MUST USE VALID ALL-ZERO RLE STRINGS
+
+**What went wrong:** Using dummy string placeholders like `"PPP2"` creates invalid COCO RLE payloads that cause submission parse errors or false-positive penalties.
+**Rule:** Always encode a valid all-zero Fortran mask for empty images:
+`mask_utils.encode(np.zeros((h, w, 1), dtype=np.uint8, order='F'))[0]['counts'].decode('utf-8')`
+
+---
+
+## 17. ADAPTIVE MODEL ARCHITECTURE LOADING FROM TENSOR SHAPES
+
+**What went wrong:** Hardcoding `in_channels=3` or guessing encoders causes `load_state_dict` crashes when ensembling models trained on 1-channel vs 3-channel features.
+**Rule:** Inspect the state dict first conv weights (`encoder.conv1.weight.shape[1]`) dynamically to set `in_channels` and auto-detect attention mechanisms (`scSE`).
+
+---
+
+## 18. TRUE SEED-GUIDED HYSTERESIS WITH SEED-MARKER WATERSHED
+
+**What went wrong:** Naive component-level hysteresis merges distinct adjacent filaments whenever a faint weak probability bridge connects them.
+**Rule:** When a weak connected component touches multiple strong seeds ($P \ge 0.54$), run Distance-Transform Watershed using the strong seeds as discrete markers, and prioritize non-overlapping instances by mean internal probability confidence.

@@ -9,6 +9,8 @@
 - Profile file (lab reports): `C:\Users\srik2\.lab_report_profile.json`
 - **Terminology: "submission PDF" = "report". When the user says "submitting pdf" / "submission pdf", they mean the report PDF produced by the `lab-report-pdf` skill.**
 
+> **Runbook**: A `college-workflow` OpenCode skill now exists at `.opencode/skills/college-workflow/` for repeatable college tasks. Helper scripts `strip_comments.py` and `verify_pdf.py` live under `.opencode/skills/college-workflow/scripts/`.
+
 ## Coding & comment style
 
 - Casual human tone, with small typos allowed. Reference style: `Machine Learning/exp2/learn.py`.

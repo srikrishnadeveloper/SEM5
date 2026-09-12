@@ -1,3 +1,40 @@
+# CURRENT AUTHORITY — 2026-09-08
+
+CURRENT MASTER: ChatGPT  
+EXECUTOR: Antigravity  
+GROK: INACTIVE  
+
+AUTHORITY ORDER:
+
+1. master/00_EXECUTIVE_SUMMARY.md
+2. master/01_PROJECT_STATE.md
+3. master/02_DATA_AUDIT.md
+4. master/03_MODEL_HISTORY.md
+5. master/04_CURRENT_DIRECTIVE.md
+6. master/05_ANTIGRAVITY_REPORT.md
+7. master/06_TEST_RESULTS.md
+8. master/07_KAGGLE_RUNBOOK.md
+9. master/08_DECISION_LOG.md
+10. master/09_ARTIFACT_HASHES.md
+11. docs/00_MASTER_CONTEXT_CHATGPT.md
+12. current official Kaggle competition pages / host rules
+
+Current competition truth:
+
+- Primary Kaggle leaderboard metric = Panoptic Quality (PQ) at IoU > 0.50
+- Submission = exactly one row per ACTUAL predicted filament (`filament_id,segmentation_rle`)
+- Disks with zero predicted filaments emit ZERO prediction rows (never dummy zero masks)
+- ZERO OVERLAP RULE: Strictly zero shared pixels between any two masks on the same disk (enforced via greedy pixel-carve sanitizer)
+- Single-class segmentation target = filament (categories 1, 2, 3, 4 all map to class 0)
+- Never use external public Harvard Dataverse MAGFiLO download for training (data leakage)
+- 707 physical train JPEGs / 1,154 annotator observations / 180 hidden test JPEGs
+- Highest Verified LB Score = 0.360 (Moonshot Native 2048 YOLOv8l-seg, 60 epochs, Fold 0)
+- Secondary Baseline = 0.350 (V8.1 True Instance Cascade)
+- Ensemble Score = 0.350 (regressed due to 1024px mask boundary dilation & 146 extra FPs)
+- Active Production Target = Moonshot Full-Data (100% data, mosaic=1.0, cache="ram", pure PyTorch GPU inference) targeting 0.50+
+
+---
+
 # AGENTS.md — Solar Filament Segmentation Challenge 2026
 
 > Project root: `C:\Users\srik2\Desktop\College\Machine Learning\Kaggle_Competition_Mini_Project`  
@@ -10,13 +47,7 @@
 
 This is the **Solar Filament Segmentation Challenge 2026** (Kaggle + IEEE BigData Cup) mini-project. The task is to predict a pixel-precise binary mask for every solar filament in 2048×2048 full-disk H-alpha images from the MAGFiLO v1.0 dataset and to submit per-filament COCO RLE strings in a single CSV.
 
-The local pipeline is in `code/` and uses:
-
-- `segmentation-models-pytorch` for the segmentation model (U-Net / UNet++ / DeepLabV3+ / FPN with `timm` or torchvision encoders).
-- Training at a lower resolution (default `1024`) with random filament-centred cropping and heavy Albumentations augmentation.
-- Inference at the full `2048` resolution: resize probability map up with bilinear interpolation, then threshold and post-process.
-- Post-processing with solar disk masking, morphological cleanup, watershed instance splitting, and `pycocotools` RLE encoding.
-- A 5-fold GroupKFold split by year to avoid multi-annotator and temporal leakage.
+The active production baseline is the **V8.1 True Instance-Segmentation Cascade** located in `v8_1/` (with builder in `notebooks/build_v8_1_kaggle_nb.py`). The legacy monolithic pipeline in `code/` represents earlier V1-V4 experiments.
 
 The repo has no `.git` yet. **Do not commit or push** anything, and **do not write the Kaggle API token** into any source file.
 
@@ -270,7 +301,7 @@ Because the notebook does **not** mount Drive, every run re-downloads the data a
 - `mIoU_multiscale`: extract Sobel edges, downsample with box-counting at cell sizes `[1, 2, 4, 8, 16, 32, 64, 128, 256, 512]`, compute the intersection ratio `r = |s(gt) ∩ s(pred)| / |s(gt)|` with `+1` smoothing, integrate over scales with the trapezoidal rule, and average over overlapping pairs.
 - `mean_mIoU_pairwise` / `mean_mIoU_multiscale` compute macro and micro averages over a list of images.
 
-`train.py` currently selects the best checkpoint by the **relaxed Panoptic Quality** in `validate()`. This is a known TODO: consider switching model selection to `mIoU_pairwise` / `mIoU_multiscale` once the validation loop is updated.
+Panoptic Quality (PQ) is the confirmed official primary Kaggle leaderboard metric since Aug 7, 2026 (re-scored Aug 12, 2026). In V8.1, YOLO validation sweeps evaluate multi-annotator Kirillov PQ on unique physical disks.
 
 ### 5.4 Model encoder names
 
@@ -314,10 +345,10 @@ Valid `MODEL_NAME` values from `model.py`: `unet`, `unetplusplus`, `deeplabv3plu
 - **Colab Drive vs no-Drive:** the Drive notebook persists to Google Drive but needs a one-time `drive.mount`. The no-Drive payloads re-download ~671 MB each run; results must be downloaded before the session expires.
 - **Playground mode:** when opening a shared Colab link, use normal notebook mode if you need to set secrets or download results. In Kaggle, attach the notebook to the competition, not a standalone dataset, so `kagglehub` accepts the competition download.
 - **Windows `pycocotools`:** `pycocotools` needs a C compiler on Windows or the `pycocotools-windows` wheel. `scikit-image` is now in `requirements.txt` because `postprocess.py` uses watershed and `peak_local_max`.
-- **Ambiguous category:** `dataset.py` drops `category_id == 4` (`Ambiguous`) because it has no annotations and only adds confusion.
+- **Ambiguous category:** Category 4 (`Ambiguous`) currently has 0 annotations in the training JSON, but per official competition rules all categories 1, 2, 3, 4 represent solar filaments for one-class segmentation; code must not exclude category 4 if it appears.
 - **Multi-annotator leakage:** the COCO JSON has 1,154 `image_id`s but only 707 physical JPEGs. Splits are done by filename.
-- **RLE format:** `postprocess.py` encodes each instance with `pycocotools.mask.encode` on a Fortran-ordered `(2048, 2048)` `uint8` mask and writes only the `counts` string. The submission CSV must have exactly the columns `filament_id,segmentation_rle`.
-- **Evaluation metric mismatch:** the public brief describes a 70 % quantitative / 30 % qualitative split with Mean Dice + Panoptic Quality, but research (`research/verification_and_recommendations.md`) indicates the real Kaggle/IEEE BigData Cup scoring is likely `mIoU_pairwise` and `mIoU_multiscale` (EdgeAttNet). The code supports both; the training selection metric may need to be swapped to mIoU later.
+- **RLE format and Submission Semantics:** Each row in `submission.csv` corresponds to one actual predicted filament. If zero filaments are detected on a disk, zero rows are emitted for that disk. Every submitted row must decode to `(2048, 2048)` with strictly positive area (`sum > 0`). Never emit dummy all-zero masks.
+- **Evaluation metric:** The official Kaggle leaderboard metric is Panoptic Quality (PQ) following the Aug 7 metric update and Aug 12 re-score. Our local greedy Kirillov PQ is strongly compatibility-tested and agrees with the retrieved host logic on tested cases. The current Kaggle host identifies Self Evaluation V6 as the exact reference. Baseline 1 uses fixed inference conf=0.25, so local PQ is diagnostic, not an automatic deployment selector.
 
 ---
 

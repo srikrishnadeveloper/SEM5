@@ -1,0 +1,13 @@
+{
+  "status": "SUCCESS",
+  "total_test_images": 180,
+  "total_filaments_predicted": 1323,
+  "represented_disks": 178,
+  "zero_detection_disks": 2,
+  "submission_path": "C:\\Users\\srik2\\Desktop\\College\\Machine Learning\\Kaggle_Competition_Mini_Project\\submissions\\ensemble_moonshot_v8.csv",
+  "submission_sha256": "083267493d8554a51a02aa0f476fdad85069c25ff3349bac82cb7a9ecd2c51ec",
+  "ensemble_models": [
+    "Moonshot Native 2048 (0.360)",
+    "V8.1 Cascade (0.350)"
+  ]
+}

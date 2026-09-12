@@ -1,28 +1,13 @@
 package com.ssn.ratelimiter;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
-/**
- * Implements the Token Bucket algorithm for API rate limiting.
- *
- * Each client (identified by an ID or IP) gets its own "bucket" of tokens,
- * stored in Redis so the state is shared across all requests / instances.
- *
- * - The bucket starts full (bucketCapacity tokens).
- * - Every request tries to consume 1 token.
- * - Tokens are refilled at a fixed rate over time (refillAmount tokens
- *   every refillIntervalMillis milliseconds), up to the bucket capacity.
- * - If no tokens are available, the request is rejected (HTTP 429).
- *
- * Redis is used here (instead of a plain in-memory HashMap) so that the
- * rate-limit state is centralized: if this application were scaled to
- * multiple instances behind a load balancer, all instances would still
- * share the same bucket for a given client.
- */
 @Service
 public class TokenBucketService {
 
@@ -36,6 +21,8 @@ public class TokenBucketService {
     private static final String LAST_REFILL_SUFFIX = ":last_refill";
     private static final String KEY_PREFIX = "rate_limit:";
 
+    private final DefaultRedisScript<Long> rateLimitScript;
+
     public TokenBucketService(
             StringRedisTemplate redisTemplate,
             @Value("${rate.limiter.bucket-capacity:10}") int bucketCapacity,
@@ -45,66 +32,39 @@ public class TokenBucketService {
         this.bucketCapacity = bucketCapacity;
         this.refillIntervalMillis = refillIntervalMillis;
         this.refillAmount = refillAmount;
+
+        // Load the Lua script from classpath resources
+        this.rateLimitScript = new DefaultRedisScript<>();
+        this.rateLimitScript.setLocation(new ClassPathResource("scripts/rate_limiter.lua"));
+        this.rateLimitScript.setResultType(Long.class);
     }
 
     /**
-     * Tries to consume one token for the given client.
-     * Returns true if the request is allowed, false if the client is rate limited.
-     *
-     * synchronized is used here (instead of a Redis Lua script) to keep the
-     * read -> refill -> decrement sequence atomic. This is enough for a
-     * single-instance lab setup and is easy to explain: only one thread at a
-     * time can update a given client's bucket.
+     * Tries to consume one token using an atomic Redis Lua script.
+     * Replaces Java 'synchronized' to support distributed scaling safely.
      */
-    public synchronized boolean tryConsume(String clientId) {
-        refillBucket(clientId);
+    public boolean tryConsume(String clientId) {
+        Long result = redisTemplate.execute(
+        rateLimitScript, // 1. The script to run
+        
+        // 2. KEYS (Passed into Lua as KEYS[1] and KEYS[2])
+        List.of(
+            tokensKey(clientId),      // -> "rate_limit:user1:tokens"  (KEYS[1])
+            lastRefillKey(clientId)   // -> "rate_limit:user1:last_refill" (KEYS[2])
+        ),
+        
+        // 3. ARGV (Passed into Lua as ARGV[1], ARGV[2], ARGV[3], ARGV[4])
+        String.valueOf(bucketCapacity),           // -> "10"    (ARGV[1])
+        String.valueOf(refillIntervalMillis),     // -> "1000"  (ARGV[2])
+        String.valueOf(refillAmount),             // -> "1"     (ARGV[3])
+        String.valueOf(System.currentTimeMillis())// -> "1772102069000" (ARGV[4])
+    );  
 
-        long tokens = getTokens(clientId);
-        if (tokens > 0) {
-            redisTemplate.opsForValue().decrement(tokensKey(clientId));
-            return true;
-        }
-        return false;
+        return result != null && result == 1L;
     }
 
-    /** Returns the current token count for a client, applying any pending refill first. */
+    /** Returns current token count without consuming. */
     public long getRemainingTokens(String clientId) {
-        refillBucket(clientId);
-        return getTokens(clientId);
-    }
-
-    // ---- internal helpers ----
-
-    private void refillBucket(String clientId) {
-        long now = System.currentTimeMillis();
-        String lastRefillStr = redisTemplate.opsForValue().get(lastRefillKey(clientId));
-
-        // First time we see this client: initialize a full bucket.
-        if (lastRefillStr == null) {
-            redisTemplate.opsForValue().set(tokensKey(clientId), String.valueOf(bucketCapacity));
-            redisTemplate.opsForValue().set(lastRefillKey(clientId), String.valueOf(now));
-            return;
-        }
-
-        long lastRefillTime = Long.parseLong(lastRefillStr);
-        long elapsed = now - lastRefillTime;
-
-        long intervalsPassed = elapsed / refillIntervalMillis;
-        if (intervalsPassed <= 0) {
-            return; // not time to refill yet
-        }
-
-        long currentTokens = getTokens(clientId);
-        long newTokens = Math.min(bucketCapacity, currentTokens + (intervalsPassed * refillAmount));
-
-        redisTemplate.opsForValue().set(tokensKey(clientId), String.valueOf(newTokens));
-        // advance the "last refill" timestamp only by the whole intervals consumed,
-        // so partial time isn't lost on the next check
-        redisTemplate.opsForValue().set(lastRefillKey(clientId),
-                String.valueOf(lastRefillTime + intervalsPassed * refillIntervalMillis));
-    }
-
-    private long getTokens(String clientId) {
         String tokensStr = redisTemplate.opsForValue().get(tokensKey(clientId));
         return (tokensStr != null) ? Long.parseLong(tokensStr) : bucketCapacity;
     }

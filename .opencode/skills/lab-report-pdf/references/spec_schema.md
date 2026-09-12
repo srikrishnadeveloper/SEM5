@@ -58,7 +58,7 @@ student's actual (bug-fixed) file, output from a real run, plots from real PNGs.
 | `subtitle` | string | no | small centered line under the title |
 | `name`/`class_section`/`regno` | string | no | falls back to `~/.lab_report_profile.json` |
 | `institution` | string | no | footer text (e.g. "SSN COLLEGE OF ENGINEERING") |
-| `plain` | bool | no | **true ONLY for System Design Laboratory (UCS3513)** |
+| `plain` | bool | no | Always `false`; every subject uses the polished style. |
 | `sections` | array | yes | ordered list of content blocks |
 
 ## Section block keys
@@ -66,7 +66,7 @@ student's actual (bug-fixed) file, output from a real run, plots from real PNGs.
 | Key | Value | Notes |
 |---|---|---|
 | `heading` | string | section title |
-| `paragraph` | string \| [string] | body text (AIM, procedure, result analysis) |
+| `paragraph` | string | body text (AIM, procedure, result analysis). Never use `paragraphs` (plural) — `build_pdf.py` silently skips it. |
 | `code_file` | path | the actual code file to embed (syntax-highlighted) |
 | `code` | string | inline code instead of a file |
 | `lang` | "python" \| anything else | python tokenizer vs generic (Java/C/sh) |
@@ -79,6 +79,15 @@ student's actual (bug-fixed) file, output from a real run, plots from real PNGs.
 
 Rules of thumb:
 - One `code_file` per code section; long files are auto-split across pages.
+- For long files with huge comment blocks, create a `*_nocomments.java` (or
+  similar) stripped copy for the PDF, keep the original untouched, and point
+  `code_file` to the stripped version.
+- Use `paragraph` (single string), not `paragraphs` (plural); `build_pdf.py`
+  silently skips `paragraphs` and the section vanishes from the PDF.
+- Never put Python `None` in a spec; use a string or omit the field. Validate
+  with `python -c "import json;json.load(open('spec.json'))"` before building.
+- Use full absolute paths for `code_file`, `output_file`, and plot `image`
+  paths, and when telling the user the final PDF path.
 - Real numbers in the tasks table must come from the captured output.
 - The AIM mirrors the instructor's boilerplate phrasing when a reference PDF
   was given (that's expected, not plagiarism of the student).

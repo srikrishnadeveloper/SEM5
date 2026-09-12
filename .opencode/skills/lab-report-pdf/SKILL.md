@@ -1,6 +1,6 @@
 ---
 name: lab-report-pdf
-description: Generate a college lab/experiment/assignment report PDF with top-level UI - Poppins text, VS Code dark-theme syntax-colored code blocks, real captured output, real plots, page border, running Name/Class/RegNo header, light tables. Use whenever the user asks to create/generate/make a PDF report for a lab experiment, assignment, or practical for ANY subject (Machine Learning, Computer Networks, System Design Lab, DBMS, etc.), or asks to fix code then turn it into a submission PDF, or attaches a friend's/senior's example PDF to match. ONLY the System Design Laboratory (UCS3513) uses the deliberately plain style; all other subjects get the polished look.
+description: Generate a college lab/experiment/assignment report PDF with polished style - Poppins text, VS Code dark-theme syntax-colored code blocks, real captured output, real plots, page border, running Name/Class/RegNo header, light tables. Use whenever the user asks to create/generate/make a PDF report for a lab experiment, assignment, or practical for ANY subject (Machine Learning, Computer Networks, System Design Lab, DBMS, etc.), or asks to fix code then turn it into a submission PDF, or attaches a friend's/senior's example PDF to match. `plain` must stay `false` for every subject; all reports use the polished style.
 ---
 
 # Lab Report PDF Generator
@@ -67,8 +67,8 @@ Separately, per report, work out:
   expected and not a problem.
 - **Institution footer** - "SSN COLLEGE OF ENGINEERING" (visible in reference
   material; otherwise omit).
-- **plain flag** - true ONLY for System Design Laboratory (UCS3513). Ask if
-  unsure about an unusual subject; never generalize the exception yourself.
+- **plain flag** - always `false`; every subject uses the polished style. Ask
+  if unsure, but do not set `plain: true` for any course.
 
 ### 3. Run the code for real and capture real output
 
@@ -96,6 +96,14 @@ spring-boot:run`, then `curl` the endpoints (e.g. `curl -i -X POST
 localhost:8080/shorten -H "Content-Type: application/json" -d '{"longUrl":
 "..."}'`) and capture the real responses.
 
+### Long files / comment blocks
+
+For long source files that contain large comment blocks (e.g., Java Spring
+Boot controllers), create a stripped `*_nocomments.java` (or similar) copy for
+the PDF. Keep the original file untouched and point the spec's `code_file` to
+the stripped version. Do not rewrite the original comments into polished
+AI-sounding language — only remove bulk comments to save space.
+
 ### 4. Write the "Tasks Performed" table and "Learning Outcomes"
 
 Base every row of the tasks table on something that's actually visible in
@@ -107,9 +115,12 @@ experiment covered, in first person ("I was able to...").
 
 ### 5. Build the PDF
 
-Decide the style: **System Design Laboratory (UCS3513) -> plain; every
-other subject -> polished.** Write a JSON spec (see
-`references/spec_schema.md`) and run:
+Write a JSON spec with `plain: false` (the default for every subject — see
+`references/spec_schema.md`). Use full absolute paths for `code_file`,
+`output_file`, and plot `image` paths. Never put Python `None` in the spec;
+use a string or omit the field. Validate the JSON with
+`python -c "import json;json.load(open('spec.json'))"` before building. Then
+run:
 
 ```bash
 python scripts/build_pdf.py spec.json --out "Lab_Exercise_N_<Topic>_<Name>.pdf"
@@ -128,21 +139,18 @@ development - don't skip it just because the script ran without errors.
 
 ### 7. Deliver
 
-Send the finished PDF to the user as a file, not just a "done" message. If
-they also want to edit it themselves, produce a `.docx` copy alongside.
+Send the finished PDF to the user as a file, not just a "done" message. Always
+reference the PDF by its full absolute path (e.g.
+`C:\Users\srik2\Desktop\College\Networks Laboratory\exp6\Assignment_6_Rate_Limiter_Srikrishna_O_S.pdf`).
+If they also want to edit it themselves, produce a `.docx` copy alongside.
 
 ## Design contract
 
-**Exception first: System Design Laboratory (UCS3513) reports use a
-deliberately plain style, not this one.** For that subject specifically, set
-`plain: true` - default-looking fonts (Times/Calibri), no page border, no
-running header, minimal-to-no table shading - closer to a normal Word
-document a student typed themselves. This was an explicit user instruction,
-not a guess: overly polished output for that particular course read as
-suspicious. Every other subject (ML, Networks Lab, Computer Networks, DBMS,
-whatever comes next) gets the full polished treatment below. Don't generalize
-the System Design exception to other courses on your own judgment - if it
-seems like another course should also be toned down, ask rather than assume.
+**Style is always polished.** `plain: false` is the default for every
+subject, including System Design Laboratory (UCS3513). All reports use the
+same Poppins/Consolas, page border, running header, and shaded tables. Do not
+set `plain: true` for any course unless the user explicitly overrides this
+rule.
 
 These choices are deliberate and shouldn't drift between runs - they're what
 makes the output consistently recognizable as "the good format" rather than
