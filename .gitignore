@@ -41,3 +41,17 @@ System Design/tools/apache-jmeter-5.6.3/
 filament_out/
 .venv/
 .playwright-mcp/
+# caches & compiled artifacts
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+
+# logs
+*.log
+
+# archives (kept on disk, not in git)
+*.zip
+
+# third-party tool distributions (not source)
+System Design/tools/
