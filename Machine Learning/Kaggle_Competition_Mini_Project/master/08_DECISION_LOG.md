@@ -100,4 +100,20 @@
   2. **Re-affirm the 60-epoch Fold-0 model (`models/moonshot_2048/best.pt`, 0.360 LB)** as the project's primary verified champion.
 - **Status:** **RATIFIED ARCHITECTURAL LAW**.
 
+---
+
+## Decision 13: Red-Team Forensic Audit — Empirical Barrier Documentation (Sept 13, 2026)
+- **Context:** Antigravity deployed a 5-agent red-team swarm audit to empirically diagnose all structural barriers to PQ improvement.
+- **Key Findings:**
+  1. Human-vs-human PQ on MAGFiLO multi-annotator pairs = **0.3329** → our 0.360 exceeds human agreement.
+  2. YOLO 1/4 prototype resolution creates a hard SQ ceiling at ~0.92 mean IoU.
+  3. Bbox fill ratio of 24.3% means 75.7% of YOLO features are contaminated by background.
+  4. Pixel-carve zero-overlap sanitizer fragments 6.9% of masks into up to 6 disconnected pieces.
+  5. Binary mask ensembling injected +141 FPs (0.360 → 0.350 regression).
+  6. Full-data fine-tuning with mosaic=1.0 missed 31% of the filaments detected by the 0.360 model.
+- **Decision:**
+  1. All 6 findings are documented in `master/10_RED_TEAM_FORENSIC_AUDIT.md` and referenced in `00_EXECUTIVE_SUMMARY.md`.
+  2. Post-carve connected component cleanup is identified as a free PQ recovery lever (estimated +0.01–0.02 PQ).
+  3. Comprehensive ChatGPT Master research prompt issued in `master/MASTER_PROMPT_SEPT13.md`.
+- **Status:** **DOCUMENTED — AWAITING MASTER STRATEGIC RESPONSE**.
 

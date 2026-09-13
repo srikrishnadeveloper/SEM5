@@ -62,3 +62,24 @@ The production run (**Moonshot Native 2048 Full-Data Fine-Tuning**, `notebooka7d
 1. **Mosaic Augmentation Distortion (`mosaic=1.0`):** In the 0.360 run, `mosaic=0.0` was strictly disabled to preserve natural circular solar chromosphere physics. In this run, 40 epochs of 4-quadrant mosaic sliced circular disks into cross-sections and bisected filaments, teaching the network artificial termination edges and degrading Segmentation Quality ($\text{SQ}$).
 2. **Cumulative Prototype Over-Smoothing:** Fine-tuning for 50 additional epochs on top of the already-converged 60-epoch `best.pt` (110 epochs total) blurred prototype mask logits, dropping boundary IoU below the razor-sharp 0.50 cutoff.
 3. **Current Champion:** The 60-epoch Fold-0 Native 2048 model with `mosaic=0.0` (**0.360 LB**) remains the project's highest verified score.
+
+---
+
+## 5. Antigravity Red-Team Forensic Audit (September 13, 2026)
+
+**Full empirical report:** `master/10_RED_TEAM_FORENSIC_AUDIT.md`
+
+### Key Empirical Findings:
+
+| # | Finding | Empirical Number | Impact |
+|---|---------|-----------------|--------|
+| 1 | **Human-vs-Human PQ Agreement** | **0.3329** (40 multi-annotator pairs) | Our 0.360 **exceeds** human agreement |
+| 2 | **Bbox Fill Ratio** | **24.3%** median (75.7% wasted background) | YOLO feature dilution on thin filaments |
+| 3 | **Prototype Resolution Ceiling** | **Mean IoU = 0.92** at 1/4 res (512×512) | Hard SQ cap regardless of detection |
+| 4 | **Regression Cross-Match** | **31% of 0.360 filaments missed** by 0.330 | mosaic=1.0 + 110 epochs → catastrophic |
+| 5 | **Pixel-Carve Fragmentation** | **6.9%** of masks broken into ≤6 pieces | Active PQ leak in post-processing |
+| 6 | **Binary Ensemble FPs** | **+141 extra rows** injected | 0.360 → 0.350 due to FP inflation |
+
+### Two-POV Strategic Verdict:
+- **WHY 0.360 IS STRONG:** Exceeds human annotator PQ (0.333), host validates "≥0.35 is valuable", 0.55+ claims are debunked precomputed payloads.
+- **WHY 0.360 CAN'T GO HIGHER (easily):** Multi-annotator ceiling (~0.37), prototype resolution cap (~0.92 SQ), 24% bbox fill geometry mismatch, 6.9% fragmentation leak.
