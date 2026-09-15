@@ -1,57 +1,49 @@
-# secrets
-.env
-
-# personal practice, not coursework
-DSA/
-
-# third-party tool distributions, not source
-System Design/exp1/apache-jmeter-5.6.3/
-System Design/exp1/nginx-1.31.2/
-
-# build output
-build/
-.gradle/
-target/
-*.class
-
 # archived zip backups (kept on disk, not in git)
-_archive/*.zip
-System Design/_archive/*.zip
-
+# archives (kept on disk, not in git)
+# build output
+# caches & compiled artifacts
 # large binaries / datasets / model weights (kept on disk, not in git)
+# logs
+# personal practice, not coursework
+# secrets
+# third-party tool distributions (not source)
+# third-party tool distributions, not source
+*.ckpt
+*.class
+*.h5
+*.log
+*.onnx
+*.pt
+*.pth
+*.pyc
+*.zip
+.env
+.gradle/
+.ipynb_checkpoints/
+.playwright-mcp/
+.pytest_cache/
+.venv/
+DSA/
 Machine Learning/Kaggle_Competition_Mini_Project.zip
 Machine Learning/Kaggle_Competition_Mini_Project/models/
-Machine Learning/Kaggle_Competition_Mini_Project/scratch/
 Machine Learning/Kaggle_Competition_Mini_Project/plots/moonshot_2048/
-Machine Learning/exp6/
+Machine Learning/Kaggle_Competition_Mini_Project/scratch/
 Machine Learning/assigment (2).zip
-*.pth
-*.pt
-*.onnx
-*.h5
-*.ckpt
-System Design/as8/
+Machine Learning/exp6/
+System Design/_archive/*.zip
 System Design/as8.zip
-System Design/exp7/
+System Design/as8/
+System Design/exp1/apache-jmeter-5.6.3/
+System Design/exp1/nginx-1.31.2/
 System Design/exp7.zip
+System Design/exp7/
 System Design/exp8
-System Design/webcrawler/
-System Design/webcrawler-ucs3513-lab8.zip
-System Design/tools/apache-jmeter-5.6.3/
-filament_out/
-.venv/
-.playwright-mcp/
-# caches & compiled artifacts
-__pycache__/
-*.pyc
-.pytest_cache/
-.ipynb_checkpoints/
-
-# logs
-*.log
-
-# archives (kept on disk, not in git)
-*.zip
-
-# third-party tool distributions (not source)
 System Design/tools/
+System Design/tools/apache-jmeter-5.6.3/
+System Design/webcrawler-ucs3513-lab8.zip
+System Design/webcrawler/
+__pycache__/
+_archive/*.zip
+build/
+filament_out/
+target/
