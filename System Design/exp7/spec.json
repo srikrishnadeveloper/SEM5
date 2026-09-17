@@ -1,0 +1,104 @@
+{
+  "title": "LAB EXERCISE – 7",
+  "subtitle": "UCS3513 System Design Laboratory — Autocomplete Search System using Trie and Redis",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": "To design and implement an autocomplete search system using prefix matching. The system uses a Trie data structure for fast prefix search, returns the top-K suggestions by frequency, and caches results in Redis to improve response time for repeated queries."
+    },
+
+    {
+      "heading": "PROBLEM STATEMENT",
+      "paragraph": "A search engine must suggest relevant terms as the user types. For example, when the user types app, the system should return apple, application, appointment, and app store. Searching the full collection every time is slow, so we use a Trie for efficient prefix lookup and Redis to cache frequent prefixes."
+    },
+
+    {
+      "heading": "SYSTEM ARCHITECTURE",
+      "paragraph": "The application is a Spring Boot 3.2.5 service. It exposes a REST endpoint /api/search. When a request arrives, the service first checks Redis. If the prefix is cached, it returns immediately. If not, it walks the Trie, collects matching terms, sorts them by frequency, stores the top-K result in Redis, and returns it.",
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/System Design/exp7/diagrams/f1_arch.png",
+          "caption": "Fig 1. Autocomplete system architecture" }
+      ]
+    },
+
+    {
+      "heading": "ALGORITHM AND DATA STRUCTURE",
+      "paragraph": "The whole implementation fits inside one AutocompleteService class. It contains an inner Trie class, an inner TrieNode class, and a Suggestion class. The service seeds sample search terms, exposes a search method, and uses Spring Data Redis to cache results.",
+      "bullets": [
+        "Trie (inner class): a tree where each edge is a character. A path from the root to a node represents a prefix; a node with a non-null word stores a search term and its frequency.",
+        "Prefix search: walk the Trie following the prefix characters. From the prefix node, collect all descendant words using DFS.",
+        "Top-K selection: sort the collected words by frequency descending and keep the first K.",
+        "Redis cache: store the top-K suggestion list under a key auto:<prefix>:<k> with a TTL of 5 minutes (300 seconds).",
+        "Cache hit: Redis returns the list directly. Cache miss: search the Trie and then write the result to Redis."
+      ],
+      "plots": [
+        { "image": "C:/Users/srik2/Desktop/College/System Design/exp7/diagrams/f2_flow.png",
+          "caption": "Fig 2. Cache hit / cache miss flow" },
+        { "image": "C:/Users/srik2/Desktop/College/System Design/exp7/diagrams/f3_trie.png",
+          "caption": "Fig 3. Trie structure for prefix app" }
+      ]
+    },
+
+    {
+      "heading": "CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/System Design/exp7/autocomplete/src/main/java/com/ssn/autocomplete/AutocompleteService.java"
+    },
+
+    {
+      "heading": "CONTROLLER CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/System Design/exp7/autocomplete/src/main/java/com/ssn/autocomplete/AutocompleteController.java"
+    },
+
+    {
+      "heading": "CONFIGURATION",
+      "code_file": "C:/Users/srik2/Desktop/College/System Design/exp7/autocomplete/src/main/resources/application.properties"
+    },
+
+    {
+      "heading": "ENDPOINTS",
+      "table": {
+        "headers": ["Method", "Path", "Description"],
+        "rows": [
+          ["GET", "/api/health", "Health check"],
+          ["GET", "/api/search?prefix=app&k=4", "Return top-K autocomplete suggestions"]
+        ]
+      },
+      "widths": [80, 180, 250]
+    },
+
+    {
+      "heading": "TEST OUTPUT",
+      "paragraph": "The application was built and run on a Windows host using Maven 3.9.16 and Java 21, with Redis on localhost:6379. The following curl requests were executed:",
+      "output_file": "C:/Users/srik2/Desktop/College/System Design/exp7/autocomplete/output.txt"
+    },
+
+    {
+      "heading": "ANALYSIS",
+      "bullets": [
+        "Role of Trie: the Trie stores all search terms and supports fast prefix lookup in O(length of prefix) to reach the prefix node, followed by DFS to collect suggestions.",
+        "Role of Redis: caches top-K results for hot prefixes, avoiding repeated Trie traversal and sorting.",
+        "Top-K suggestions: sorting by frequency ensures the most-searched terms appear first.",
+        "Cache hit path: the service builds a Redis key, fetches the cached list, and returns it immediately.",
+        "Cache miss path: the service walks the Trie, sorts results, writes them to Redis, and returns them.",
+        "Trie vs linear search: a linear scan over N terms takes O(N * L) where L is word length; a Trie lookup is much faster for large vocabularies because the prefix narrows the search space quickly."
+      ]
+    },
+
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "Implemented an autocomplete service using Spring Boot.",
+        "Built a Trie for prefix-based search.",
+        "Returned top-K suggestions sorted by frequency.",
+        "Integrated Redis as a cache for frequently requested prefixes.",
+        "Understood the performance benefit of caching over repeated Trie searches."
+      ]
+    }
+  ]
+}

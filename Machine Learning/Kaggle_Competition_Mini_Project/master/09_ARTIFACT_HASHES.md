@@ -13,6 +13,9 @@
 | `plots/moonshot_2048/best.pt` | 92,767,812 | 92.77 MB | `f444e87b39433881ae39608e9740c44c9bab0161590212047e224b6730d6b6f9` |
 | `plots/moonshot_2048/last.pt` | 92,767,812 | 92.77 MB | `6a8e105800ab784a27e1c842b3fb339e4332a1672eece5528206c4c6280bfaea` |
 | `Desktop/Filament_Colab_Run/best.pt` | 92,767,812 | 92.77 MB | `f444e87b39433881ae39608e9740c44c9bab0161590212047e224b6730d6b6f9` |
+| `models/best_crop_refiner.pth` | 39,762,059 | 39.76 MB | `64bb5e6915f852021ada3578b1fe2f4e14d0e23a03aa36f759c5a9b0c108b8f9` |
+| `submissions/submission.csv` (v1.0.3) | 405,508 | 0.41 MB | `ba8be4a0f7333bc6df2edabd71a5512ae9b0981cc037d90200784e8a002eeaa5` |
+| `submissions/submission_cascade_2_0.csv` | 386,627 | 0.39 MB | `2e794a55fd98bdb859b609218a0688119d4e93e7cff0c3921e2a9144fb1d68e3` |
 | `models/best_deeplabv3p_res50d_fold_0.pth` | 49,438,208 | 49.44 MB | `55459d13091f8adfda1269a267f7652e34e4aedb54a3e097a4367325fffee805` |
 | `models/best_segformer_mitb3_fold_0.pth` | 99,020,800 | 99.02 MB | `868be55107f6d2637b2e649277efd3b761a9dcd9398a914dd456c2e5631e38c0` |
 | `models/best_unetpp_effb4_fold_0.pth` | 64,897,024 | 64.90 MB | `472a6c2d97839a0044b537a5f0b9dd2004e0187be9ae46a3a59b96abc20e4aed` |

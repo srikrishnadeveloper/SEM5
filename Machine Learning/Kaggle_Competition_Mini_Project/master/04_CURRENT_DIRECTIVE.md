@@ -63,5 +63,7 @@ ChatGPT Master evaluated the project state, verified 0.360 LB results, and foren
 - **Immediate Mandate:**
   1. Revert primary production benchmark to the 60-epoch Fold-0 `mosaic=0.0` champion (`best.pt`, **0.360 LB**).
   2. Permanently ban mosaic on solar disks (`mosaic=0.0`).
-  3. Submit next strategic options to ChatGPT Master and the User.
+  3. Execute Master Step 3 P0 Directive: Soft-TTA, continuous prototype bilinear logits, soft-overlap ownership resolver, and topological cleanup on the 0.360 champion weights.
+  4. Active Production Notebook: `P0_Moonshot_Champion_DualGPU.ipynb` (Dual-GPU Parallel, runtime ~90–120s, ready for Kaggle GPU T4 x2).
+
 

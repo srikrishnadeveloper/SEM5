@@ -24,9 +24,12 @@ models/
 code/models/
 filament_out/
 
-# Intermediate Probability Maps & Cache
+# Intermediate Probability Maps, Cache & Scratch
 *.npy
 *.npz
+*.pkl
+scratch/
+*.log
 tests/_scratch_synth/
 .cache/
 

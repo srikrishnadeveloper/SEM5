@@ -1,0 +1,13 @@
+{
+  "status": "SUCCESS",
+  "attempt_index": 0,
+  "attempt_spec": "2048/batch2",
+  "trained_imgsz": 2048,
+  "trained_batch": 2,
+  "epochs": 60,
+  "patience": 15,
+  "run_dir": "/kaggle/working/runs/moonshot_v8l_2048_b2",
+  "checkpoint_path": "/kaggle/working/runs/moonshot_v8l_2048_b2/weights/best.pt",
+  "checkpoint_sha256": "f444e87b39433881ae39608e9740c44c9bab0161590212047e224b6730d6b6f9",
+  "checkpoint_size_mb": 88.47
+}

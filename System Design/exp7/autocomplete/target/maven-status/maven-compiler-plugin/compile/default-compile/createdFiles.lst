@@ -1,0 +1,6 @@
+com\ssn\autocomplete\AutocompleteController.class
+com\ssn\autocomplete\AutocompleteService$Suggestion.class
+com\ssn\autocomplete\AutocompleteService$Trie.class
+com\ssn\autocomplete\AutocompleteService$TrieNode.class
+com\ssn\autocomplete\AutocompleteService.class
+com\ssn\autocomplete\AutocompleteApplication.class

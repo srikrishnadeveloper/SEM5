@@ -1,0 +1,19 @@
+Health check:
+HTTP/1.1 200
+Autocomplete service is up
+
+Search: /api/search?prefix=app&k=4 (first request - Trie + Redis cache miss)
+HTTP/1.1 200
+["apple (freq=1200)","application (freq=950)","appointment (freq=800)","app store (freq=600)"]
+
+Search: /api/search?prefix=app&k=4 (second request - Redis cache hit)
+HTTP/1.1 200
+["apple (freq=1200)","application (freq=950)","appointment (freq=800)","app store (freq=600)"]
+
+Search: /api/search?prefix=ba&k=3
+HTTP/1.1 200
+["banana (freq=700)","band (freq=450)","bandwidth (freq=300)"]
+
+Search: /api/search?prefix=ca&k=3
+HTTP/1.1 200
+["cat (freq=900)","category (freq=400)","caterpillar (freq=350)"]

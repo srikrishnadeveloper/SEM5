@@ -1,0 +1,12 @@
+# Seed URLs dataset for UCS3513 Lab Exercise 8
+# ------------------------------------------------------------
+# 1. Local sample site (bundled with this app, no internet required)
+#    Run the app, then use: http://localhost:8080/sample/page1.html
+http://localhost:8080/sample/page1.html
+
+# 2. Public test/demo sites (require internet access when crawling)
+https://example.com
+https://httpbin.org/links/10/0
+https://www.wikipedia.org
+https://books.toscrape.com
+https://quotes.toscrape.com

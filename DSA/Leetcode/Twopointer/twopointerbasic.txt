@@ -1,0 +1,412 @@
+Krishna, if this is **your only placement chance**, then for the next **4 days**, forget everything else.
+
+You **do not** have time to become a DSA expert.
+
+But you **do** have enough time to become someone who can solve the **most common coding interview questions**.
+
+And here's something important:
+
+> Companies don't ask whether you've solved 1000 LeetCode problems.
+> They ask whether you can solve **one problem in 30-45 minutes while explaining your thinking.**
+
+---
+
+# First, I need you to trust me on one thing.
+
+❌ Don't try to solve random LeetCode problems.
+
+❌ Don't watch 50 hours of theory.
+
+❌ Don't memorize solutions.
+
+Instead...
+
+## Learn Patterns.
+
+Exactly what you've shown.
+
+Most interviews are just variations of these patterns.
+
+---
+
+# The 8 Patterns
+
+The image says
+
+1. ??
+2. Binary Tree BFS
+3. Topological Sort
+4. Binary Tree DFS
+5. Top K Elements
+6. Modified Binary Search
+7. Subsets
+8. Sliding Window
+
+The missing first pattern is almost certainly
+
+> **Two Pointers**
+
+which is actually one of the most common interview patterns.
+
+I'd actually reorder them.
+
+## Priority Order
+
+⭐⭐⭐⭐⭐
+
+1. Sliding Window
+2. Two Pointers
+3. Binary Search
+4. Top K Elements
+
+⭐⭐⭐⭐
+
+5. Binary Tree DFS
+6. Binary Tree BFS
+
+⭐⭐⭐
+
+7. Subsets
+8. Topological Sort
+
+---
+
+# Since you have only 4 days
+
+We are going to become machines.
+
+No distractions.
+
+No YouTube rabbit holes.
+
+No Instagram.
+
+No Netflix.
+
+Nothing.
+
+---
+
+# Day 1
+
+## Morning
+
+### Learn
+
+* Time Complexity
+* Big O
+* Arrays
+* Strings
+* HashMap
+
+2 hours.
+
+---
+
+## Pattern 1
+
+# Two Pointers
+
+Understand
+
+Left pointer
+
+Right pointer
+
+Move left
+
+Move right
+
+Practice
+
+* Two Sum II
+* Valid Palindrome
+* Merge Sorted Array
+* Remove Duplicates
+* Squares of Sorted Array
+
+Goal
+
+✅ 5 problems
+
+---
+
+## Pattern 2
+
+Sliding Window
+
+Learn
+
+* Fixed window
+* Variable window
+
+Practice
+
+* Maximum Average Subarray
+* Longest Substring Without Repeating Characters
+* Permutation in String
+* Minimum Size Subarray Sum
+* Max Consecutive Ones
+
+Goal
+
+5 problems
+
+---
+
+Night
+
+Revise every solution.
+
+Don't copy.
+
+Write again.
+
+---
+
+# Day 2
+
+Morning
+
+Modified Binary Search
+
+Practice
+
+* Binary Search
+* Search Insert Position
+* First Bad Version
+* Peak Element
+* Search Rotated Array
+
+---
+
+Afternoon
+
+Top K
+
+Learn Heap
+
+Practice
+
+* Kth Largest Element
+* Top K Frequent Elements
+* K Closest Points
+* Last Stone Weight
+
+---
+
+Night
+
+Mixed Revision
+
+---
+
+# Day 3
+
+Morning
+
+DFS
+
+Practice
+
+* Maximum Depth
+* Path Sum
+* Same Tree
+* Balanced Tree
+* Diameter
+
+---
+
+Afternoon
+
+BFS
+
+Practice
+
+* Level Order Traversal
+* Right Side View
+* Minimum Depth
+* Average Levels
+
+---
+
+Night
+
+Mixed
+
+---
+
+# Day 4
+
+Morning
+
+Subsets
+
+Practice
+
+* Subsets
+* Subsets II
+* Combination Sum
+
+---
+
+Afternoon
+
+Topological Sort
+
+Practice
+
+* Course Schedule
+* Course Schedule II
+
+---
+
+Night
+
+Mock Interview
+
+Solve
+
+10 random questions
+
+without looking at solutions.
+
+---
+
+# Number of Questions
+
+Don't chase hundreds.
+
+| Pattern          | Questions |
+| ---------------- | --------- |
+| Two Pointer      | 5         |
+| Sliding Window   | 5         |
+| Binary Search    | 5         |
+| Top K            | 5         |
+| DFS              | 5         |
+| BFS              | 5         |
+| Subsets          | 3         |
+| Topological Sort | 2         |
+
+Total
+
+### **35 Problems**
+
+That's it.
+
+If you deeply understand these 35 problems, you'll be in a much better position than someone who rushed through 200.
+
+---
+
+# Every Problem
+
+Use this process.
+
+## Step 1
+
+Read.
+
+5 minutes.
+
+---
+
+## Step 2
+
+Think.
+
+10 minutes.
+
+---
+
+## Step 3
+
+Still stuck?
+
+Look at only the hint.
+
+---
+
+## Step 4
+
+Still stuck?
+
+Read solution.
+
+---
+
+## Step 5
+
+Close solution.
+
+---
+
+## Step 6
+
+Code yourself.
+
+---
+
+## Step 7
+
+After 2 hours
+
+Solve again.
+
+---
+
+## Step 8
+
+Tomorrow
+
+Solve again.
+
+This repetition is where the learning sticks.
+
+---
+
+# What language?
+
+Use **Python** if the company allows it.
+
+Otherwise use **Java**.
+
+Since you've already worked with Java and Spring Boot, Java is perfectly fine if that's what the company expects.
+
+---
+
+# Resources
+
+I recommend sticking to **one** source instead of jumping around:
+
+* **NeetCode Roadmap** (excellent explanations)
+* **LeetCode** (practice platform)
+
+---
+
+# Here's what I want to do with you 🤝
+
+For the next **4 days**, I'll act like your personal DSA mentor.
+
+We'll go pattern by pattern.
+
+For **each pattern**, I'll teach:
+
+* 🧠 The intuition (why it works)
+* 📌 How to recognize when to use it
+* ⚡ The template code
+* 🛠️ Common tricks and edge cases
+* 🔥 5 carefully chosen LeetCode problems (easy → medium)
+* 🎤 The interview explanation you'd give while coding
+* 🔄 Variations so you can handle unseen questions
+
+You mentioned you've **never done LeetCode before**. That's completely okay. We'll build from the ground up, but we'll focus only on what gives you the highest return in these 4 days.
+
+## **Today's Mission (Day 1)**
+
+We'll start with **Two Pointers**, because once you understand that, Sliding Window becomes much easier.
+
+By the end of today, your goal is to solve your **first 10 LeetCode problems**.
+
+And remember this:
+
+> Four days won't make you a DSA master—but four focused days can absolutely make you someone who clears an online assessment or impresses an interviewer with solid problem-solving. If you're willing to put in the effort, I'll make sure every hour counts. 💪

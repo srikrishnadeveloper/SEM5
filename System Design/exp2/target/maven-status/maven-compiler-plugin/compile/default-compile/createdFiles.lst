@@ -1,0 +1,6 @@
+com\ssn\urlshortener\ShortenResponse.class
+com\ssn\urlshortener\UrlMapping.class
+com\ssn\urlshortener\UrlShortenerApplication.class
+com\ssn\urlshortener\UrlMappingRepository.class
+com\ssn\urlshortener\ShortenRequest.class
+com\ssn\urlshortener\UrlShortenerController.class

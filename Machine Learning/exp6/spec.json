@@ -1,0 +1,63 @@
+{
+  "title": "ASSIGNMENT – 6",
+  "subtitle": "Unsupervised Learning: K-Means Clustering",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": "To implement K-Means clustering on the UCI Human Activity Recognition Using Smartphones dataset, determine the optimal number of clusters using the elbow method, evaluate clustering quality using silhouette scores, visualize clusters via PCA, and align cluster labels with true activity labels for interpretation."
+    },
+    {
+      "heading": "CODE",
+      "code_file": "C:/Users/srik2/Desktop/College/Machine Learning/exp6/_nocomments.py",
+      "lang": "python"
+    },
+    {
+      "heading": "PLOTS",
+      "plots": [
+        {
+          "image": "C:/Users/srik2/Desktop/College/Machine Learning/exp6/plots/plot_cell3_0.png",
+          "caption": "Elbow method and Silhouette scores across k = 2 to 10"
+        },
+        {
+          "image": "C:/Users/srik2/Desktop/College/Machine Learning/exp6/plots/plot_cell6_0.png",
+          "caption": "PCA 2D visualization of K-Means clusters on HAR sensor data"
+        },
+        {
+          "image": "C:/Users/srik2/Desktop/College/Machine Learning/exp6/plots/plot_cell7_0.png",
+          "caption": "Cluster vs true activity alignment using confusion matrix heatmap"
+        }
+      ]
+    },
+    {
+      "heading": "TASKS PERFORMED",
+      "table": {
+        "headers": ["Task", "Description", "Result"],
+        "rows": [
+          ["Load and preprocess HAR dataset", "Loaded 7352 training and 2947 test samples with 561 features; scaled with StandardScaler", "Dataset ready for clustering"],
+          ["Determine optimal k via elbow method", "Computed inertia and silhouette scores for k = 2..10; identified k = 6 as best trade-off", "Elbow plot saved"],
+          ["Run K-Means with k = 6", "Fit K-Means on training data; inertia = {inertia:.2f}; silhouette score = {silhouette:.4f}", "Clusters assigned for train and test sets"],
+          ["PCA 2D visualization", "Reduced 561 features to 2 principal components; plotted clusters vs true activities", "Visual separation observed with some overlap"],
+          ["Cluster-to-activity alignment", "Used Hungarian algorithm to map 6 cluster IDs to 6 true activity labels", "Alignment accuracy = {acc:.4f}"],
+          ["Inference and learning outcomes", "Documented metrics, analyzed bias-variance tradeoff, and identified future improvements (t-SNE/UMAP)", "Report compiled and ready for upload"]
+        ]
+      },
+      "widths": [110, 240, 190]
+    },
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "Applied K-Means clustering to a real-world sensor-based activity dataset",
+        "Used the elbow method and silhouette analysis to choose the number of clusters",
+        "Visualized high-dimensional data via PCA and interpreted cluster separation",
+        "Aligned unsupervised cluster labels with supervised activity labels using a combinatorial assignment",
+        "Built intuition for the limitations of distance-based clustering in high dimensions and explored advanced visualizations (t-SNE/UMAP) as next steps"
+      ]
+    }
+  ]
+}

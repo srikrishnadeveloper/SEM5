@@ -1,0 +1,113 @@
+{
+  "title": "ASSIGNMENT – 8",
+  "subtitle": "Web Crawler for Automated Web Content Discovery",
+  "name": "Srikrishna O S",
+  "class_section": "CSE Section A",
+  "regno": "3122245001312",
+  "institution": "SSN COLLEGE OF ENGINEERING",
+  "plain": false,
+
+  "sections": [
+    {
+      "heading": "AIM",
+      "paragraph": "To implement a web crawler using Spring Boot for automated discovery and retrieval of web content, manage the URL queue efficiently, avoid repeated crawling through a visited-URL set, integrate Redis for state management, expose the crawler through REST APIs, deploy with Docker, and analyse performance under concurrent workloads using JMeter."
+    },
+    {
+      "heading": "FLOW CHART",
+      "plots": [
+        {
+          "image": "C:/Users/srik2/Desktop/College/System Design/webcrawler/exercise8_images/flow_whole.png",
+          "caption": "Web crawler workflow: seed URL, queue, visited check, page retrieval, hyperlink extraction, and Redis state update"
+        }
+      ]
+    },
+    {
+      "heading": "OUTPUT SCREENSHOTS",
+      "plots": [
+        {
+          "image": "C:/Users/srik2/Desktop/College/System Design/webcrawler/screenshots/01_docker_compose_up.png",
+          "caption": "Docker Compose: building and starting web-crawler and Redis containers"
+        },
+        {
+          "image": "C:/Users/srik2/Desktop/College/System Design/webcrawler/screenshots/02_springboot_run.png",
+          "caption": "Spring Boot application starting on port 8080"
+        },
+        {
+          "image": "C:/Users/srik2/Desktop/College/System Design/webcrawler/screenshots/03_maven_test.png",
+          "caption": "Maven test execution and crawler test result summary"
+        },
+        {
+          "image": "C:/Users/srik2/Desktop/College/System Design/webcrawler/screenshots/05_postman_api.png",
+          "caption": "Postman: POST /api/crawl request and JSON response"
+        },
+        {
+          "image": "C:/Users/srik2/Desktop/College/System Design/webcrawler/screenshots/04_redis_cli_state.png",
+          "caption": "Redis CLI: inspecting crawler queue, visited set, and crawl status"
+        }
+      ]
+    },
+    {
+      "heading": "CODE — CrawlerService",
+      "code_file": "C:/Users/srik2/Desktop/College/System Design/webcrawler/for-pdf/CrawlerService_nocomments.java",
+      "lang": "java"
+    },
+    {
+      "heading": "CODE — RedisCrawlStore",
+      "code_file": "C:/Users/srik2/Desktop/College/System Design/webcrawler/for-pdf/RedisCrawlStore_nocomments.java",
+      "lang": "java"
+    },
+    {
+      "heading": "CODE — CrawlerController",
+      "code_file": "C:/Users/srik2/Desktop/College/System Design/webcrawler/for-pdf/CrawlerController_nocomments.java",
+      "lang": "java"
+    },
+    {
+      "heading": "TASKS PERFORMED",
+      "table": {
+        "headers": ["Task", "Description", "Result"],
+        "rows": [
+          ["Design web crawler", "Spring Boot service with BFS queue, visited set, link extraction, and Redis persistence", "CrawlerService.java"],
+          ["Implement URL queue", "Redis List (LPUSH/RPOP) for FIFO enqueue/dequeue of crawl URLs", "Backs concurrent worker threads"],
+          ["Implement visited set", "Redis Set (SADD/SISMEMBER) for O(1) duplicate detection", "Prevents repeated crawling"],
+          ["Cache page metadata", "Redis String stores JSON PageCrawlResult with title, links, status, timestamp", "Results served via /api/crawler/results"],
+          ["REST API", "Endpoints for start, stop, status, visited, queue, results, reset, health", "Tested with Postman/curl"],
+          ["Docker deployment", "Dockerfile + docker-compose.yml builds Spring Boot app with Redis container", "Runs with docker compose up"],
+          ["JMeter load test", "50 concurrent users, POST /start + GET /status", "Analysed throughput and latency"],
+          ["Analysis", "Explained roles of seed URL, URL queue, visited set, Redis cache, and queue vs scan comparison", "Documented in README"]
+        ]
+      },
+      "widths": [110, 240, 190]
+    },
+    {
+      "heading": "ANALYSIS",
+      "table": {
+        "headers": ["Question", "Answer"],
+        "rows": [
+          ["Role of Seed URL", "The starting point pushed onto the queue; anchors the same-domain filter"],
+          ["Role of URL Queue", "FIFO Redis List that decouples discovery from processing and feeds worker threads"],
+          ["Role of Visited-URL Set", "Redis Set giving O(1) duplicate check, preventing infinite loops and redundant fetches"],
+          ["Role of Web Crawler", "Fetches pages with Jsoup, extracts a[href] links, validates/normalizes them, and enqueues new ones"],
+          ["Role of Redis Cache", "Stores queue, visited set, page metadata JSON, and atomic counters for durable, shareable state"],
+          ["How new URLs are discovered", "Jsoup selects a[href], resolves absolute URLs, and filters by scheme/host/extension/domain/depth"],
+          ["How unvisited URLs are processed", "Added to visited set, fetched, parsed, stored as PageCrawlResult, and linked pages enqueued"],
+          ["How visited URLs are processed", "Mark attempt returns false; the URL is skipped immediately without re-fetching"],
+          ["Queue vs full collection scan", "Queue: O(1) enqueue/dequeue and O(n) total work. Scanning: O(n) per lookup, O(n^2) overall"],
+          ["JMeter performance", "50 concurrent users submit /start requests. Asynchronous crawling queues work in Redis; throughput stays stable"]
+        ]
+      },
+      "widths": [120, 420]
+    },
+    {
+      "heading": "LEARNING OUTCOMES",
+      "bullets": [
+        "Developed a web crawler using Spring Boot",
+        "Implemented automated URL discovery and crawling using a URL queue",
+        "Managed visited URLs to prevent duplicate crawling",
+        "Integrated Redis for managing or caching crawling state",
+        "Exposed and tested web crawler functionality through REST APIs",
+        "Deployed the web crawler and Redis using Docker",
+        "Analysed the performance and scalability of the web crawler under concurrent workloads"
+      ]
+    }
+  ]
+}

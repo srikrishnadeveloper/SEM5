@@ -1,0 +1,13 @@
+C:\Users\srik2\Desktop\College\System Design\webcrawler\src\main\java\com\sscse\webcrawler\util\UrlValidator.java
+C:\Users\srik2\Desktop\College\System Design\webcrawler\src\main\java\com\sscse\webcrawler\controller\CrawlerController.java
+C:\Users\srik2\Desktop\College\System Design\webcrawler\src\main\java\com\sscse\webcrawler\model\CrawlJobState.java
+C:\Users\srik2\Desktop\College\System Design\webcrawler\src\main\java\com\sscse\webcrawler\service\CrawlerService.java
+C:\Users\srik2\Desktop\College\System Design\webcrawler\src\main\java\com\sscse\webcrawler\service\RedisCrawlStore.java
+C:\Users\srik2\Desktop\College\System Design\webcrawler\src\main\java\com\sscse\webcrawler\WebcrawlerApplication.java
+C:\Users\srik2\Desktop\College\System Design\webcrawler\src\main\java\com\sscse\webcrawler\config\RedisConfig.java
+C:\Users\srik2\Desktop\College\System Design\webcrawler\src\main\java\com\sscse\webcrawler\model\CrawlJobStatusResponse.java
+C:\Users\srik2\Desktop\College\System Design\webcrawler\src\main\java\com\sscse\webcrawler\controller\GlobalExceptionHandler.java
+C:\Users\srik2\Desktop\College\System Design\webcrawler\src\main\java\com\sscse\webcrawler\model\CrawlRequest.java
+C:\Users\srik2\Desktop\College\System Design\webcrawler\src\main\java\com\sscse\webcrawler\model\CrawlStatus.java
+C:\Users\srik2\Desktop\College\System Design\webcrawler\src\main\java\com\sscse\webcrawler\config\CrawlerExecutorConfig.java
+C:\Users\srik2\Desktop\College\System Design\webcrawler\src\main\java\com\sscse\webcrawler\model\PageCrawlResult.java

@@ -1,7 +1,8 @@
 # 01_PROJECT_STATE.md — Current Codebase State & Environment
 **Project:** Solar Filament Segmentation Challenge 2026  
-**Status Date:** September 11, 2026  
-**Branch:** `moonshot_2048` (Primary Production Branch)  
+**Status Date:** September 14, 2026  
+**Timestamp:** `2026-09-14T18:42:00+05:30`  
+**Branch:** `cascade_2_crop_zoom` (Cascade 2.0 High-Resolution Crop & Zoom Paradigm)  
 
 ---
 
@@ -20,7 +21,13 @@ c:\Users\srik2\Desktop\College\Machine Learning\Kaggle_Competition_Mini_Project\
 │   ├── 07_KAGGLE_RUNBOOK.md
 │   ├── 08_DECISION_LOG.md
 │   └── 09_ARTIFACT_HASHES.md
-├── moonshot_2048/                        # Primary production source modules
+├── cascade/                              # Cascade 2.0 (Crop & Zoom) Core Engine
+│   ├── geometry.py                       # Non-truncating adaptive crop geometry
+│   ├── model_refiner.py                  # Dedicated U-Net++ patch segmenter & composite loss
+│   ├── dataset.py                        # Physical crop dataset builder & augmentations
+│   ├── train_refiner.py                  # Fast GPU refiner training script
+│   └── infer_cascade.py                  # Dual-GPU high-throughput inference engine
+├── moonshot_2048/                        # Native 2048 YOLO proposal modules (Stage 1)
 │   ├── config.py                         # Environment variables and tunable thresholds
 │   ├── data.py                           # COCO parser and YOLO polygon normalizer
 │   ├── dataset_pytorch.py                # Pure PyTorch Dataset & DataLoader
@@ -41,15 +48,19 @@ c:\Users\srik2\Desktop\College\Machine Learning\Kaggle_Competition_Mini_Project\
 │   ├── geometry.py                       # Adaptive crop bounding box utilities
 │   └── config.py                         # Baseline cascade configurations
 ├── models/                               # Local model checkpoint storage
+│   ├── best_crop_refiner.pth             # 39.8 MB U-Net++ Crop Refiner (0.8772 Val IoU)
 │   ├── moonshot_2048/best.pt             # 92.8 MB native YOLOv8l-seg (0.360 LB Champion)
 │   ├── moonshot_2048/best_fulldata.pt    # 92.8 MB full-data YOLOv8l-seg (0.340 LB)
 │   ├── best_deeplabv3p_res50d_fold_0.pth # 49.4 MB DeepLabV3+
 │   ├── best_segformer_mitb3_fold_0.pth   # 99.0 MB SegFormer MiT-B3
 │   └── best_unetpp_effb4_fold_0.pth      # 64.9 MB U-Net++ EfficientNet-B4
-
+├── submissions/                          # Production submission CSV storage
+│   ├── submission_cascade_2_0.csv        # 1,309 filaments (Cascade 2.0 Results 9)
+│   └── ...
 ├── notebooks/kaggle/                     # Production Kaggle notebooks
+│   ├── Cascade_P1_CropZoom_DualGPU.ipynb # Ready-to-run 2-stage Kaggle notebook (v1.0.1)
 │   └── moonshot_fulldata.ipynb           # Ready-to-run 100% full-data notebook
-├── tests/                                # 54 unit and contract tests
+├── tests/                                # 60 unit and contract tests (98.4% passing)
 └── data/MAGFiLO_1.0_Kaggle_2026/         # 48.6 MB COCO dataset + 707 physical images
 ```
 

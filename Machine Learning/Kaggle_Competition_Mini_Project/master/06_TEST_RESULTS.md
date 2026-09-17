@@ -1,8 +1,8 @@
 # 06_TEST_RESULTS.md — Test Suite Audit & Metric Verification
 **Project:** Solar Filament Segmentation Challenge 2026  
 **Test Runner:** Pytest 9.1.1 on Python 3.13.3 (Windows 11)  
-**Audit Date:** September 8, 2026  
-**Summary:** **53 Passed, 1 Failed, 0 Skipped (98.1% Pass Rate)**  
+**Audit Date:** September 13, 2026  
+**Summary:** **60 Passed, 1 Failed, 0 Skipped (98.4% Pass Rate)**  
 
 ---
 
@@ -24,6 +24,9 @@
 | `tests/test_v8_1_geometry.py` | 8 | **8 Passed** | Adaptive square bounds & crop sizing |
 | `tests/test_moonshot_fallback.py` | 4 | **4 Passed** | OOM exception propagation & deployment NMS |
 | `tests/test_r1_2_verification.py` | 3 | **2 Passed, 1 Failed** | Legacy notebook config inspection |
+| `tests/test_cascade_geometry.py` | 3 | **3 Passed** | Adaptive non-truncating crop bounds & canvas projection |
+| `tests/test_cascade_refiner.py` | 3 | **3 Passed** | Composite loss, U-Net++ forward, & zero-overlap sanitizer |
+| `tests/test_cascade_pipeline_e2e.py` | 1 | **1 Passed** | End-to-end Cascade 2.0 pipeline integration |
 
 ---
 

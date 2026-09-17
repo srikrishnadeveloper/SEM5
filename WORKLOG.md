@@ -4,6 +4,18 @@ Appended by the agent after every working session. Newest entries at top.
 
 ---
 
+## 2026-09-15 — System Design Lab Exercise 8: Web Crawler PDF report
+
+- **Goal:** Build and refine a polished lab report PDF for UCS3513 System Design Lab Exercise 8 — Web Crawler.
+- **Deliverable:** `C:\Users\srik2\Desktop\College\System Design\webcrawler\Assignment_8_Web_Crawler_Srikrishna_O_S.pdf`
+- **What was done:**
+  - Extracted the flowchart image from `EXERCISE -8.docx`.
+  - Split the flowchart at the `Already Visited?` diamond for clean two-page rendering.
+  - Renamed and embedded five output screenshots (Docker Compose, Spring Boot run, Maven test, Redis CLI, Postman API).
+  - Added `OUTPUT SCREENSHOTS` section with captions and kept `CODE`, `TASKS PERFORMED`, `ANALYSIS`, and `LEARNING OUTCOMES` sections.
+  - Rebuilt the PDF to 15 pages with 7 images.
+- **Lessons learned:** Long vertical flowcharts need to be split at decision-node boundaries to avoid looking half-cut; output screenshots should be copied with stable filenames before embedding in the PDF spec.
+
 ## 2026-09-10 — Create college-workflow OpenCode skill, reconcile lab-report-pdf, and add model/subagent guide
 
 - **Goal:** Document the repeatable college project workflows as a reusable OpenCode skill, reconcile `lab-report-pdf` with current `AGENTS.md` rules, and add a parent-model / subagent selection guide.
